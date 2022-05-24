@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/SDDS.Workflow/bin/Debug
+/SDDS.Workflow/obj/Debug
+/SDDS.Workflow/sdds.snk
+/packages/Microsoft.CrmSdk.Workflow.9.0.2.42/lib/net462
+/packages/Microsoft.CrmSdk.Workflow.9.0.2.42/lib
