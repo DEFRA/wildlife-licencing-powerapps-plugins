@@ -24,13 +24,14 @@ namespace SDDS.Plugin.MemberShip
             if (context.InputParameters["Target"] is Entity appType)
             {
                 tracing.Trace("entering plugin:" + appType.LogicalName);
-                if ((appType.LogicalName == "sdds_membership") || (appType.LogicalName == "sdds_qualification"))
+                if ((appType.LogicalName == "sdds_membership") || (appType.LogicalName == "sdds_qualification") || (appType.LogicalName == "sdds_licensemethod"))
                 {
                     tracing.Trace("Entity name:" + appType.LogicalName);
-                    if (appType.Contains("sdds_name") && context.MessageName.ToLower() == "create")
+                    if ((appType.Contains("sdds_name") || (appType.Contains("sdds_methodname")) && context.MessageName.ToLower() == "create"))
                     {
-                        string typeName = appType.GetAttributeValue<string>("sdds_name");
-                        string choiceName = appType.LogicalName == "sdds_membership" ? "sdds_membership" : "sdds_qualifications";
+                        string name = appType.LogicalName == "sdds_licensemethod" ? "sdds_methodname" : "sdds_name";
+                        string typeName = appType.GetAttributeValue<string>(name);
+                        string choiceName = GetEntityLogicalName(appType.LogicalName); 
                         tracing.Trace("entering ChoiceName:" + choiceName);
                         InsertOptionValueRequest insertOptionValueRequest =
                         new InsertOptionValueRequest
@@ -63,18 +64,19 @@ namespace SDDS.Plugin.MemberShip
                         }
 
                     }
-                    else if (appType.Contains("sdds_name") && context.MessageName.ToLower() == "update")
+                    else if ((appType.Contains("sdds_name") || appType.Contains("sdds_methodname")) && context.MessageName.ToLower() == "update")
                     {
                         tracing.Trace("entering update");
                         Entity preImageEntity = (Entity)context.PreEntityImages["Image"];
 
-                        string typeName = appType.GetAttributeValue<string>("sdds_name");
+                        string name = appType.LogicalName == "sdds_licensemethod" ? "sdds_methodname" : "sdds_name";
+                        string typeName = appType.GetAttributeValue<string>(name);
 
                         tracing.Trace("entering entity name :" + typeName);
                         int value = preImageEntity.GetAttributeValue<int>("sdds_choicevalue");
 
                         tracing.Trace("entering optionsetValue:" + value.ToString());
-                        string choiceName = appType.LogicalName == "sdds_membership" ? "sdds_membership" : "sdds_qualifications";
+                        string choiceName = GetEntityLogicalName(appType.LogicalName); 
 
                         tracing.Trace("entering ChoiceName:" + choiceName);
                         try
@@ -109,7 +111,7 @@ namespace SDDS.Plugin.MemberShip
 
                 tracing.Trace("entering optionsetValue:" + preImageEntity.LogicalName);
 
-                string choiceName = appType2.LogicalName == "sdds_membership" ? "sdds_membership" : "sdds_qualifications";
+                string choiceName = GetEntityLogicalName(appType2.LogicalName); 
                 int value = preImageEntity.GetAttributeValue<int>("sdds_choicevalue");
                 tracing.Trace("entering optionsetValue:" + value.ToString());
                 // Use the DeleteOptionValueRequest message 
@@ -132,6 +134,25 @@ namespace SDDS.Plugin.MemberShip
                     throw new InvalidPluginExecutionException(ex.Message);
                 }
             }
+        }
+
+        private string GetEntityLogicalName(string logicalName)
+        {
+            string entity;
+            switch (logicalName)
+            {
+                case "sdds_membership":
+                    entity = "sdds_membership";
+                    break;
+                case "sdds_qualification":
+                    entity = "sdds_qualification";
+                    break;
+                default:
+                    entity = "sdds_licensemethod";
+                    break;
+            }
+
+            return entity;
         }
     }
 }
