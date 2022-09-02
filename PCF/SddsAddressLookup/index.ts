@@ -66,8 +66,8 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
         this._postCodePicklistElement.addEventListener("change", this.Onchange.bind(this));
 
         var option = document.createElement('option');
-        option.setAttribute("text","Select address Line");
-        option.setAttribute("value","");
+        option.text = "Select address Line";
+        option.value = "";
         this._postCodePicklistElement.appendChild(option);
 
         this.selectContainer = document.createElement("div");
@@ -105,7 +105,7 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
         };
         var ths = this;      
         var req = new XMLHttpRequest();
-        req.open("POST", "/api/data/v9.2/sdds_AddressLookup", false);
+        req.open("POST", "/api/data/v9.2/sdds_AddressLookup", true);
         req.setRequestHeader("OData-MaxVersion", "4.0");
         req.setRequestHeader("OData-Version", "4.0");
         req.setRequestHeader("Accept", "application/json");
