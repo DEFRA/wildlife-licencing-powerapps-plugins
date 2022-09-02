@@ -15,8 +15,11 @@ export class  AddressResults {
     Results: Results[];
 
     AddressLine: string;
+    SubBuildingName:string;
+    BuildingName:string;
     BuildingNumber:string;
     Street:string;
+    Locality:string;
     Town:string;
     County:string;
     Postcode:string;
@@ -39,8 +42,11 @@ export class  AddressResults {
     }
 
     AddressLine: string;
+    SubBuildingName:string;
+    BuildingName:string;
     BuildingNumber:string;
     Street:string;
+    Locality:string;
     Town:string;
     County:string;
     Postcode:string;
