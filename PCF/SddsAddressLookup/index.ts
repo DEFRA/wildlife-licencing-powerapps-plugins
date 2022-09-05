@@ -66,7 +66,7 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
         this._postCodePicklistElement.addEventListener("change", this.Onchange.bind(this));
 
         var option = document.createElement('option');
-        option.text = "Select address Line";
+        option.text = "No option to select";
         option.value = "";
         this._postCodePicklistElement.appendChild(option);
 
@@ -117,34 +117,41 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
                     var results = JSON.parse(this.response);
                     addressJson = JSON.parse(results.Response);
 
-                    while (ths._postCodePicklistElement.options.length) ths._postCodePicklistElement.remove(0);
-                    var dropdown = document.getElementById('adresslist') as HTMLInputElement;
-                    
-    
-                    for (let i = 0; i < addressJson.results.length; i++) {
-                        var addObj = {} as AddressResults;
-                        addObj["AddressLine"] = addressJson.results[i].Address.AddressLine;
-                        addObj["BuildingNumber"] = addressJson.results[i].Address.BuildingNumber;
-                        addObj["Street"] = addressJson.results[i].Address.Street;
-                        addObj["Country"] = addressJson.results[i].Address.Country;
-                        addObj["County"] = addressJson.results[i].Address.County;
-                        addObj["Locality"] = addressJson.results[i].Address.Locality;
-                        addObj["Town"] = addressJson.results[i].Address.Town;
-                        addObj["Postcode"] = addressJson.results[i].Address.Postcode;
-                        addObj["SubBuildingName"] = addressJson.results[i].Address.SubBuildingName;
-                        addObj["XCoordinate"] = addressJson.results[i].Address.XCoordinate;
-                        addObj["YCoordinate"] = addressJson.results[i].Address.YCoordinate;
-                        addObj["UPRN"] = addressJson.results[i].Address.UPRN;
+                    if(addressJson.results.length > 0){
 
-                        ths.AddressObject.push(addObj);
+                        while (ths._postCodePicklistElement.options.length) ths._postCodePicklistElement.remove(0);
+                        var dropdown = document.getElementById('adresslist') as HTMLInputElement;
 
                         var option = document.createElement('option');
-
-                        option.text = addressJson.results[i].Address.AddressLine;
-                        option.value = addressJson.results[i].Address.UPRN;
+                        option.text = "Select address Line";
+                        option.value = "";
                         dropdown.appendChild(option);
-                    }
+                        dropdown.value = "";
 
+                        for (let i = 0; i < addressJson.results.length; i++) {
+                            var addObj = {} as AddressResults;
+                            addObj["AddressLine"] = addressJson.results[i].Address.AddressLine;
+                            addObj["BuildingNumber"] = addressJson.results[i].Address.BuildingNumber;
+                            addObj["Street"] = addressJson.results[i].Address.Street;
+                            addObj["Country"] = addressJson.results[i].Address.Country;
+                            addObj["County"] = addressJson.results[i].Address.County;
+                            addObj["Locality"] = addressJson.results[i].Address.Locality;
+                            addObj["Town"] = addressJson.results[i].Address.Town;
+                            addObj["Postcode"] = addressJson.results[i].Address.Postcode;
+                            addObj["SubBuildingName"] = addressJson.results[i].Address.SubBuildingName;
+                            addObj["XCoordinate"] = addressJson.results[i].Address.XCoordinate;
+                            addObj["YCoordinate"] = addressJson.results[i].Address.YCoordinate;
+                            addObj["UPRN"] = addressJson.results[i].Address.UPRN;
+    
+                            ths.AddressObject.push(addObj);
+    
+                            var option = document.createElement('option');
+    
+                            option.text = addressJson.results[i].Address.AddressLine;
+                            option.value = addressJson.results[i].Address.UPRN;
+                            dropdown.appendChild(option);
+                        }
+                    }                 
                 } else {
                     console.log("Error calling the Address API");
 
