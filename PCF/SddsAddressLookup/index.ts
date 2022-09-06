@@ -12,6 +12,8 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
     private inputElement: HTMLInputElement;
     private selectContainer: HTMLDivElement;
     private inputContainer: HTMLDivElement;
+    private loaderDiv: HTMLDivElement;
+    private loader: HTMLElement;
     private _value: string;
     private _notifyOutputChanged: () => void;
     public addressDetails: AddressResults;
@@ -62,7 +64,6 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
         this._postCodePicklistElement.setAttribute("id", "adresslist");
         this._postCodePicklistElement.setAttribute("class", "pcfinputcontrol");
         this._postCodePicklistElement.setAttribute("height", "100px");
-        this._postCodePicklistElement.setAttribute("weidth", "400px");
         this._postCodePicklistElement.addEventListener("change", this.Onchange.bind(this));
 
         var option = document.createElement('option');
@@ -71,7 +72,19 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
         this._postCodePicklistElement.appendChild(option);
 
         this.selectContainer = document.createElement("div");
+        this.selectContainer.setAttribute("class", "inputcontainer");
         this.selectContainer.appendChild(this._postCodePicklistElement);
+
+        this.loaderDiv = document.createElement("div");
+        this.loaderDiv.setAttribute("class", "icon-container");
+        this.loaderDiv.style.display = "none";
+
+        this.loader = document.createElement("i");
+        this.loader.setAttribute("class", "loader2")
+
+        this.loaderDiv.appendChild(this.loader);
+
+        this.selectContainer.appendChild(this.loaderDiv);
 
         this.inputElement = document.createElement("input");
         this.inputElement.setAttribute("type", "text");
@@ -103,6 +116,7 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
         var parameters = {
             PostCode: postCodeValue //this._context.parameters.PostalCode.raw
         };
+        this.loaderDiv.style.display = "block";
         var ths = this;      
         var req = new XMLHttpRequest();
         req.open("POST", "/api/data/v9.2/sdds_AddressLookup", true);
@@ -117,6 +131,7 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
                     var results = JSON.parse(this.response);
                     addressJson = JSON.parse(results.Response);
 
+                    ths.loaderDiv.style.display = "none";
                     if(addressJson.results.length > 0){
 
                         while (ths._postCodePicklistElement.options.length) ths._postCodePicklistElement.remove(0);
