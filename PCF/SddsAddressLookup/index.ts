@@ -29,8 +29,8 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
     private County:string;
     private Postcode:string;
     private Country:string;
-    private XCoordinate:string;
-    private YCoordinate:string;
+    private XCoordinate:number;
+    private YCoordinate:number;
     private UPRN:string;
     // Event listener for changes in the credit card number
     private _postalcodechange: EventListenerOrEventListenerObject;
@@ -91,9 +91,6 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
         this.inputElement.setAttribute("class", "postcodeinput");
         this.inputElement.setAttribute("placeholder", "Enter postcode here");
         this.inputElement.addEventListener("blur", this.PostalCodeChanged.bind(this));
-
-        this._value =  context.parameters.PostalCode.raw!;
-        this.inputElement.setAttribute("value", context.parameters.PostalCode.formatted ? context.parameters.PostalCode.formatted : "");
 
         this.inputContainer = document.createElement("div");
         this.inputContainer.appendChild(this.inputElement);
@@ -193,8 +190,8 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
                 this.Country = searchResult.Country;
                 this.County = searchResult.County;
                 this.Postcode = searchResult.Postcode;
-                this.XCoordinate = searchResult.XCoordinate.toString();
-                this.YCoordinate = searchResult.YCoordinate.toString();
+                this.XCoordinate = searchResult.XCoordinate;
+                this.YCoordinate = searchResult.YCoordinate;
                 this.UPRN = searchResult.UPRN;
             }
 
@@ -205,7 +202,7 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
     private PostalCodeChanged(): void {
 
         var poastcodeval = this.inputElement.value;
-        if(poastcodeval && poastcodeval.length >= 5){
+        if(poastcodeval && poastcodeval.length >= 3){
             
             while (this._postCodePicklistElement.options.length) this._postCodePicklistElement.remove(0);
             this.FetchAddressesByPostCode(poastcodeval);
@@ -219,10 +216,6 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
      */
      public updateView(context: ComponentFramework.Context<IInputs>): void {       
         // Add code to update control view
-
-        this._value = context.parameters.PostalCode.raw!
-        this._context = context;
-        this.inputElement.setAttribute("value", context.parameters.PostalCode.formatted ? context.parameters.PostalCode.formatted : "");
 
         //while (this._postCodePicklistElement.options.length) this._postCodePicklistElement.remove(0);
 

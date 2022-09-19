@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.1" encoding="utf-8" ?>
 <manifest>
-  <control namespace="SDDS" constructor="SddsAddressLookup" version="0.0.1" display-name-key="SddsAddressLookup" description-key="SddsAddressLookup description" control-type="standard" >
-    <property name="PostalCode" display-name-key="PostalCode" description-key="PostalCode" of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="AddressLine1" display-name-key="Address Line1" description-key="AddressLine1" of-type="SingleLine.Text" usage="bound" required="false" />
+  <control namespace="SDDS" constructor="SddsAddressLookup" version="0.0.2" display-name-key="SddsAddressLookup" description-key="SddsAddressLookup description" control-type="standard" >
+    <property name="AddressLine1" display-name-key="AddressLine1" description-key="AddressLine1" of-type="SingleLine.Text" usage="bound" required="false" />
     <property name="subBuildingName" display-name-key="subBuildingName" description-key="subBuildingName" of-type="SingleLine.Text" usage="bound" required="false" />
     <property name="buildingName" display-name-key="buildingName" description-key="buildingName" of-type="SingleLine.Text" usage="bound" required="false" />
     <property name="buildingNumber" display-name-key="buildingNumber" description-key="buildingNumber" of-type="SingleLine.Text" usage="bound" required="false" />
@@ -13,8 +12,8 @@
     <property name="county" display-name-key="county" description-key="county" of-type="SingleLine.Text" usage="bound" required="false" />
     <property name="postcode" display-name-key="postcode" description-key="postcode" of-type="SingleLine.Text" usage="bound" required="false" />
     <property name="country" display-name-key="country" description-key="country" of-type="SingleLine.Text" usage="bound" required="false" />
-    <property name="xCoordinate" display-name-key="xCoordinate" description-key="xCoordinate" of-type="SingleLine.Text" usage="bound" required="false" />
-    <property name="yCoordinate" display-name-key="yCoordinate" description-key="yCoordinate" of-type="SingleLine.Text" usage="bound" required="false" />
+    <property name="xCoordinate" display-name-key="xCoordinate" description-key="xCoordinate" of-type="Whole.None" usage="bound" required="false" />
+    <property name="yCoordinate" display-name-key="yCoordinate" description-key="yCoordinate" of-type="Whole.None" usage="bound" required="false" />
     <property name="uprn" display-name-key="uprn" description-key="uprn" of-type="SingleLine.Text" usage="bound" required="false" />
     
     <resources>

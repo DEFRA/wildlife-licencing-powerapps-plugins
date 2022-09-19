@@ -24,8 +24,8 @@ export class  AddressResults {
     County:string;
     Postcode:string;
     Country:string;
-    XCoordinate:string;
-    YCoordinate:string;
+    XCoordinate:number;
+    YCoordinate:number;
     UPRN:string;
 
   }
@@ -51,8 +51,8 @@ export class  AddressResults {
     County:string;
     Postcode:string;
     Country:string;
-    XCoordinate:string;
-    YCoordinate:string;
+    XCoordinate:number;
+    YCoordinate:number;
     UPRN:string;
     
   }
