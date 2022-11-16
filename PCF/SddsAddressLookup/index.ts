@@ -242,8 +242,8 @@ export class SddsAddressLookup implements ComponentFramework.StandardControl<IIn
            country: this.Country,
            xCoordinate: this.XCoordinate,
            yCoordinate: this.YCoordinate,
-           uprn: this.UPRN
-
+           uprn: this.UPRN,
+           addressName: this.AddressLine
         };
 
     }

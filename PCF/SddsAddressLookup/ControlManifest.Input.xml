@@ -15,6 +15,7 @@
     <property name="xCoordinate" display-name-key="xCoordinate" description-key="xCoordinate" of-type="Whole.None" usage="bound" required="false" />
     <property name="yCoordinate" display-name-key="yCoordinate" description-key="yCoordinate" of-type="Whole.None" usage="bound" required="false" />
     <property name="uprn" display-name-key="uprn" description-key="uprn" of-type="SingleLine.Text" usage="bound" required="false" />
+    <property name="addressName" display-name-key="addressName" description-key="addressName" of-type="SingleLine.Text" usage="bound" required="false" />
     
     <resources>
       <code path="index.ts" order="1"/>
