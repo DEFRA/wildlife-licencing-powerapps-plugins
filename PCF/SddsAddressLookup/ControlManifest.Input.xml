@@ -1,6 +1,6 @@
-<?xml version="1.1" encoding="utf-8" ?>
+<?xml version="1.2" encoding="utf-8" ?>
 <manifest>
-  <control namespace="SDDS" constructor="SddsAddressLookup" version="0.0.2" display-name-key="SddsAddressLookup" description-key="SddsAddressLookup description" control-type="standard" >
+  <control namespace="SDDS" constructor="SddsAddressLookup" version="0.0.3" display-name-key="SddsAddressLookup" description-key="SddsAddressLookup description" control-type="standard" >
     <property name="AddressLine1" display-name-key="AddressLine1" description-key="AddressLine1" of-type="SingleLine.Text" usage="bound" required="false" />
     <property name="subBuildingName" display-name-key="subBuildingName" description-key="subBuildingName" of-type="SingleLine.Text" usage="bound" required="false" />
     <property name="buildingName" display-name-key="buildingName" description-key="buildingName" of-type="SingleLine.Text" usage="bound" required="false" />
