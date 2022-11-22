@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using SDDS.Plugin.AddressLookup;
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace SDDS.Plugin.GetAddressForPostCode
 {
@@ -64,33 +67,42 @@ namespace SDDS.Plugin.GetAddressForPostCode
                     //converting document body content to bytes
                     byte[] filecontent = Convert.FromBase64String(NotesRetrieve.Entities[0].Attributes["documentbody"].ToString());
                     X509Certificate2 certificate = new X509Certificate2(filecontent, passphrase);
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                    request.ClientCertificates.Add(certificate);
-                    request.Method = "GET";
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                    //On Successful response.
-                    if (response.StatusDescription == "OK")
-                    {
-                        Stream dataStream = response.GetResponseStream();
-                        StreamReader reader = new StreamReader(dataStream);
-                        string responseFromServer = reader.ReadToEnd();
-                        //Remove the unwanted response data before passing to the output.
-                        int pos = responseFromServer.IndexOf("\"results");
-                        if (pos >= 0)
-                        {
-                            responseFromServer = responseFromServer.Remove(0, pos);
-                            pos = responseFromServer.IndexOf("_info");
-                            if (pos >= 0)
-                                responseFromServer = responseFromServer.Remove(pos);
-                            responseFromServer = responseFromServer.Insert(0, "{");
-                            responseFromServer = responseFromServer.Remove(responseFromServer.LastIndexOf(','));
-                            responseFromServer = responseFromServer + "}";
-                        }
+                    HttpClientHandler handler = new HttpClientHandler();
+                    handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                    handler.ClientCertificates.Add(certificate);
 
-                        context.OutputParameters["Response"] = responseFromServer;
-                        tracing.Trace(context.OutputParameters["Response"].ToString());
+                    var address = GetAddress(handler, url).GetAwaiter().GetResult();
+                    context.OutputParameters["Response"] = address; //.results;
+                    tracing.Trace(context.OutputParameters["Response"].ToString());
 
-                    }
+
+                    //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                    //request.ClientCertificates.Add(certificate);
+                    //request.Method = "GET";
+                    //HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    ////On Successful response.
+                    //if (response.StatusDescription == "OK")
+                    //{
+                    //    Stream dataStream = response.GetResponseStream();
+                    //    StreamReader reader = new StreamReader(dataStream);
+                    //    string responseFromServer = reader.ReadToEnd();
+                    //    //Remove the unwanted response data before passing to the output.
+                    //    int pos = responseFromServer.IndexOf("\"results");
+                    //    if (pos >= 0)
+                    //    {
+                    //        responseFromServer = responseFromServer.Remove(0, pos);
+                    //        pos = responseFromServer.IndexOf("_info");
+                    //        if (pos >= 0)
+                    //            responseFromServer = responseFromServer.Remove(pos);
+                    //        responseFromServer = responseFromServer.Insert(0, "{");
+                    //        responseFromServer = responseFromServer.Remove(responseFromServer.LastIndexOf(','));
+                    //        responseFromServer = responseFromServer + "}";
+                    //    }
+
+                    //    context.OutputParameters["Response"] = responseFromServer;
+                    //    tracing.Trace(context.OutputParameters["Response"].ToString());
+
+                    //}
                 }
 
             }
@@ -101,5 +113,21 @@ namespace SDDS.Plugin.GetAddressForPostCode
 
             }
         }
+
+        private async Task<string> GetAddress(HttpClientHandler handler, string url)
+        {
+            HttpClient httpClient = new HttpClient(handler);
+
+            //Rootobject addressResult = new Rootobject();
+            string addressResult = null;
+            HttpResponseMessage responseAddress = await httpClient.GetAsync(url);
+            if (responseAddress.IsSuccessStatusCode)
+            {
+                addressResult = await responseAddress.Content.ReadAsStringAsync(); //ReadAsAsync<Rootobject>();
+            }
+
+            return addressResult;
+        }
     }
+    
 }

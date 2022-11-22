@@ -7,41 +7,6 @@ using System.Threading.Tasks;
 
 namespace SDDS.Plugin.AddressLookup
 {
-    //// Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-    //[DataContract(Namespace = "AddressLookup")]
-    //public class Address
-    //{
-    //    [DataMember]
-    //    public string AddressLine { get; set; }
-    //    [DataMember]
-    //    public string BuildingNumber { get; set; }
-    //    [DataMember]
-    //    public string Street { get; set; }
-    //    [DataMember]
-    //    public string Town { get; set; }
-    //    [DataMember]
-    //    public string County { get; set; }
-    //    [DataMember]
-    //    public string Postcode { get; set; }
-    //    [DataMember]
-    //    public string Country { get; set; }
-    //    [DataMember]
-    //    public int XCoordinate { get; set; }
-    //    [DataMember]
-    //    public int YCoordinate { get; set; }
-    //    [DataMember]
-    //    public string UPRN { get; set; }
-    //    [DataMember]
-    //    public string Match { get; set; }
-    //    [DataMember]
-    //    public string MatchDescription { get; set; }
-    //    [DataMember]
-    //    public string Language { get; set; }
-    //    [DataMember]
-    //    public string SubBuildingName { get; set; }
-    //    [DataMember]
-    //    public string BuildingName { get; set; }
-    //}
     [DataContract(Name = "header")]
     public class header
     {
@@ -62,40 +27,50 @@ namespace SDDS.Plugin.AddressLookup
         [DataMember]
         public string matching_totalresults { get; set; }
     }
-   // [DataContract(Namespace = "AddressLookup")]
-    //public class Info
-    //{
-    //    [DataMember]
-    //    public string id { get; set; }
-    //    [DataMember]
-    //    public DateTime dateTime { get; set; }
-    //    [DataMember]
-    //    public string method { get; set; }
-    //    [DataMember]
-    //    public string service { get; set; }
-    //    [DataMember]
-    //    public string url { get; set; }
-    //    [DataMember]
-    //    public string nodeID { get; set; }
-    //    [DataMember]
-    //    public string atomID { get; set; }
-    //}
-    //[DataContract(Name ="results")]
-    //public class Results
-    //{
-    //    [DataMember(Name ="Address")]
-    //    public Address Address { get; set; }
-    //}
-    //[DataContract(Name = "Root")]
-    //public class Root
-    //{
-    //    [DataMember]
-    //    public Header header { get; set; }
-    //    [DataMember]
-    //    public List<Results> results { get; set; }
-    //    [DataMember]
-    //    public Info _info { get; set; }
-    //}
 
+
+    public class Rootobject
+    {
+        public Header header { get; set; }
+        public Result[] results { get; set; }
+    }
+
+    public class Header
+    {
+        public object uri { get; set; }
+        public string query { get; set; }
+        public int offset { get; set; }
+        public int totalresults { get; set; }
+        public string format { get; set; }
+        public string dataset { get; set; }
+        public string lr { get; set; }
+        public int maxresults { get; set; }
+    }
+
+    public class Result
+    {
+        public Address address { get; set; }
+    }
+
+    public class Address
+    {
+        public string addressLine { get; set; }
+        public string subBuildingName { get; set; }
+        public object buildingName { get; set; }
+        public string buildingNumber { get; set; }
+        public string street { get; set; }
+        public object locality { get; set; }
+        public object dependentLocality { get; set; }
+        public string town { get; set; }
+        public string county { get; set; }
+        public string postcode { get; set; }
+        public string country { get; set; }
+        public float xCoordinate { get; set; }
+        public float yCoordinate { get; set; }
+        public string uprn { get; set; }
+        public float match { get; set; }
+        public string matchDescription { get; set; }
+        public string language { get; set; }
+    }
 
 }
