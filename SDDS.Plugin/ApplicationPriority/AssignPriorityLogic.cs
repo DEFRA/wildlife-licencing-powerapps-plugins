@@ -16,18 +16,18 @@ namespace SDDS.Plugin.ApplicationPriority
         //e22614ca-53a8-ec11-9840-0022481aca85 Raven
         //3b8d5ad6-53a8-ec11-9840-0022481aca85 RedKite
 
-        Guid development = new Guid("571706d8-54a8-ec11-9840-0022481aca85"); //Dev purpose
+        Guid healthAndSafety = new Guid("571706d8-54a8-ec11-9840-0022481aca85"); //Public Health and Safety purpose
         public bool GetPurpose(Entity entity)
         {
             var id = entity.GetAttributeValue<EntityReference>("sdds_applicationpurpose").Id;
-            if (id == development) return true;
+            if (id == healthAndSafety) return true;
            else  return false;
         }
 
         public EntityCollection GetLicensableAction(IOrganizationService service, Guid parentGuid)
         {
             QueryExpression specie = new QueryExpression("sdds_licensableaction");
-            specie.ColumnSet.AddColumns("sdds_applicationid", "sdds_licensableactionid", "sdds_setttype", "sdds_activity", "sdds_specieid", "sdds_method", "sdds_maximumnoofsubject");
+            specie.ColumnSet.AddColumns("sdds_applicationid", "sdds_licensableactionid", "sdds_setttype", "sdds_specieid", "sdds_method", "sdds_maximumnoofsubject");
             specie.Criteria.AddCondition("sdds_applicationid", ConditionOperator.Equal, parentGuid);
 
             var entity = service.RetrieveMultiple(specie);
