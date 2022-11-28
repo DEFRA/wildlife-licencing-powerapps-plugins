@@ -70,7 +70,8 @@ namespace SDDS.Plugin.ApplicationPriority
             tracing.Trace("getting licensable actions:" + actions.Entities.Count().ToString());
             if (actions == null) return false;
 
-            
+            //If licensable action is of Set type ==MAIN &&
+            //Licensable action/Method= Obstructing sett entrances by means of one-way badger gates 
             tracing.Trace("getting licensable actions");
             var licenseMethods = actions.Entities.Where(x => (x.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_alternative_sett_available ||
                          x.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_no_alternative_sett) &&
@@ -127,7 +128,7 @@ namespace SDDS.Plugin.ApplicationPriority
             return createdOn >= new DateTime(DateTime.Now.Year, 6, startDay) && createdOn <= new DateTime(DateTime.Now.Year, 10, endDay);
         }
 
-        public bool UniquenessCheck(IOrganizationService service, Guid parentGuid, ITracingService tracing)
+        public bool ExistingSiteCheck(IOrganizationService service, Guid parentGuid, ITracingService tracing)
         {
             // Instantiate QueryExpression query
             var query = new QueryExpression("sdds_site");
@@ -140,10 +141,8 @@ namespace SDDS.Plugin.ApplicationPriority
 
             // Define filter query_sdds_application_sdds_site.LinkCriteria
             query_sdds_application_sdds_site.LinkCriteria.AddCondition("sdds_applicationid", ConditionOperator.Equal, parentGuid);
-
-            tracing.Trace("entered uniqueness1");
             var site = service.RetrieveMultiple(query).Entities.FirstOrDefault();
-            tracing.Trace("entered uniqueness");
+            tracing.Trace("entered ExistingSiteCheck");
             if (site == null) return false;
 
             var siteId = site.Id;
@@ -168,9 +167,7 @@ namespace SDDS.Plugin.ApplicationPriority
             //query.ColumnSet.AllColumns = false;
             //var linedEnt = query.AddLink("sdds_application_sdds_site", "sdds_applicationid", "sdds_applicationid");
             //linedEnt.LinkCriteria.AddCondition("sdds_siteid", ConditionOperator.Equal, siteId);
-
-
-
+            
             var applications = service.RetrieveMultiple(new FetchExpression(unique));
 
             tracing.Trace(applications.Entities.Count().ToString());
@@ -180,5 +177,30 @@ namespace SDDS.Plugin.ApplicationPriority
             }
             else return false;
         }
+
+        public bool DesignatedSiteCheck(IOrganizationService service, Guid parentGuid, ITracingService tracing)
+        {
+            
+            var applicationWithDesignatedSite = @"<fetch mapping='logical' distinct='true'>
+                            <entity name ='sdds_application'>
+                               <attribute name= 'sdds_applicationid'/>
+                                <attribute name= 'sdds_name' />  
+                                <filter type='and'>
+                                  <condition attribute='sdds_applicationid' operator='eq' value= '"+parentGuid+@"' />
+                                 </filter>
+                                 <link-entity name='sdds_designatedsites' from='sdds_applicationid' to ='sdds_applicationid' link-type='inner'/>                           
+                            </entity >
+                          </fetch >";
+
+
+            var applications = service.RetrieveMultiple(new FetchExpression(applicationWithDesignatedSite));
+            tracing.Trace(applications.Entities.Count().ToString());
+            if (applications.Entities.Count() > 1)
+            {
+                return true;
+            }
+            else return false;
+        }
+
     }
 }

@@ -32,31 +32,44 @@ namespace SDDS.Plugin.ApplicationPriority
             {
                 AssignPriorityLogic logic = new AssignPriorityLogic();
 
-                if (licenseTypeId == badger || licenseTypeId == eps)
+                if (licenseTypeId == badger)
                 {
                     if (logic.GetPurpose(licenseApp))
                     {
                         UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
-                    }else if (logic.CheckBadgerBeaverSpecie(service, entityId) == "beaver" && licenseTypeId == badger)
+                    }
+                    //else if (logic.CheckBadgerBeaverSpecie(service, entityId) == "beaver" && licenseTypeId == badger)
+                    //{
+                    //    UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
+                    //}else if (logic.CheckBuzzardRavenRedKiteSpecie(service, entityId) && licenseTypeId == badger)
+                    //{
+                    //    tracing.Trace("Entering CheckBuzzardRavenRedKiteSpecie");
+                    //    UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
+                    //}
+                    //else if (logic.CheckBadgerBeaverSpecie(service,entityId) == "badger" && logic.CheckSettTypeAndMethod(service, entityId, tracing))
+                    //{
+                    //    tracing.Trace("Entering CheckBadgerBeaverSpecie 2");
+                    //    UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
+                    //}
+                    else if (logic.CheckSettTypeAndMethod(service, entityId, tracing))
                     {
-                        UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
-                    }else if (logic.CheckBuzzardRavenRedKiteSpecie(service, entityId) && licenseTypeId == badger)
+                        tracing.Trace("Entering CheckSettTypeAndMethod");
+                        UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.two, service);
+                    }
+                    else if (logic.ExistingSiteCheck(service, entityId, tracing))
                     {
-                        tracing.Trace("Entering CheckBuzzardRavenRedKiteSpecie");
-                        UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
-                    }else if (logic.CheckBadgerBeaverSpecie(service,entityId) == "badger" && logic.CheckSettTypeAndMethod(service, entityId, tracing))
-                    {
-                        tracing.Trace("Entering CheckBadgerBeaverSpecie 2");
-                        UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
-                    }else if (logic.UniquenessCheck(service, entityId, tracing))
-                    {
-                        tracing.Trace("Entering UniquenessCheck");
+                        tracing.Trace("Entering ExistingSiteCheck");
                         UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.two, service);
                     }else if (logic.MultiPlots(service, entityId,tracing))
                     {
                         tracing.Trace("Entering MultiPlots");
                         UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.two, service);
-                    }else if (logic.SeasonalCheck(licenseApp))
+                    }else if(logic.DesignatedSiteCheck(service, entityId, tracing))
+                    {
+                        tracing.Trace("Entering DesignatedSiteCheck");
+                        UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.two, service);
+                    }
+                    else if (logic.SeasonalCheck(licenseApp))
                     {
                         tracing.Trace("Entering SeasonalCheck");
                         UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.two, service);
