@@ -18,21 +18,18 @@ namespace SDDS.Plugin.ApplicationPriority
 
             if (context.MessageName.ToLower() != "create") return;
 
-            Guid badger = new Guid("9d62e5b8-9c77-ec11-8d21-000d3a87431b");
-            Guid eps = new Guid("05e8951c-f452-ec11-8f8e-000d3a0ce458");
+            Guid badgerSpiceSubject = new Guid("60ce79d8-87fb-ec11-82e5-002248c5c45b");
+           // Guid eps = new Guid("05e8951c-f452-ec11-8f8e-000d3a0ce458");
 
             Entity licenseApp = (Entity)context.InputParameters["Target"];
-
             var entityId = licenseApp.Id;
-
             Guid licenseTypeId = licenseApp.GetAttributeValue<EntityReference>("sdds_applicationtypesid").Id;
-
             tracing.Trace("Entering Plugin");
             try
             {
                 AssignPriorityLogic logic = new AssignPriorityLogic();
-
-                if (licenseTypeId == badger)
+               
+                if (logic.GetSpiceSubjectByApplicationType(service, licenseTypeId, tracing) == badgerSpiceSubject)
                 {
                     if (logic.GetPurpose(licenseApp))
                     {
@@ -69,7 +66,7 @@ namespace SDDS.Plugin.ApplicationPriority
                         tracing.Trace("Entering DesignatedSiteCheck");
                         UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.two, service);
                     }
-                    else if (logic.SeasonalCheck(licenseApp))
+                    else if (logic.SeasonalCheck(licenseApp, service, licenseTypeId, tracing))
                     {
                         tracing.Trace("Entering SeasonalCheck");
                         UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.two, service);

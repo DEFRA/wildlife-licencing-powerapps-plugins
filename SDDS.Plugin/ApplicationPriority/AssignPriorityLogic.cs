@@ -16,6 +16,10 @@ namespace SDDS.Plugin.ApplicationPriority
         //e22614ca-53a8-ec11-9840-0022481aca85 Raven
         //3b8d5ad6-53a8-ec11-9840-0022481aca85 RedKite
 
+        public int SeasonFrom { get; set; }
+        public int SeasonTo { get; set; }
+
+
         Guid healthAndSafety = new Guid("571706d8-54a8-ec11-9840-0022481aca85"); //Public Health and Safety purpose
         public bool GetPurpose(Entity entity)
         {
@@ -118,14 +122,16 @@ namespace SDDS.Plugin.ApplicationPriority
             else return false;
         }
 
-        public bool SeasonalCheck(Entity entity)
+        public bool SeasonalCheck(Entity entity, IOrganizationService service, Guid licenseTypeId, ITracingService tracing)
         {
             var createdOn = entity.GetAttributeValue<DateTime>("createdon");
-
-            var startDay = DateTime.DaysInMonth(DateTime.Now.Year, 6);
-            var endDay = DateTime.DaysInMonth(DateTime.Now.Year, 10);
-
-            return createdOn >= new DateTime(DateTime.Now.Year, 6, startDay) && createdOn <= new DateTime(DateTime.Now.Year, 10, endDay);
+            GetSeasonalWindowByApplicationType(service,licenseTypeId);
+            //var startDay = DateTime.DaysInMonth(DateTime.Now.Year, 6);
+            //var endDay = DateTime.DaysInMonth(DateTime.Now.Year, 10);
+            //  return createdOn >= new DateTime(DateTime.Now.Year, 6, startDay) && createdOn <= new DateTime(DateTime.Now.Year, 10, endDay);
+            tracing.Trace("SeasonFrom "+ SeasonFrom);
+            tracing.Trace("SeasonTo " + SeasonTo);
+            return createdOn.Month >= SeasonFrom && createdOn.Month <= SeasonTo;
         }
 
         public bool ExistingSiteCheck(IOrganizationService service, Guid parentGuid, ITracingService tracing)
@@ -202,5 +208,36 @@ namespace SDDS.Plugin.ApplicationPriority
             else return false;
         }
 
+        public Guid GetSpiceSubjectByApplicationType(IOrganizationService service, Guid applicationTypeId, ITracingService tracing)
+        {
+            tracing.Trace("Entering GetSpiceSubjectByApplicationType");
+            Guid spiceSubjectId = Guid.Empty;
+            var applicationType = service.Retrieve("sdds_applicationtypes", applicationTypeId, new ColumnSet(new string[] { "sdds_applicationtypesid", "sdds_speciesubjectid" }));
+            if (applicationType != null)
+            {
+                if (!applicationType.Attributes.Contains("sdds_speciesubjectid") || applicationType.Attributes["sdds_speciesubjectid"] == null)
+                  return spiceSubjectId;
+                spiceSubjectId = applicationType.GetAttributeValue<EntityReference>("sdds_speciesubjectid").Id;
+              
+            }
+            return spiceSubjectId;
+        }
+
+        private void GetSeasonalWindowByApplicationType(IOrganizationService service, Guid applicationTypeId)
+        {
+            var applicationType = service.Retrieve("sdds_applicationtypes", applicationTypeId, new ColumnSet(new string[] { "sdds_applicationtypesid", "sdds_seasonfrom", "sdds_seasonto" }));
+            if (applicationType != null)
+            {
+                if ((applicationType.Attributes.Contains("sdds_seasonfrom") || applicationType.Attributes["sdds_seasonfrom"] != null)
+                    && (applicationType.Attributes.Contains("sdds_seasonto") || applicationType.Attributes["sdds_seasonto"] != null))
+                {
+                    SeasonFrom =  applicationType.GetAttributeValue<OptionSetValue>("sdds_seasonfrom").Value;
+                    SeasonTo = applicationType.GetAttributeValue<OptionSetValue>("sdds_seasonto").Value;
+
+                }
+
+            }
+            
+        }
     }
 }
