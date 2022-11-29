@@ -18,6 +18,7 @@ namespace SDDS.Plugin.ApplicationPriority
 
             if (context.MessageName.ToLower() != "create") return;
 
+            Guid a01ApplicationType = new Guid("f99b0a3b-6c58-ec11-8f8f-000d3a0ce11e");// A01 Application Type.
             Guid badgerSpiceSubject = new Guid("60ce79d8-87fb-ec11-82e5-002248c5c45b");
            // Guid eps = new Guid("05e8951c-f452-ec11-8f8e-000d3a0ce458");
 
@@ -31,7 +32,8 @@ namespace SDDS.Plugin.ApplicationPriority
                
                 if (logic.GetSpiceSubjectByApplicationType(service, licenseTypeId, tracing) == badgerSpiceSubject)
                 {
-                    if (logic.GetPurpose(licenseApp))
+                    tracing.Trace(licenseTypeId.ToString());
+                    if (licenseTypeId == a01ApplicationType && logic.GetPurpose(licenseApp))
                     {
                         UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
                     }
