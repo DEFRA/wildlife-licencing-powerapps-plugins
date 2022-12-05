@@ -192,9 +192,11 @@ namespace SDDS.Plugin.ApplicationPriority
                                <attribute name= 'sdds_applicationid'/>
                                 <attribute name= 'sdds_name' />  
                                 <filter type='and'>
-                                  <condition attribute='sdds_applicationid' operator='eq' value= '"+parentGuid+@"' />
+                                  <condition attribute='sdds_applicationid' operator='eq' value= '"+parentGuid+ @"' />
                                  </filter>
-                                 <link-entity name='sdds_designatedsites' from='sdds_applicationid' to ='sdds_applicationid' link-type='inner'/>                           
+                                 <link-entity name='sdds_sdds_application_sdds_designatedsites' from='sdds_applicationid' to ='sdds_applicationid' visible='false' intersect='true'>      
+                                    <link-entity name='sdds_designatedsites' from='sdds_designatedsitesid' to='sdds_designatedsitesid'/>
+                                 </link-entity>
                             </entity >
                           </fetch >";
 
