@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 
 namespace SDDS.Plugin.ApplicationPriority
 {
@@ -19,53 +20,68 @@ namespace SDDS.Plugin.ApplicationPriority
             IOrganizationService service = factory.CreateOrganizationService(context.UserId);
             ITracingService tracing = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
             tracing.Trace("Entering Plugin");
-            if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity entity)
+            try
             {
-                Entity licenseApp = entity;
-                if (licenseApp.LogicalName == "sdds_application" && context.MessageName.ToLower() == "create")
+                var logic = new AssignPriorityLogic();
+                if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity entity)
                 {
-                    tracing.Trace("Entering On Create of Application");
-                    SetPriorityOnApplicationCreate(licenseApp, service, tracing);
-                }
-                else if (licenseApp.LogicalName == "sdds_licensableaction" && context.MessageName.ToLower() == "create")
-                {
-                    tracing.Trace("Entering On Create of Licensable Action.");
-                    SetPriorityForLicensableActionConditions(licenseApp, service, null);
-                }
-                else if (licenseApp.LogicalName == "sdds_licensableaction" && context.MessageName.ToLower() == "update")
-                {
-                    tracing.Trace("Entering On Update of Licensable Action.");
-                    Entity preImageEntity = null;
-                    if (context.PreEntityImages.Contains("PreImage"))
-                        preImageEntity = (Entity)context.PreEntityImages["PreImage"];
-                    SetPriorityForLicensableActionConditions(licenseApp, service, preImageEntity);
-                }
-            }
-            if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is EntityReference reference)
-            {
-                if (context.MessageName.ToLower() == "associate")
-                {
-                    tracing.Trace("Entering On Association between Application and Designated Site.");
-                    if (reference.LogicalName == "sdds_application")
+                    Entity licenseApp = entity;
+
+                    if (licenseApp.LogicalName == "sdds_application" && context.MessageName.ToLower() == "create")
                     {
-                        if (context.InputParameters.Contains("Relationship"))
-                        {
-                            var relationship = (Relationship)context.InputParameters["Relationship"];
-                           if (relationship.SchemaName != "sdds_sdds_application_sdds_designatedsites") { return; }
-                            //Set the Application Priority.
-                            SetPriorityForAssociatedDesignatedSites(reference.Id, (int)ApplicationEnum.Priority.two, service);
-                        }
+                        tracing.Trace("Entering On Create of Application");
+                        SetPriorityOnApplicationCreate(licenseApp, service, tracing);
+                    }
+                    else if (licenseApp.LogicalName == "sdds_application" && context.MessageName.ToLower() == "update")
+                    {
+                        tracing.Trace("Entering On Update of Application");
+                        SetPriorityOnApplicationUpdate(licenseApp, service, tracing);
+                    }
+                    else if (licenseApp.LogicalName == "sdds_licensableaction" && context.MessageName.ToLower() == "create")
+                    {
+                        tracing.Trace("Entering On Create of Licensable Action.");
+                        logic.SetPriorityForLicensableActionConditions(licenseApp, service, "create");
+                    }
+                    else if (licenseApp.LogicalName == "sdds_licensableaction" && context.MessageName.ToLower() == "update")
+                    {
+                        tracing.Trace("Entering On Update of Licensable Action.");
+                        Entity postImageEntity = null;
+                        if (context.PostEntityImages.Contains("PostImage"))
+                            postImageEntity = (Entity)context.PostEntityImages["PostImage"];
+                        logic.SetPriorityForLicensableActionConditions(licenseApp, service, "update", postImageEntity);
+                    }
+                }
+                if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is EntityReference reference)
+                {
+                    if (context.MessageName.ToLower() == "associate")
+                    {
+                        tracing.Trace("Entering On Association between Application and Site/Designated Site.");
+                        if (reference.LogicalName != "sdds_application")
+                            return;
+                        if (!context.InputParameters.Contains("Relationship"))
+                            return;
+                        var relationship = (Relationship)context.InputParameters["Relationship"];
+                        if (relationship.SchemaName != "sdds_sdds_application_sdds_designatedsites"
+                             && relationship.SchemaName != "sdds_application_sdds_site_sdds_site")
+                            return;
+                        //Set the Application Priority.
+                        logic.SetPriorityForRelatedAssociation(reference.Id, (int)ApplicationEnum.Priority.two, service);
                     }
                 }
             }
-            
+            catch (Exception ex)
+            {
+                tracing.Trace(ex.Message);
+                throw new InvalidPluginExecutionException(ex.Message);
+
+            }
         }
         public static void UpdateEntity(Entity entity, int value, IOrganizationService service)
         {
             service.Update(new Entity(entity.LogicalName, entity.Id)
             {
                 ["sdds_priority"] = new OptionSetValue(value)
-            }); 
+            });
         }
 
         /// <summary>
@@ -150,62 +166,45 @@ namespace SDDS.Plugin.ApplicationPriority
         }
 
         /// <summary>
-        /// Sets priority of a related application record based on the business rules.
+        /// Sets the Application Priority on the update of a License application based on the rules.
         /// </summary>
-        private void SetPriorityForLicensableActionConditions(Entity licensableAction, IOrganizationService service, Entity PreImage)
+        /// <param name="applicationEntity"></param>
+        /// <param name="service"></param>
+        /// <param name="tracing"></param>
+        /// <exception cref="InvalidPluginExecutionException"></exception>
+        private void SetPriorityOnApplicationUpdate(Entity applicationEntity, IOrganizationService service, ITracingService tracing)
         {
-            var isUpdate = false;
-            if (licensableAction.Attributes.Contains("sdds_applicationid") || licensableAction.Attributes["sdds_applicationid"] != null)
+
+            Guid a01ApplicationType = new Guid("f99b0a3b-6c58-ec11-8f8f-000d3a0ce11e");// A01 Application Type.
+            Guid badgerSpiceSubject = new Guid("60ce79d8-87fb-ec11-82e5-002248c5c45b");
+            Guid licenseTypeId = applicationEntity.GetAttributeValue<EntityReference>("sdds_applicationtypesid").Id;
+
+            try
             {
-                var applicationId = licensableAction.GetAttributeValue<EntityReference>("sdds_applicationid").Id;
-                if (PreImage != null)
+                var logic = new AssignPriorityLogic();
+                if (logic.GetSpiceSubjectByApplicationType(service, licenseTypeId, tracing) == badgerSpiceSubject)
                 {
-                    if (PreImage.Attributes.Contains("sdds_setttype") && (PreImage.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_alternative_sett_available
-                                           || PreImage.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_no_alternative_sett)
-                                           && PreImage.Attributes.Contains("sdds_method") && PreImage.GetAttributeValue<OptionSetValueCollection>("sdds_method").Contains(new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances)))
+                    if (licenseTypeId == a01ApplicationType && logic.GetPurpose(applicationEntity))
                     {
-                        isUpdate = true;
+                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.one, service);
                     }
-                }
-                else
-                {
-                    if (licensableAction.Attributes.Contains("sdds_setttype") && (licensableAction.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_alternative_sett_available
-                       || licensableAction.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_no_alternative_sett)
-                       && licensableAction.Attributes.Contains("sdds_method") && licensableAction.GetAttributeValue<OptionSetValueCollection>("sdds_method").Contains(new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances)))
+                    else if (logic.DASSPSS(applicationEntity))
                     {
-                        isUpdate = true;
+                        tracing.Trace("Entering DASSPSS for APplication update");
+                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
+                    else { UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.four, service); }
                 }
-                if(isUpdate)
-                {
-                    service.Update(new Entity("sdds_application", applicationId)
-                    {
-                        ["sdds_priority"] = new OptionSetValue((int)ApplicationEnum.Priority.two)
-                    });
-                }
+                else { UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.four, service); }
+            }
+            catch (Exception ex)
+            {
+                tracing.Trace(ex.Message);
+                throw new InvalidPluginExecutionException(ex.Message);
 
             }
-
         }
 
-        /// <summary>
-        /// Updates the application priority if priority is not set to 1.
-        /// </summary>
-        /// <param name="applicatoinId">Application unique id.</param>
-        /// <param name="value">Prioty value to set</param>
-        /// <param name="service">Organization Service.</param>
-        private void SetPriorityForAssociatedDesignatedSites(Guid applicatoinId, int value, IOrganizationService service)
-        {
-           var application = service.Retrieve("sdds_application", applicatoinId, new ColumnSet(new string[] { "sdds_priority" }));
-            if (application != null && application.Attributes.Contains("sdds_priority") &&
-                (int)application.GetAttributeValue<OptionSetValue>("sdds_priority").Value == (int)ApplicationEnum.Priority.one)
-                return;
-
-            service.Update(new Entity("sdds_application", applicatoinId)
-            {
-                ["sdds_priority"] = new OptionSetValue(value)
-            });
-        }
 
     }
 }

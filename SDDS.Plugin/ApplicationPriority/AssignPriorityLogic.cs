@@ -98,11 +98,8 @@ namespace SDDS.Plugin.ApplicationPriority
 
             // Define filter query_sdds_application_sdds_site.LinkCriteria
             query_sdds_application_sdds_site.LinkCriteria.AddCondition("sdds_applicationid", ConditionOperator.Equal, parentGuid);
-
-            tracing.Trace("returned sites1");
             var sites = service.RetrieveMultiple(query);
-            tracing.Trace("returned sites2");
-
+            
             if (sites == null) return false;
             if (sites.Entities.Count() > 1)
             {
@@ -224,6 +221,68 @@ namespace SDDS.Plugin.ApplicationPriority
             }
             return spiceSubjectId;
         }
+
+        /// <summary>
+        /// Sets priority of a related application record based on the business rules.
+        /// </summary>
+        public void SetPriorityForLicensableActionConditions(Entity licensableAction, IOrganizationService service, string messageName, Entity PostImage = null)
+        {
+            var isSetPriority = false;
+            var applicationId = Guid.Empty;
+            if (licensableAction.Attributes.Contains("sdds_applicationid")
+                && licensableAction.Attributes["sdds_applicationid"] != null && messageName == "create")
+            {
+                applicationId = licensableAction.GetAttributeValue<EntityReference>("sdds_applicationid").Id;
+                if (licensableAction.Attributes.Contains("sdds_setttype") && (licensableAction.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_alternative_sett_available
+                  || licensableAction.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_no_alternative_sett)
+                  && licensableAction.Attributes.Contains("sdds_method") && licensableAction.GetAttributeValue<OptionSetValueCollection>("sdds_method").Contains(new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances)))
+                {
+                    isSetPriority = true;
+                }
+            }
+           
+            if (PostImage != null)
+            {
+               if (PostImage.Attributes.Contains("sdds_applicationid") && PostImage.GetAttributeValue<EntityReference>("sdds_applicationid") != null)
+                   applicationId = PostImage.GetAttributeValue<EntityReference>("sdds_applicationid").Id;
+                
+                if (PostImage.Attributes.Contains("sdds_setttype") && (PostImage.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_alternative_sett_available
+                                        || PostImage.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_no_alternative_sett)
+                                        && PostImage.Attributes.Contains("sdds_method") && PostImage.GetAttributeValue<OptionSetValueCollection>("sdds_method").Contains(new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances)))
+                {
+                    isSetPriority = true;
+                }
+            }
+          
+            if (!isSetPriority || applicationId == Guid.Empty)
+              return;
+            //Update the Application Priority.
+            service.Update(new Entity("sdds_application", applicationId)
+            {
+                ["sdds_priority"] = new OptionSetValue((int)ApplicationEnum.Priority.two)
+            });
+
+
+
+        }
+
+        /// <summary>
+        /// Updates the application priority if priority is not set to 1.
+        /// </summary>
+        /// <param name="applicatoinId">Application unique id.</param>
+        /// <param name="value">Prioty value to set</param>
+        /// <param name="service">Organization Service.</param>
+        public void SetPriorityForRelatedAssociation(Guid applicatoinId, int value, IOrganizationService service)
+        {
+            var application = service.Retrieve("sdds_application", applicatoinId, new ColumnSet(new string[] { "sdds_priority" }));
+            if (application == null || !application.Attributes.Contains("sdds_priority") ||
+                (int)application.GetAttributeValue<OptionSetValue>("sdds_priority").Value != (int)ApplicationEnum.Priority.one)
+                service.Update(new Entity("sdds_application", applicatoinId)
+                {
+                    ["sdds_priority"] = new OptionSetValue(value)
+                });
+        }
+
 
         private void GetSeasonalWindowByApplicationType(IOrganizationService service, Guid applicationTypeId)
         {
