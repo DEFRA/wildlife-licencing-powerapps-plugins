@@ -240,12 +240,12 @@ namespace SDDS.Plugin.ApplicationPriority
                     isSetPriority = true;
                 }
             }
-           
+
             if (PostImage != null)
             {
-               if (PostImage.Attributes.Contains("sdds_applicationid") && PostImage.GetAttributeValue<EntityReference>("sdds_applicationid") != null)
-                   applicationId = PostImage.GetAttributeValue<EntityReference>("sdds_applicationid").Id;
-                
+                if (PostImage.Attributes.Contains("sdds_applicationid") && PostImage.GetAttributeValue<EntityReference>("sdds_applicationid") != null)
+                    applicationId = PostImage.GetAttributeValue<EntityReference>("sdds_applicationid").Id;
+
                 if (PostImage.Attributes.Contains("sdds_setttype") && (PostImage.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_alternative_sett_available
                                         || PostImage.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_no_alternative_sett)
                                         && PostImage.Attributes.Contains("sdds_method") && PostImage.GetAttributeValue<OptionSetValueCollection>("sdds_method").Contains(new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances)))
@@ -253,14 +253,25 @@ namespace SDDS.Plugin.ApplicationPriority
                     isSetPriority = true;
                 }
             }
-          
-            if (!isSetPriority || applicationId == Guid.Empty)
-              return;
-            //Update the Application Priority.
-            service.Update(new Entity("sdds_application", applicationId)
+            if (applicationId != Guid.Empty)
             {
-                ["sdds_priority"] = new OptionSetValue((int)ApplicationEnum.Priority.two)
-            });
+                if (isSetPriority)
+                {
+                    //Update the Application Priority.
+                    service.Update(new Entity("sdds_application", applicationId)
+                    {
+                        ["sdds_priority"] = new OptionSetValue((int)ApplicationEnum.Priority.two)
+                    });
+
+                }
+                else
+                {
+                    service.Update(new Entity("sdds_application", applicationId)
+                    {
+                        ["sdds_priority"] = new OptionSetValue((int)ApplicationEnum.Priority.four)
+                    });
+                }
+            }
 
 
 

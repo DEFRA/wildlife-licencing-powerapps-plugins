@@ -7,6 +7,7 @@
     using SDDS.Plugin.ApplicationPriority;
     using System;
     using System.Collections.Generic;
+    using System.Security.Policy;
     using Xunit;
     public class ApplicationSetPriorityTests : FakeXrmEasyTestsBase
     {
@@ -185,6 +186,141 @@
                 Should().Be((int)ApplicationEnum.Priority.four, "The Application Priority must be 100000003 (4)");
         }
 
+        [Fact]
+        public void SetPriority_for_application_on_licensableaction_create_with_mainsetttype()
+        {
+            var licensibleAction = new Entity("sdds_licensableaction");
+            licensibleAction.Id = Guid.NewGuid();
+            licensibleAction["sdds_applicationid"] = new EntityReference("sdds_application", application.Id); 
+            licensibleAction["sdds_setttype"] = new OptionSetValue((int)ApplicationEnum.SettType.Main_no_alternative_sett);
+            licensibleAction["sdds_method"] = new OptionSetValueCollection(new List<OptionSetValue>
+                        { new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances) });
+            inputParameter = new ParameterCollection
+            {
+                { "Target", licensibleAction }
+            };
+            var dataCollection = new List<Entity>
+            {
+               licensibleAction, application
+            };
+
+            fakecontext.Initialize(dataCollection);
+            // Mocking Context 
+            var PlugCtx = GetFakedXrmContext(40, "Create", "sdds_licensableaction");
+           
+            // Act and Assert
+            fakecontext.ExecutePluginWith<ApplicationSetPriority>(PlugCtx);
+            var updatedApplication = fakecontext.GetOrganizationService().Retrieve("sdds_application", application.Id,
+                                      new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_priority" }));
+            //The Application Priority must be 4 to pass the test.
+            updatedApplication.GetAttributeValue<OptionSetValue>("sdds_priority").Value.
+                Should().Be((int)ApplicationEnum.Priority.two, "The Application Priority must be 100000001 (2)");
+        }
+
+        [Fact]
+        public void SetPriority_for_application_on_licensableaction_update_with_mainsetttype()
+        {
+            var licensibleAction = new Entity("sdds_licensableaction");
+            licensibleAction.Id = Guid.NewGuid();
+            licensibleAction["sdds_applicationid"] = new EntityReference("sdds_application", application.Id);
+            licensibleAction["sdds_setttype"] = new OptionSetValue((int)ApplicationEnum.SettType.Main_no_alternative_sett);
+            licensibleAction["sdds_method"] = new OptionSetValueCollection(new List<OptionSetValue>
+                        { new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances) });
+            var postImage = new Entity("sdds_licensableaction");
+            postImage.Id = Guid.NewGuid();
+            postImage["sdds_applicationid"] = new EntityReference("sdds_application", application.Id);
+            postImage["sdds_setttype"] = new OptionSetValue((int)ApplicationEnum.SettType.Main_no_alternative_sett);
+            postImage["sdds_method"] = new OptionSetValueCollection(new List<OptionSetValue>
+                        { new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances) });
+           
+            inputParameter = new ParameterCollection
+            {
+                { "Target", licensibleAction }
+            };
+            var dataCollection = new List<Entity>
+            {
+               licensibleAction,postImage, application
+            };
+
+            fakecontext.Initialize(dataCollection);
+            // Mocking Context 
+            var PlugCtx = GetFakedXrmContext(40, "Update", "sdds_licensableaction");
+            PlugCtx.PostEntityImages.Add("PostImage", postImage);
+            // Act and Assert
+            fakecontext.ExecutePluginWith<ApplicationSetPriority>(PlugCtx);
+            var updatedApplication = fakecontext.GetOrganizationService().Retrieve("sdds_application", application.Id,
+                                      new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_priority" }));
+            //The Application Priority must be 4 to pass the test.
+            updatedApplication.GetAttributeValue<OptionSetValue>("sdds_priority").Value.
+                Should().Be((int)ApplicationEnum.Priority.two, "The Application Priority must be 100000001 (2)");
+        }
+
+        [Fact]
+        public void SetPriority_for_application_on_licensableaction_create_with_no_mainsetttype()
+        {
+            var licensibleAction = new Entity("sdds_licensableaction");
+            licensibleAction.Id = Guid.NewGuid();
+            licensibleAction["sdds_applicationid"] = new EntityReference("sdds_application", application.Id);
+            licensibleAction["sdds_setttype"] = new OptionSetValue((int)ApplicationEnum.SettType.Annex_Subsidiary);
+            licensibleAction["sdds_method"] = new OptionSetValueCollection(new List<OptionSetValue>
+                        { new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances) });
+            inputParameter = new ParameterCollection
+            {
+                { "Target", licensibleAction }
+            };
+            var dataCollection = new List<Entity>
+            {
+               licensibleAction, application
+            };
+
+            fakecontext.Initialize(dataCollection);
+            // Mocking Context 
+            var PlugCtx = GetFakedXrmContext(40, "Create", "sdds_licensableaction");
+            // Act and Assert
+            fakecontext.ExecutePluginWith<ApplicationSetPriority>(PlugCtx);
+            var updatedApplication = fakecontext.GetOrganizationService().Retrieve("sdds_application", application.Id,
+                                      new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_priority" }));
+            //The Application Priority must be 4 to pass the test.
+            updatedApplication.GetAttributeValue<OptionSetValue>("sdds_priority").Value.
+                Should().Be((int)ApplicationEnum.Priority.four, "The Application Priority must be 100000003 (4)");
+        }
+
+        [Fact]
+        public void SetPriority_for_application_on_licensableaction_update_with_no_mainsetttype()
+        {
+            var licensibleAction = new Entity("sdds_licensableaction");
+            licensibleAction.Id = Guid.NewGuid();
+            licensibleAction["sdds_applicationid"] = new EntityReference("sdds_application", application.Id);
+            licensibleAction["sdds_setttype"] = new OptionSetValue((int)ApplicationEnum.SettType.Annex_Subsidiary);
+            licensibleAction["sdds_method"] = new OptionSetValueCollection(new List<OptionSetValue>
+                        { new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances) });
+            var postImage = new Entity("sdds_licensableaction");
+            postImage.Id = Guid.NewGuid();
+            postImage["sdds_applicationid"] = new EntityReference("sdds_application", application.Id);
+            postImage["sdds_setttype"] = new OptionSetValue((int)ApplicationEnum.SettType.Annex_Subsidiary);
+            postImage["sdds_method"] = new OptionSetValueCollection(new List<OptionSetValue>
+                        { new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances) });
+            inputParameter = new ParameterCollection
+            {
+                { "Target", licensibleAction }
+            };
+            var dataCollection = new List<Entity>
+            {
+               postImage, postImage, application
+            };
+
+            fakecontext.Initialize(dataCollection);
+            // Mocking Context 
+            var PlugCtx = GetFakedXrmContext(40, "Update", "sdds_licensableaction");
+            PlugCtx.PostEntityImages.Add("PostImage", postImage);
+            // Act and Assert
+            fakecontext.ExecutePluginWith<ApplicationSetPriority>(PlugCtx);
+            var updatedApplication = fakecontext.GetOrganizationService().Retrieve("sdds_application", application.Id,
+                                      new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_priority" }));
+            //The Application Priority must be 4 to pass the test.
+            updatedApplication.GetAttributeValue<OptionSetValue>("sdds_priority").Value.
+                Should().Be((int)ApplicationEnum.Priority.four, "The Application Priority must be 100000003 (4)");
+        }
         private XrmFakedPluginExecutionContext GetFakedXrmContext(int stage, string messageName, string primaryEntityName)
         {
             var PlugCtx = fakecontext.GetDefaultPluginContext();

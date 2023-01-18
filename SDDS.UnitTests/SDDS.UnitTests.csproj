@@ -73,7 +73,9 @@
   <ItemGroup>
     <Compile Include="AddressLookup\AddressLookupResponseTests.cs" />
     <Compile Include="ApplicationPriority\ApplicationSetPriorityTests.cs" />
+    <Compile Include="ApplicationTypes\ApplicationTypeTests.cs" />
     <Compile Include="FakeXrmEasyTestsBase.cs" />
+    <Compile Include="MemberShip\MembershipChoiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
