@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31729.503
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDDS.Plugin", "SDDS.Plugin\SDDS.Plugin.csproj", "{C86B78B8-3979-429D-B962-84610C8BA2BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDDS.Workflow", "SDDS.Workflow\SDDS.Workflow.csproj", "{5707F466-F633-41CC-BB05-2FEA2FFB2D45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDDS.UnitTests", "SDDS.UnitTests\SDDS.UnitTests.csproj", "{1B7AD38A-3DBE-42BD-9593-7262C58CBC42}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5707F466-F633-41CC-BB05-2FEA2FFB2D45} = {5707F466-F633-41CC-BB05-2FEA2FFB2D45}
+		{C86B78B8-3979-429D-B962-84610C8BA2BF} = {C86B78B8-3979-429D-B962-84610C8BA2BF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,10 @@ Global
 		{5707F466-F633-41CC-BB05-2FEA2FFB2D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5707F466-F633-41CC-BB05-2FEA2FFB2D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5707F466-F633-41CC-BB05-2FEA2FFB2D45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B7AD38A-3DBE-42BD-9593-7262C58CBC42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B7AD38A-3DBE-42BD-9593-7262C58CBC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B7AD38A-3DBE-42BD-9593-7262C58CBC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B7AD38A-3DBE-42BD-9593-7262C58CBC42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

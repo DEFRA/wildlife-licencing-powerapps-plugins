@@ -1,0 +1,214 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Defra\\SDDS\\CodeRepository\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj": {}
+  },
+  "projects": {
+    "D:\\Defra\\SDDS\\CodeRepository\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\Defra\\SDDS\\CodeRepository\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj",
+        "projectName": "SDDS.Plugin",
+        "projectPath": "D:\\Defra\\SDDS\\CodeRepository\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj",
+        "frameworks": {
+          "net462": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net462": {}
+      }
+    },
+    "D:\\Defra\\SDDS\\CodeRepository\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Defra\\SDDS\\CodeRepository\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj",
+        "projectName": "SDDS.UnitTests",
+        "projectPath": "D:\\Defra\\SDDS\\CodeRepository\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj",
+        "packagesPath": "C:\\Users\\vkshatri\\.nuget\\packages\\",
+        "outputPath": "D:\\Defra\\SDDS\\CodeRepository\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\vkshatri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "projectReferences": {
+              "D:\\Defra\\SDDS\\CodeRepository\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj": {
+                "projectPath": "D:\\Defra\\SDDS\\CodeRepository\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "dependencies": {
+            "Castle.Core": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            },
+            "FakeItEasy": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "FakeXrmEasy.Abstractions.v9": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
+            "FakeXrmEasy.CodeActivities.v9": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
+            "FakeXrmEasy.Core.v9": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
+            "FakeXrmEasy.Messages.v9": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
+            "FakeXrmEasy.Plugins.v9": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
+            "FakeXrmEasy.v9": {
+              "target": "Package",
+              "version": "[2.3.1, )"
+            },
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[6.9.0, )"
+            },
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[3.0.2, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[3.0.2, )"
+            },
+            "Microsoft.Bcl.AsyncInterfaces": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.CrmSdk.CoreAssemblies": {
+              "target": "Package",
+              "version": "[9.0.2.46, )"
+            },
+            "Microsoft.CrmSdk.Deployment": {
+              "target": "Package",
+              "version": "[9.0.2.25, )"
+            },
+            "Microsoft.CrmSdk.Workflow": {
+              "target": "Package",
+              "version": "[9.0.2.46, )"
+            },
+            "Microsoft.CrmSdk.XrmTooling.CoreAssembly": {
+              "target": "Package",
+              "version": "[9.1.1.1, )"
+            },
+            "Microsoft.IdentityModel.Clients.ActiveDirectory": {
+              "target": "Package",
+              "version": "[3.19.8, )"
+            },
+            "Microsoft.Rest.ClientRuntime": {
+              "target": "Package",
+              "version": "[2.3.20, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "System.Buffers": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            },
+            "System.Memory": {
+              "target": "Package",
+              "version": "[4.5.4, )"
+            },
+            "System.Numerics.Vectors": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "System.Runtime.CompilerServices.Unsafe": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "System.Text.Encodings.Web": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "System.Threading.Tasks.Extensions": {
+              "target": "Package",
+              "version": "[4.5.4, )"
+            },
+            "System.ValueTuple": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.2, )"
+            },
+            "xunit.abstractions": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "xunit.analyzers": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "xunit.assert": {
+              "target": "Package",
+              "version": "[2.4.2, )"
+            },
+            "xunit.core": {
+              "target": "Package",
+              "version": "[2.4.2, )"
+            },
+            "xunit.extensibility.core": {
+              "target": "Package",
+              "version": "[2.4.2, )"
+            },
+            "xunit.extensibility.execution": {
+              "target": "Package",
+              "version": "[2.4.2, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.5, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}
