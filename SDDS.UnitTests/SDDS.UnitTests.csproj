@@ -200,6 +200,10 @@
       <Project>{C86B78B8-3979-429D-B962-84610C8BA2BF}</Project>
       <Name>SDDS.Plugin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SDDS.Workflow\SDDS.Workflow.csproj">
+      <Project>{5707F466-F633-41CC-BB05-2FEA2FFB2D45}</Project>
+      <Name>SDDS.Workflow</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
