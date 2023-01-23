@@ -77,6 +77,10 @@
     <Compile Include="FakeXrmEasyTestsBase.cs" />
     <Compile Include="MemberShip\MembershipChoiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SDDS.Workflow\Application\ConfirmTasksTests.cs" />
+    <Compile Include="SDDS.Workflow\Application\GetCurrentUserTests.cs" />
+    <Compile Include="SDDS.Workflow\Application\SetRecordUrlTests.cs" />
+    <Compile Include="SDDS.Workflow\Consultation\ShareApplicationRecordTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
