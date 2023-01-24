@@ -3,11 +3,10 @@
     using FakeXrmEasy.Abstractions;
     using FakeXrmEasy.Plugins;
     using FluentAssertions;
+    using global::SDDS.Plugin.ApplicationPriority;
     using Microsoft.Xrm.Sdk;
-    using SDDS.Plugin.ApplicationPriority;
     using System;
     using System.Collections.Generic;
-    using System.Security.Policy;
     using Xunit;
     public class ApplicationSetPriorityTests : FakeXrmEasyTestsBase
     {
@@ -321,6 +320,62 @@
             updatedApplication.GetAttributeValue<OptionSetValue>("sdds_priority").Value.
                 Should().Be((int)ApplicationEnum.Priority.four, "The Application Priority must be 100000003 (4)");
         }
+
+        [Fact]
+        public void SetPriority_for_application_for_association_of_designatedsites()
+        {
+
+            var applicationRef = new EntityReference("sdds_application", application.Id);
+            Relationship relationship = new Relationship("sdds_sdds_application_sdds_designatedsites");
+            inputParameter = new ParameterCollection
+            {
+                { "Target", applicationRef},
+                {"Relationship", relationship }
+            };
+            //Set Application data for Application type = A01, SpiceSubject = Badger and Application Purpose other than 'Health and Safety'
+            var datacollection = SetApplicationEntityData(true, true, false, false);
+            fakecontext.Initialize(datacollection);
+            // Mocking Context 
+            var PlugCtx = GetFakedXrmContext(40, "Associate", "sdds_application");
+           
+            // Act and Assert
+            fakecontext.ExecutePluginWith<ApplicationSetPriority>(PlugCtx);
+            var updatedApplication = fakecontext.GetOrganizationService().Retrieve("sdds_application", application.Id,
+                                      new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_priority" }));
+            //The Application Priority must be 4 to pass the test.
+            updatedApplication.GetAttributeValue<OptionSetValue>("sdds_priority").Value.
+                Should().Be((int)ApplicationEnum.Priority.two, "The Application Priority must be 100000001 (2)");
+
+        }
+
+        [Fact]
+        public void SetPriority_for_application_for_association_of_sites()
+        {
+
+            var applicationRef = new EntityReference("sdds_application", application.Id);
+            Relationship relationship = new Relationship("sdds_application_sdds_site_sdds_site");
+            inputParameter = new ParameterCollection
+            {
+                { "Target", applicationRef},
+                {"Relationship", relationship }
+            };
+            //Set Application data for Application type = A01, SpiceSubject = Badger and Application Purpose other than 'Health and Safety'
+            var datacollection = SetApplicationEntityData(true, true, false, false);
+            fakecontext.Initialize(datacollection);
+            // Mocking Context 
+            var PlugCtx = GetFakedXrmContext(40, "Associate", "sdds_application");
+
+            // Act and Assert
+            fakecontext.ExecutePluginWith<ApplicationSetPriority>(PlugCtx);
+            var updatedApplication = fakecontext.GetOrganizationService().Retrieve("sdds_application", application.Id,
+                                      new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_priority" }));
+            //The Application Priority must be 4 to pass the test.
+            updatedApplication.GetAttributeValue<OptionSetValue>("sdds_priority").Value.
+                Should().Be((int)ApplicationEnum.Priority.two, "The Application Priority must be 100000001 (2)");
+
+        }
+
+
         private XrmFakedPluginExecutionContext GetFakedXrmContext(int stage, string messageName, string primaryEntityName)
         {
             var PlugCtx = fakecontext.GetDefaultPluginContext();
