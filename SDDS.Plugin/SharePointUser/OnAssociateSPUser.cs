@@ -48,15 +48,29 @@ namespace SDDS.Plugin.SharePointUser
             if (context.MessageName.ToLower() == "associate")
             {
                 tracing.Trace("association");
-                if (teamIds.Contains(target.Id) && CheckIfUserExist(teamMembersRefColl, service) != Guid.Empty)
+                tracing.Trace(target.Id.ToString());
+                if (teamIds.Contains(target.Id))
                 {
-                    var user = GetUserId(teamMembersRefColl, service, tracing);
-                    if (user != null)
+                    var sp = CheckIfUserExist(teamMembersRefColl, service, tracing);
+                    tracing.Trace(sp.Id.ToString());
+                    if (sp.Id == Guid.Empty)
                     {
-                        Entity spUser = new Entity("sdds_sharepointuser");
-                        spUser.Attributes["sdds_userid"] = new EntityReference("systemuser", user.Id);
-                        spUser.Attributes["sdds_name"] = user.Name;
-                        service.Create(spUser);
+                        tracing.Trace("Creating Record");
+                        var user = GetUserId(teamMembersRefColl, service, tracing);
+                        if (user.Id != Guid.Empty)
+                        {
+                            Entity spUser = new Entity("sdds_sharepointuser");
+                            spUser.Attributes["sdds_userid"] = new EntityReference("systemuser", user.Id);
+                            spUser.Attributes["sdds_name"] = user.Name;
+                            service.Create(spUser);
+                        }
+                    }else if(sp.RemoveUser == true)
+                    {
+                        tracing.Trace(sp.RemoveUser.ToString());
+                        Entity sharePointUser = new Entity("sdds_sharepointuser");
+                        sharePointUser["sdds_removeuserfromsharepointgroup"] = false;
+                        sharePointUser["sdds_sharepointuserid"] = sp.Id;
+                        service.Update(sharePointUser);
                     }
                 }
             }
@@ -66,10 +80,13 @@ namespace SDDS.Plugin.SharePointUser
                 tracing.Trace("disassociation");
                 if(GetUserTeams(teamMembersRefColl, service, teamIds) && teamIds.Contains(target.Id))
                 {
-                    var sharePointUserId = CheckIfUserExist(teamMembersRefColl, service);
-                    if(sharePointUserId != Guid.Empty)
+                    var sharePointUser = CheckIfUserExist(teamMembersRefColl, service, tracing);
+                    if(sharePointUser.Id != Guid.Empty)
                     {
-                        service.Delete("sdds_sharepointuser", sharePointUserId);
+                        Entity sharePointUserEntity = new Entity("sdds_sharepointuser");
+                        sharePointUserEntity["sdds_removeuserfromsharepointgroup"] = true;
+                        sharePointUserEntity["sdds_sharepointuserid"] = sharePointUser.Id;
+                        service.Update(sharePointUserEntity);
                     }
                 }
             }
@@ -92,16 +109,22 @@ namespace SDDS.Plugin.SharePointUser
             return user;
         }
 
-        private static Guid CheckIfUserExist(EntityReferenceCollection entityCollection, IOrganizationService service)
+        private static SharePointUser CheckIfUserExist(EntityReferenceCollection entityCollection, IOrganizationService service, ITracingService tracing)
         {
+            SharePointUser sp = new SharePointUser();
             var entRef = entityCollection[0].Id;
             var query = new QueryExpression("sdds_sharepointuser");
 
-            query.ColumnSet.AddColumns("sdds_name", "sdds_sharepointuserid");
+            query.ColumnSet.AddColumns("sdds_name", "sdds_sharepointuserid", "sdds_removeuserfromsharepointgroup", "sdds_userid");
             query.Criteria.AddCondition("sdds_userid", ConditionOperator.Equal, entRef);
 
             var sharepointUser = service.RetrieveMultiple(query);
-            if (sharepointUser.Entities.Count() > 0) { return sharepointUser.Entities[0].GetAttributeValue<Guid>("sdds_sharepointuserid"); } else return Guid.Empty;
+            if (sharepointUser.Entities.Count() > 0) {
+                sp.Id = sharepointUser.Entities[0].GetAttributeValue<Guid>("sdds_sharepointuserid");
+                sp.RemoveUser = sharepointUser.Entities[0].GetAttributeValue<bool>("sdds_removeuserfromsharepointgroup");
+                sp.Name = sharepointUser.Entities[0].GetAttributeValue<string>("sdds_name");
+                return sp; 
+            } else return sp;
 
         }
 
@@ -127,5 +150,14 @@ namespace SDDS.Plugin.SharePointUser
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+    }
+
+    public class SharePointUser
+    {
+        public Guid Id { get; set; }
+        public bool RemoveUser { get; set; }
+        public string Name { get; set; }
+
+        public EntityReference User { get; set; }
     }
 }

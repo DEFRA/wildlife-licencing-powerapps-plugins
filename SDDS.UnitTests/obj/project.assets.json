@@ -820,6 +820,15 @@
         "runtime": {
           "bin/placeholder/SDDS.Plugin.dll": {}
         }
+      },
+      "SDDS.Workflow/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/SDDS.Workflow.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SDDS.Workflow.dll": {}
+        }
       }
     },
     ".NETFramework,Version=v4.8/win": {
@@ -1596,6 +1605,15 @@
         },
         "runtime": {
           "bin/placeholder/SDDS.Plugin.dll": {}
+        }
+      },
+      "SDDS.Workflow/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/SDDS.Workflow.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SDDS.Workflow.dll": {}
         }
       }
     },
@@ -2374,6 +2392,15 @@
         "runtime": {
           "bin/placeholder/SDDS.Plugin.dll": {}
         }
+      },
+      "SDDS.Workflow/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/SDDS.Workflow.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SDDS.Workflow.dll": {}
+        }
       }
     },
     ".NETFramework,Version=v4.8/win-x86": {
@@ -3150,6 +3177,15 @@
         },
         "runtime": {
           "bin/placeholder/SDDS.Plugin.dll": {}
+        }
+      },
+      "SDDS.Workflow/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/SDDS.Workflow.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SDDS.Workflow.dll": {}
         }
       }
     }
@@ -4608,6 +4644,11 @@
       "type": "project",
       "path": "../SDDS.Plugin/SDDS.Plugin.csproj",
       "msbuildProject": "../SDDS.Plugin/SDDS.Plugin.csproj"
+    },
+    "SDDS.Workflow/1.0.0": {
+      "type": "project",
+      "path": "../SDDS.Workflow/SDDS.Workflow.csproj",
+      "msbuildProject": "../SDDS.Workflow/SDDS.Workflow.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4632,6 +4673,7 @@
       "Microsoft.Rest.ClientRuntime >= 2.3.20",
       "Newtonsoft.Json >= 13.0.1",
       "SDDS.Plugin >= 1.0.0",
+      "SDDS.Workflow >= 1.0.0",
       "System.Buffers >= 4.5.1",
       "System.Memory >= 4.5.4",
       "System.Numerics.Vectors >= 4.5.0",
@@ -4684,6 +4726,9 @@
           "projectReferences": {
             "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj": {
               "projectPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj"
+            },
+            "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj": {
+              "projectPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj"
             }
           }
         }

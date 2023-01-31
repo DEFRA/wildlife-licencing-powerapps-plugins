@@ -49,6 +49,9 @@
             "projectReferences": {
               "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj": {
                 "projectPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj"
+              },
+              "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj": {
+                "projectPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj"
               }
             }
           }
@@ -212,6 +215,21 @@
         "win-x86": {
           "#import": []
         }
+      }
+    },
+    "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj",
+        "projectName": "SDDS.Workflow",
+        "projectPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj",
+        "frameworks": {
+          "net462": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net462": {}
       }
     }
   }

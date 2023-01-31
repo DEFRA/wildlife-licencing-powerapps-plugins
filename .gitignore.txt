@@ -43,7 +43,7 @@ project.fragment.lock.jsonartifacts/
 *.vspscc
 *.vssscc
 .builds
->pidb
+*.pidb
 *.svclog
 *.scc
 _Chutzpah*
@@ -62,3 +62,7 @@ ipch/
 *.sap
 
 $tf/
+*.cache
+*.suo
+*FileContentIndex/
+*.vsidx
