@@ -50,19 +50,29 @@ namespace SDDS.Plugin.ApplicationPriority
                             postImageEntity = (Entity)context.PostEntityImages["PostImage"];
                         logic.SetPriorityForLicensableActionConditions(licenseApp, service, "update", postImageEntity);
                     }
+                    else if (licenseApp.LogicalName == "sdds_designatedsites" &&
+                            (context.MessageName.ToLower() == "create" || context.MessageName.ToLower() == "update"))
+                    {
+                        tracing.Trace("Entering On Create/Update of Designated Site.");
+                       if(licenseApp.Attributes.Contains("sdds_applicationid"))
+                        {
+                         var application  = (EntityReference)licenseApp.Attributes["sdds_applicationid"];
+                            logic.SetPriorityForDesignatedSite(application.Id, service,(int)ApplicationEnum.Priority.two);
+                        }
+
+                    }
                 }
                 if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is EntityReference reference)
                 {
                     if (context.MessageName.ToLower() == "associate")
                     {
-                        tracing.Trace("Entering On Association between Application and Site/Designated Site.");
+                        tracing.Trace("Entering On Association between Application and Site.");
                         if (reference.LogicalName != "sdds_application")
                             return;
                         if (!context.InputParameters.Contains("Relationship"))
                             return;
                         var relationship = (Relationship)context.InputParameters["Relationship"];
-                        if (relationship.SchemaName != "sdds_sdds_application_sdds_designatedsites"
-                             && relationship.SchemaName != "sdds_application_sdds_site_sdds_site")
+                        if (relationship.SchemaName != "sdds_application_sdds_site_sdds_site")
                             return;
                         //Set the Application Priority.
                         logic.SetPriorityForRelatedAssociation(reference.Id, (int)ApplicationEnum.Priority.two, service);

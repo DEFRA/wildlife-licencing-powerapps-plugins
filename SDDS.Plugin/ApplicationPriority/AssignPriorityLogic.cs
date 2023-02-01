@@ -277,6 +277,18 @@ namespace SDDS.Plugin.ApplicationPriority
 
         }
 
+        public void SetPriorityForDesignatedSite(Guid applicationId, IOrganizationService service, int priorityvalue)
+        {
+           
+            //Update the Application Priority.
+             service.Update(new Entity("sdds_application", applicationId)
+              {
+                ["sdds_priority"] = new OptionSetValue(priorityvalue)
+              });
+            
+        }
+
+
         /// <summary>
         /// Updates the application priority if priority is not set to 1.
         /// </summary>
