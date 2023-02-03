@@ -68,6 +68,7 @@ namespace SDDS.Plugin.SharePointUser
                     {
                         tracing.Trace(sp.RemoveUser.ToString());
                         Entity sharePointUser = new Entity("sdds_sharepointuser");
+                        sharePointUser.Id= sp.Id;
                         sharePointUser["sdds_removeuserfromsharepointgroup"] = false;
                         sharePointUser["sdds_sharepointuserid"] = sp.Id;
                         service.Update(sharePointUser);
@@ -84,6 +85,7 @@ namespace SDDS.Plugin.SharePointUser
                     if(sharePointUser.Id != Guid.Empty)
                     {
                         Entity sharePointUserEntity = new Entity("sdds_sharepointuser");
+                        sharePointUserEntity.Id= sharePointUser.Id;
                         sharePointUserEntity["sdds_removeuserfromsharepointgroup"] = true;
                         sharePointUserEntity["sdds_sharepointuserid"] = sharePointUser.Id;
                         service.Update(sharePointUserEntity);

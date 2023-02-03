@@ -7,8 +7,10 @@ namespace SDDS.UnitTests.SharePointUser
     using global::SDDS.Plugin.ApplicationPriority;
     using global::SDDS.Plugin.SharePointUser;
     using Microsoft.Xrm.Sdk;
+    using Microsoft.Xrm.Sdk.Query;
     using System;
     using System.Collections.Generic;
+    using System.Web.Services.Description;
     using Xunit;
     public class OnAssociateSPUserTests : FakeXrmEasyTestsBase
     {
@@ -35,26 +37,39 @@ namespace SDDS.UnitTests.SharePointUser
             {
                 Id = Guid.NewGuid(),
                 LogicalName = "sdds_sharepointuser"
+               
             };
 
 
         }
 
         [Fact]
-        public void On_associate_Of_sharepointuser()
+        public void Add_user_to_team_when_sharepointuser_exists_and_remove_user_from_sharepoint_flag_is_no()
         {
             // Arrange
 
-            var teammember = new EntityReference("", teamIds[0]);
+            var teammember = new EntityReference("team", teamIds[0]);
+            var userdata = new Entity("systemuser");
+            userdata.Id = teamIds[0];
+            Relationship relationship = new Relationship("teammembership_association");
+            EntityReferenceCollection relatedEntities = new EntityReferenceCollection();
+            sharepointUser["sdds_name"] = "SharePoint User test";
+            sharepointUser["sdds_removeuserfromsharepointgroup"] = false;
+            sharepointUser["sdds_sharepointuserid"] = sharepointUser.Id;
+            relatedEntities.Add(new EntityReference("systemuser", userdata.Id));
+            sharepointUser["sdds_userid"] = new EntityReference("systemuser", userdata.Id);
+
             inputParameter = new ParameterCollection
             {
-                { "RelatedEntities", teammember }
+                { "Target", teammember},
+                {"Relationship", relationship },
+                 {"RelatedEntities", relatedEntities }
             };
 
             // Mocking Context 
             var dataCollection = new List<Entity>
             {
-               sharepointUser
+               sharepointUser, userdata
             };
             fakecontext.Initialize(dataCollection);
             var PlugCtx = fakecontext.GetDefaultPluginContext();
@@ -62,22 +77,184 @@ namespace SDDS.UnitTests.SharePointUser
             PlugCtx.PrimaryEntityId = sharepointUser.Id;
             PlugCtx.PrimaryEntityName = sharepointUser.LogicalName;
             PlugCtx.InputParameters = inputParameter;
-           
-       
+
             //// Act and Assert
-            //fakecontext.ExecutePluginWith<OnAssociateSPUser>(PlugCtx);
-            //var updatedApplication = fakecontext.GetOrganizationService().Retrieve("sdds_application", application.Id,
-            //                          new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_priority" }));
-            ////The Application Priority must be 4 to pass the test.
-            //updatedApplication.GetAttributeValue<OptionSetValue>("sdds_priority").Value.Should().Be((int)ApplicationEnum.Priority.four, "The Application Priority must be 100000003 (4)");
+            fakecontext.ExecutePluginWith<OnAssociateSPUser>(PlugCtx);
+            var updatedSharePointUser = fakecontext.GetOrganizationService().Retrieve("sdds_sharepointuser", sharepointUser.Id,
+                                      new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_removeuserfromsharepointgroup" }));
+            //The remove user from sharepoint must be 'false' as there is no update.
+            updatedSharePointUser.GetAttributeValue<bool>("sdds_removeuserfromsharepointgroup").Should().Be(false,"The Remove user from SharePointUser must be false");
+
+        }
+
+
+        [Fact]
+        public void Add_user_to_team_when_sharepointuser_exists_and_remove_user_from_sharepoint_flag_is_yes()
+        {
+            // Arrange
+
+            var teammember = new EntityReference("team", teamIds[0]);
+            var userdata = new Entity("systemuser");
+            userdata.Id = teamIds[0];
+            Relationship relationship = new Relationship("teammembership_association");
+            EntityReferenceCollection relatedEntities = new EntityReferenceCollection();
+            sharepointUser["sdds_name"] = "SharePoint User test";
+            sharepointUser["sdds_removeuserfromsharepointgroup"] = true;
+            sharepointUser["sdds_sharepointuserid"] = sharepointUser.Id;
+            relatedEntities.Add(new EntityReference("systemuser", userdata.Id));
+            sharepointUser["sdds_userid"] = new EntityReference("systemuser", userdata.Id);
+
+            inputParameter = new ParameterCollection
+            {
+                { "Target", teammember},
+                {"Relationship", relationship },
+                 {"RelatedEntities", relatedEntities }
+            };
+
+            // Mocking Context 
+            var dataCollection = new List<Entity>
+            {
+               sharepointUser, userdata
+            };
+            fakecontext.Initialize(dataCollection);
+            var PlugCtx = fakecontext.GetDefaultPluginContext();
+            PlugCtx.MessageName = "Associate";
+            PlugCtx.PrimaryEntityId = sharepointUser.Id;
+            PlugCtx.PrimaryEntityName = sharepointUser.LogicalName;
+            PlugCtx.InputParameters = inputParameter;
+            // Act and Assert
+            fakecontext.ExecutePluginWith<OnAssociateSPUser>(PlugCtx);
+            var updatedSharePointUser = fakecontext.GetOrganizationService().Retrieve("sdds_sharepointuser", sharepointUser.Id,
+                                      new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_removeuserfromsharepointgroup" }));
+            //The remove user from sharepoint must be 'false' as there is no update.
+            updatedSharePointUser.GetAttributeValue<bool>("sdds_removeuserfromsharepointgroup").Should().Be(false, "The Remove user from SharePointUser must be false");
+        }
+
+        [Fact]
+        public void Add_user_to_team_when_user_not_present_in_sharepointuser_table()
+        {
+            // Arrange
+
+            var teammember = new EntityReference("team", teamIds[0]);
+            var userdata = new Entity("systemuser");
+            userdata.Id = teamIds[0];
+            Relationship relationship = new Relationship("teammembership_association");
+            EntityReferenceCollection relatedEntities = new EntityReferenceCollection();
+            relatedEntities.Add(new EntityReference("systemuser", userdata.Id));
+            inputParameter = new ParameterCollection
+            {
+                { "Target", teammember},
+                {"Relationship", relationship },
+                {"RelatedEntities", relatedEntities }
+            };
+
+            // Mocking Context 
+            var dataCollection = new List<Entity>
+            {
+               sharepointUser,userdata
+            };
+            fakecontext.Initialize(dataCollection);
+            var PlugCtx = fakecontext.GetDefaultPluginContext();
+            PlugCtx.MessageName = "Associate";
+            PlugCtx.PrimaryEntityId = sharepointUser.Id;
+            PlugCtx.PrimaryEntityName = sharepointUser.LogicalName;
+            PlugCtx.InputParameters = inputParameter;
+            // Act and Assert
+            fakecontext.ExecutePluginWith<OnAssociateSPUser>(PlugCtx);
+            var query = new QueryExpression("sdds_sharepointuser");
+            query.ColumnSet.AddColumns("sdds_name", "sdds_sharepointuserid", "sdds_userid");
+            query.Criteria.AddCondition("sdds_userid", ConditionOperator.Equal, userdata.Id);
+            var addedSharepointUser = fakecontext.GetOrganizationService().RetrieveMultiple(query);
+            //The ShrePoint User is added with the user reference.
+            addedSharepointUser.Entities.Count.Should().Be(1,"The user is added into the sharepoint user table.");
+        }
+
+        [Fact]
+        public void Remove_user_from_team_when_sharepointuser_exists()
+        {
+            // Arrange
+
+            var teammember = new EntityReference("team", teamIds[0]);
+            var userdata = new Entity("systemuser");
+            userdata.Id = teamIds[0];
+            Relationship relationship = new Relationship("teammembership_association");
+            EntityReferenceCollection relatedEntities = new EntityReferenceCollection();
+            sharepointUser["sdds_name"] = "SharePoint User test";
+            sharepointUser["sdds_removeuserfromsharepointgroup"] = false;
+            sharepointUser["sdds_sharepointuserid"] = sharepointUser.Id;
+            relatedEntities.Add(new EntityReference("systemuser", userdata.Id));
+            sharepointUser["sdds_userid"] = new EntityReference("systemuser", userdata.Id);
+
+            inputParameter = new ParameterCollection
+            {
+                { "Target", teammember},
+                {"Relationship", relationship },
+                 {"RelatedEntities", relatedEntities }
+            };
+
+            // Mocking Context 
+            var dataCollection = new List<Entity>
+            {
+               sharepointUser, userdata
+            };
+            fakecontext.Initialize(dataCollection);
+            var PlugCtx = fakecontext.GetDefaultPluginContext();
+            PlugCtx.MessageName = "disassociate";
+            PlugCtx.PrimaryEntityId = sharepointUser.Id;
+            PlugCtx.PrimaryEntityName = sharepointUser.LogicalName;
+            PlugCtx.InputParameters = inputParameter;
+
+            //// Act and Assert
+            fakecontext.ExecutePluginWith<OnAssociateSPUser>(PlugCtx);
+            var updatedSharePointUser = fakecontext.GetOrganizationService().Retrieve("sdds_sharepointuser", sharepointUser.Id,
+                                      new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_removeuserfromsharepointgroup" }));
+            //The remove user from sharepoint must be 'true' as there is no update.
+            updatedSharePointUser.GetAttributeValue<bool>("sdds_removeuserfromsharepointgroup").Should().Be(true, "The Remove user from SharePointUser must be true");
 
         }
 
         [Fact]
-        public void On_deassociate_Of_sharepointuser()
+        public void Remove_user_from_team_when_sharepointuser_not_exists()
         {
-            
+            // Arrange
+
+            var teammember = new EntityReference("team", teamIds[0]);
+            var userdata = new Entity("systemuser");
+            userdata.Id = teamIds[0];
+            Relationship relationship = new Relationship("teammembership_association");
+            EntityReferenceCollection relatedEntities = new EntityReferenceCollection();
+            sharepointUser["sdds_name"] = "SharePoint User test";
+            sharepointUser["sdds_removeuserfromsharepointgroup"] = false;
+            relatedEntities.Add(new EntityReference("systemuser", userdata.Id));
+           
+            inputParameter = new ParameterCollection
+            {
+                { "Target", teammember},
+                {"Relationship", relationship },
+                 {"RelatedEntities", relatedEntities }
+            };
+
+            // Mocking Context 
+            var dataCollection = new List<Entity>
+            {
+               sharepointUser, userdata
+            };
+            fakecontext.Initialize(dataCollection);
+            var PlugCtx = fakecontext.GetDefaultPluginContext();
+            PlugCtx.MessageName = "disassociate";
+            PlugCtx.PrimaryEntityId = sharepointUser.Id;
+            PlugCtx.PrimaryEntityName = sharepointUser.LogicalName;
+            PlugCtx.InputParameters = inputParameter;
+
+            //// Act and Assert
+            fakecontext.ExecutePluginWith<OnAssociateSPUser>(PlugCtx);
+            var updatedSharePointUser = fakecontext.GetOrganizationService().Retrieve("sdds_sharepointuser", sharepointUser.Id,
+                                      new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_userid" }));
+         
+            updatedSharePointUser.GetAttributeValue<EntityReference>("sdds_userid").Should().BeNull("The user id reference must be null");
+
         }
+
 
     }
 }
