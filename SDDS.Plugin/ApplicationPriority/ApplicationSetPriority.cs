@@ -135,32 +135,27 @@ namespace SDDS.Plugin.ApplicationPriority
                     //}
                     else if (logic.CheckSettTypeAndMethod(service, entityId, tracing))
                     {
-                        tracing.Trace("Entering CheckSettTypeAndMethod");
-                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
+                      UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
                     else if (logic.ExistingSiteCheck(service, entityId, tracing))
                     {
-                        tracing.Trace("Entering ExistingSiteCheck");
-                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
+                      UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
                     else if (logic.MultiPlots(service, entityId, tracing))
                     {
-                        tracing.Trace("Entering MultiPlots");
-                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
+                      UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
                     else if (logic.DesignatedSiteCheck(service, entityId, tracing))
                     {
-                        tracing.Trace("Entering DesignatedSiteCheck");
-                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
+                       UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
                     else if (logic.SeasonalCheck(applicationEntity, service, licenseTypeId, tracing))
                     {
-                        tracing.Trace("Entering SeasonalCheck");
-                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
+                       UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
                     else if (logic.DASSPSS(applicationEntity))
                     {
-                        tracing.Trace("Entering DASSPSS");
+                        tracing.Trace("Entering update for DASSPSS");
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
                     else { UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.four, service); }
