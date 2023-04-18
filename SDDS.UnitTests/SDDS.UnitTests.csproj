@@ -81,6 +81,7 @@
     <Compile Include="SDDS.Workflow\Application\GetCurrentUserTests.cs" />
     <Compile Include="SDDS.Workflow\Application\SetRecordUrlTests.cs" />
     <Compile Include="SDDS.Workflow\Consultation\ShareApplicationRecordTests.cs" />
+    <Compile Include="SharePointUser\OnAssociateSPUserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

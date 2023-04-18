@@ -70,23 +70,23 @@ namespace SDDS.Plugin.ApplicationPriority
 
         public bool CheckSettTypeAndMethod(IOrganizationService service, Guid parentGuid, ITracingService tracing)
         {
+            tracing.Trace("Entering CheckSettTypeAndMethod");
             var actions = GetLicensableAction(service, parentGuid);
             tracing.Trace("getting licensable actions:" + actions.Entities.Count().ToString());
             if (actions == null) return false;
 
             //If licensable action is of Set type ==MAIN &&
             //Licensable action/Method= Obstructing sett entrances by means of one-way badger gates 
-            tracing.Trace("getting licensable actions");
             var licenseMethods = actions.Entities.Where(x => (x.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_alternative_sett_available ||
                          x.GetAttributeValue<OptionSetValue>("sdds_setttype").Value == (int)ApplicationEnum.SettType.Main_no_alternative_sett) &&
                          x.GetAttributeValue<OptionSetValueCollection>("sdds_method").Contains(new OptionSetValue((int)ApplicationEnum.License_Methods.Obstructing_Sett_Entrances))).FirstOrDefault();
 
-            tracing.Trace("licenseMethods is null");
-            if (licenseMethods == null) return false; else return true;
+           if (licenseMethods == null) return false; else return true;
         }
 
         public bool MultiPlots(IOrganizationService service, Guid parentGuid, ITracingService tracing)
         {
+            tracing.Trace("Entering MultiPlots");
             // Instantiate QueryExpression query
             var query = new QueryExpression("sdds_site");
 
@@ -121,6 +121,7 @@ namespace SDDS.Plugin.ApplicationPriority
 
         public bool SeasonalCheck(Entity entity, IOrganizationService service, Guid licenseTypeId, ITracingService tracing)
         {
+            tracing.Trace("Entering SeasonalCheck");
             var createdOn = entity.GetAttributeValue<DateTime>("createdon");
             GetSeasonalWindowByApplicationType(service,licenseTypeId);
             //var startDay = DateTime.DaysInMonth(DateTime.Now.Year, 6);
@@ -133,6 +134,7 @@ namespace SDDS.Plugin.ApplicationPriority
 
         public bool ExistingSiteCheck(IOrganizationService service, Guid parentGuid, ITracingService tracing)
         {
+            tracing.Trace("Entering ExistingSiteCheck");
             // Instantiate QueryExpression query
             var query = new QueryExpression("sdds_site");
 
@@ -183,7 +185,7 @@ namespace SDDS.Plugin.ApplicationPriority
 
         public bool DesignatedSiteCheck(IOrganizationService service, Guid parentGuid, ITracingService tracing)
         {
-            
+            tracing.Trace("Entering DesignatedSiteCheck");
             var applicationWithDesignatedSite = @"<fetch mapping='logical' distinct='true'>
                             <entity name ='sdds_application'>
                                <attribute name= 'sdds_applicationid'/>
@@ -191,9 +193,8 @@ namespace SDDS.Plugin.ApplicationPriority
                                 <filter type='and'>
                                   <condition attribute='sdds_applicationid' operator='eq' value= '"+parentGuid+ @"' />
                                  </filter>
-                                 <link-entity name='sdds_sdds_application_sdds_designatedsites' from='sdds_applicationid' to ='sdds_applicationid' visible='false' intersect='true'>      
-                                    <link-entity name='sdds_designatedsites' from='sdds_designatedsitesid' to='sdds_designatedsitesid'/>
-                                 </link-entity>
+                                  <link-entity name='sdds_designatedsites' from='sdds_applicationid' to='sdds_applicationid'  link-type='inner'/>
+                                
                             </entity >
                           </fetch >";
 
@@ -276,6 +277,18 @@ namespace SDDS.Plugin.ApplicationPriority
 
 
         }
+
+        public void SetPriorityForDesignatedSite(Guid applicationId, IOrganizationService service, int priorityvalue)
+        {
+           
+            //Update the Application Priority.
+             service.Update(new Entity("sdds_application", applicationId)
+              {
+                ["sdds_priority"] = new OptionSetValue(priorityvalue)
+              });
+            
+        }
+
 
         /// <summary>
         /// Updates the application priority if priority is not set to 1.
