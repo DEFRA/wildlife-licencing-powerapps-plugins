@@ -20,10 +20,10 @@ namespace SDDS.Plugin.SharePointUser
 
             tracing.Trace("Entering association between Team and team member");
             tracing.Trace("Message Name: "+ context.MessageName.ToLower());
-            if (context.MessageName.ToLower() != "associate" && context.MessageName.ToLower() != "disassociate") return;
+            if (context.MessageName.ToLower() != "associate" || context.MessageName.ToLower() != "disassociate") return;
             tracing.Trace(context.MessageName.ToLower());
             if (!context.InputParameters.Contains("Target") || !(context.InputParameters["Target"] is EntityReference)) return;
-            if (!context.InputParameters.Contains("Relationship") && ((Relationship)context.InputParameters["Relationship"]).SchemaName != "teammembership_association") return;
+            if (!context.InputParameters.Contains("Relationship") || ((Relationship)context.InputParameters["Relationship"]).SchemaName != "teammembership_association") return;
             if (!context.InputParameters.Contains("RelatedEntities") && !(context.InputParameters["RelatedEntities"] is EntityReferenceCollection)) return;
 
             EntityReference target = (EntityReference)context.InputParameters["Target"];
