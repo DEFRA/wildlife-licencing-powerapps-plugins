@@ -36,8 +36,13 @@ C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\Microsoft.Xrm.Sdk.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Buffers.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Memory.dll
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Net.Http.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Numerics.Vectors.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Security.Cryptography.Algorithms.dll
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Security.Cryptography.Encoding.dll
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Security.Cryptography.Primitives.dll
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Security.Cryptography.X509Certificates.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Text.Encodings.Web.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Text.Json.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Threading.Tasks.Extensions.dll
@@ -58,8 +63,3 @@ C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\obj\Debug\SDDS.Plugin.csproj.CopyComplete
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\obj\Debug\SDDS.Plugin.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\obj\Debug\SDDS.Plugin.pdb
-C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Net.Http.dll
-C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Security.Cryptography.Algorithms.dll
-C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Security.Cryptography.Encoding.dll
-C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Security.Cryptography.Primitives.dll
-C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Security.Cryptography.X509Certificates.dll

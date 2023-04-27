@@ -123,6 +123,8 @@
     <Compile Include="HandleJson.cs" />
     <Compile Include="MemberShip\CreateMemberShipChoice.cs" />
     <Compile Include="Model\GenerateEmail.cs" />
+    <Compile Include="Model\SharePointUser.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharePointUser\OnAssociateSPUser.cs" />
   </ItemGroup>
