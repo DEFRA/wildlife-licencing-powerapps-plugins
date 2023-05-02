@@ -15,7 +15,7 @@ namespace uk.gov.defra.sdds.automateduitests.Applications
         private readonly Uri _xrmUri = new Uri(_config["d365URL"]);
 
         [TestMethod]
-        public void UCITestCreateA24BadgerApplication()
+        public void UCITestCreateA24BadgerApplicationHasWLMSPMSuffixNPriority2()
         {
             var client = new WebClient(TestSettings.Options);
             using (var xrmApp = new XrmApp(client))
@@ -52,6 +52,48 @@ namespace uk.gov.defra.sdds.automateduitests.Applications
                 xrmApp.ThinkTime(3000);
                 Assert.IsTrue(applicationNo.EndsWith("WLM-SPM"));
                 Assert.AreEqual(priority, "2");
+
+            }
+        }
+
+        [TestMethod]
+        public void UCITestCreateA01BadgerApplicationHasSPMWLMSuffixNPriority4()
+        {
+            var client = new WebClient(TestSettings.Options);
+            using (var xrmApp = new XrmApp(client))
+            {
+                xrmApp.OnlineLogin.Login(_xrmUri, _username, _password);
+
+                xrmApp.Navigation.OpenApp(UCIAppName.LicenceApp);
+
+                xrmApp.Navigation.OpenSubArea("Licence", "Applications");
+
+                xrmApp.CommandBar.ClickCommand("New");
+
+                //XrmApp.Entity.SelectLookup();
+                xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationtypesid", Value = "A01 Badger", Index = 0 });
+                xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicantid", Value = "AbigailPouros", Index = 0 });
+                xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationpurpose", Value = "Development", Index = 0 });
+                xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_applicationcategory", Value = "Commercial" });
+                xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_issitesameasapplicants", Value = true });
+
+                xrmApp.Entity.Save();
+                xrmApp.ThinkTime(3000);
+                client.Browser.Driver.Navigate().Refresh();
+                xrmApp.ThinkTime(3000);
+                var applicationNo = xrmApp.Entity.GetValue("sdds_applicationnumber");
+                var priority = xrmApp.Entity.GetValue(new OptionSet { Name = "sdds_priority" });
+                while (string.IsNullOrWhiteSpace(applicationNo) || applicationNo.Equals("---") || string.IsNullOrWhiteSpace(priority))
+                {
+                    xrmApp.ThinkTime(10000);
+                    client.Browser.Driver.Navigate().Refresh();
+                    applicationNo = xrmApp.Entity.GetValue("sdds_applicationnumber");
+                    priority = xrmApp.Entity.GetValue(new OptionSet { Name = "sdds_priority" });
+                }
+
+                xrmApp.ThinkTime(3000);
+                Assert.IsTrue(applicationNo.EndsWith("SPM-WLM"));
+                Assert.AreEqual(priority, "4");
 
             }
         }
