@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 using Microsoft.Dynamics365.UIAutomation.Api.UCI.DTO;
 using Microsoft.Dynamics365.UIAutomation.Browser;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 
@@ -398,6 +399,11 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
         public void SelectTab(string tabName, string subTabName = "")
         {
             _client.SelectTab(tabName, subTabName);
+        }
+
+        public IEnumerable<IWebElement> GetVisibleTabs()
+        {
+            return _client.GetVisibleTabs();
         }
 
         public void SetHeaderValue(string field, string value)

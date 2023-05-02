@@ -118,6 +118,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
             public static string ProcessButton = "Entity_Process";
             public static string SwitchProcessDialog = "Entity_SwitchProcessDialog";
             public static string TabList = "Entity_TabList";
+            public static string Tabs_All = "Entity_AllVisibleTabs";
             public static string Tab = "Entity_Tab";
             public static string MoreTabs = "Entity_MoreTabs";
             public static string MoreTabsMenu = "Entity_MoreTabsMenu";
@@ -473,6 +474,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
             { "Entity_RecordSetNavCollapseIcon", "//*[contains(@data-id, 'recordSetNavCollapseIcon')]" },
             { "Entity_RecordSetNavCollapseIconParent", "//*[contains(@data-id, 'recordSetNavCollapseIcon')]" },
             { "Entity_TabList", ".//ul[contains(@id, \"tablist\")]" },
+            { "Entity_AllVisibleTabs", ".//li[@role='tab']" },
             { "Entity_Tab", ".//li[@title='{0}']" },
             { "Entity_MoreTabs", ".//div[@data-id='more_button']" },
             { "Entity_MoreTabsMenu", "//div[@id='__flyoutRootNode']" },

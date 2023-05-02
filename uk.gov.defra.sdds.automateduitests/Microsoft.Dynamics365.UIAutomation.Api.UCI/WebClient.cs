@@ -1304,7 +1304,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
                 {
                     ribbon = driver.WaitUntilAvailable(By.XPath(AppElements.Xpath[AppReference.CommandBar.Container]));
                 }
-                
+
 
                 if (ribbon == null)
                 {
@@ -1312,7 +1312,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
                         TimeSpan.FromSeconds(5),
                         "Unable to find the ribbon.");
                 }
-                
+
                 //Is the button in the ribbon?
                 if (ribbon.TryFindElement(By.XPath(AppElements.Xpath[AppReference.Entity.SubGridCommandLabel].Replace("[NAME]", name)), out var command))
                 {
@@ -1467,7 +1467,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
                 return gridContainer.GetAttribute("innerHTML");
             });
         }
-        
+
         public BrowserCommandResult<Dictionary<string, IWebElement>> OpenViewPicker(int thinkTime = Constants.DefaultThinkTime)
         {
             ThinkTime(thinkTime);
@@ -1572,7 +1572,8 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
                 while (!lastRow)
                 {
                     //determine which grid
-                    if (driver.HasElement(By.XPath(AppElements.Xpath[AppReference.Grid.Rows]))){
+                    if (driver.HasElement(By.XPath(AppElements.Xpath[AppReference.Grid.Rows])))
+                    {
                         gridType = Grid.GridType.PowerAppsGridControl;
                         Trace.WriteLine("Found Power Apps Grid.");
                     }
@@ -4719,7 +4720,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
                 var advancedLookup = driver.WaitUntilAvailable(
                     By.XPath(AppElements.Xpath[AppReference.AdvancedLookup.Container]),
                     2.Seconds());
-               
+
                 if (advancedLookup == null)
                 {
                     SelectLookupAdvancedLookupButton();
@@ -4732,7 +4733,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
                 advancedLookup
                     .FindElement(By.XPath(AppElements.Xpath[AppReference.AdvancedLookup.ViewSelectorCaret]))
                     .Click();
-                
+
                 driver
                     .WaitUntilAvailable(By.XPath(AppElements.Xpath[AppReference.AdvancedLookup.ViewDropdownList]))
                     .ClickWhenAvailable(
@@ -5110,6 +5111,12 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
             {
                 throw new InvalidOperationException($"Field: {fieldNameXpath} with Does not exist", e);
             }
+        }
+
+        internal ReadOnlyCollection<IWebElement> GetVisibleTabs()
+        {
+            var tabList = this.Browser.Driver.WaitUntilAvailable(By.XPath(AppElements.Xpath[AppReference.Entity.TabList]));
+            return tabList.FindElements(By.XPath(AppElements.Xpath[AppReference.Entity.Tabs_All]));
         }
 
         /// <summary>
@@ -5806,7 +5813,7 @@ namespace Microsoft.Dynamics365.UIAutomation.Api.UCI
 
             return this.Execute(GetOptions("PowerApp Select"), driver =>
             {
-                if(!_inPowerApps) LocatePowerApp(driver, appId);
+                if (!_inPowerApps) LocatePowerApp(driver, appId);
                 if (driver.HasElement(By.XPath(AppElements.Xpath[AppReference.PowerApp.Control].Replace("[NAME]", control))))
                 {
                     driver.FindElement(By.XPath(AppElements.Xpath[AppReference.PowerApp.Control].Replace("[NAME]", control))).Click();
