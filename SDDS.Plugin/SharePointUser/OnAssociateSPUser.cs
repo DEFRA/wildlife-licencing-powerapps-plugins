@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using SDDS.Plugin.Model;
 
 namespace SDDS.Plugin.SharePointUser
 {
@@ -21,35 +22,30 @@ namespace SDDS.Plugin.SharePointUser
             tracing.Trace("Entering association between Team and team member");
             tracing.Trace("Message Name: "+ context.MessageName.ToLower());
             if (context.MessageName.ToLower() != "associate" && context.MessageName.ToLower() != "disassociate") return;
-            tracing.Trace(context.MessageName.ToLower());
+            tracing.Trace("1.......");
             if (!context.InputParameters.Contains("Target") || !(context.InputParameters["Target"] is EntityReference)) return;
-            if (!context.InputParameters.Contains("Relationship") && ((Relationship)context.InputParameters["Relationship"]).SchemaName != "teammembership_association") return;
+            tracing.Trace("2.......");
+            if (!context.InputParameters.Contains("Relationship") || ((Relationship)context.InputParameters["Relationship"]).SchemaName != "teammembership_association") return;
+            tracing.Trace("3.......");
             if (!context.InputParameters.Contains("RelatedEntities") && !(context.InputParameters["RelatedEntities"] is EntityReferenceCollection)) return;
+            tracing.Trace("4.......");
 
             EntityReference target = (EntityReference)context.InputParameters["Target"];
             var teamMembersRefColl = (EntityReferenceCollection)context.InputParameters["RelatedEntities"];
 
             tracing.Trace("teamMembersRefColl retrieved: " + teamMembersRefColl.Count().ToString());
 
-            tracing.Trace("Creating guid");
-            List<Guid> teamIds = new List<Guid>()
-            {
-                new Guid("91bef0ff-640c-ed11-b83d-002248c5c45b"),
-                new Guid("9ea9c408-8e77-ec11-8d21-000d3a87431b"),
-                new Guid("090c101d-5f0c-ed11-b83d-002248c5c45b"),
-                new Guid("ca30e88e-7f0b-ed11-b83d-002248c5c45b"),
-                new Guid("a3e42f5c-2651-ec11-8f8e-000d3a0ce458"),
-                new Guid("70891a2c-810b-ed11-b83d-002248c5c45b"),
-                new Guid("dec31450-810b-ed11-b83d-002248c5c45b"),
-                new Guid("3b662452-7e0b-ed11-b83d-002248c5c45b"),
-                new Guid("dc46b306-9687-ec11-93b0-0022481b40f8")
-            };
+            Entity team = service.Retrieve(target.LogicalName, target.Id, new ColumnSet("sdds_adduserstosharepoint"));
+            bool addUser = team.GetAttributeValue<bool>("sdds_adduserstosharepoint");
+
+            tracing.Trace("Entering Logic.....");
 
             if (context.MessageName.ToLower() == "associate")
             {
                 tracing.Trace("association");
                 tracing.Trace(target.Id.ToString());
-                if (teamIds.Contains(target.Id))
+                
+                if(addUser)
                 {
                     var sp = CheckIfUserExist(teamMembersRefColl, service, tracing);
                     tracing.Trace(sp.Id.ToString());
@@ -79,7 +75,7 @@ namespace SDDS.Plugin.SharePointUser
             if (context.MessageName.ToLower() == "disassociate")
             {
                 tracing.Trace("disassociation");
-                if(GetUserTeams(teamMembersRefColl, service, teamIds) && teamIds.Contains(target.Id))
+                if(GetUserTeams(teamMembersRefColl, service) && addUser)
                 {
                     var sharePointUser = CheckIfUserExist(teamMembersRefColl, service, tracing);
                     if(sharePointUser.Id != Guid.Empty)
@@ -111,9 +107,9 @@ namespace SDDS.Plugin.SharePointUser
             return user;
         }
 
-        private static SharePointUser CheckIfUserExist(EntityReferenceCollection entityCollection, IOrganizationService service, ITracingService tracing)
+        private static Model.SharePointUser CheckIfUserExist(EntityReferenceCollection entityCollection, IOrganizationService service, ITracingService tracing)
         {
-            SharePointUser sp = new SharePointUser();
+            var sp = new Model.SharePointUser();
             var entRef = entityCollection[0].Id;
             var query = new QueryExpression("sdds_sharepointuser");
 
@@ -130,36 +126,23 @@ namespace SDDS.Plugin.SharePointUser
 
         }
 
-        private static bool GetUserTeams(EntityReferenceCollection entityCollection, IOrganizationService service, List<Guid> teams)
+        private static bool GetUserTeams(EntityReferenceCollection entityCollection, IOrganizationService service)
         {
             var entRefId = entityCollection[0].Id;
 
             var query = new QueryExpression("team");
             query.ColumnSet.AddColumns("description", "name", "teamtype", "teamid");
+            query.Criteria.AddCondition("sdds_adduserstosharepoint", ConditionOperator.Equal, true);
             var query_teammembership = query.AddLink("teammembership", "teamid", "teamid");
             query_teammembership.LinkCriteria.AddCondition("systemuserid", ConditionOperator.Equal, entRefId);
 
             var userTeams = service.RetrieveMultiple(query);
 
-            if (userTeams.Entities.Count() > 0 && userTeams.Entities.Any(x => teams.Contains(x.GetAttributeValue<Guid>("teamid"))))
+            if (userTeams.Entities.Count() > 0)
              return false;
                else return true;
 
         }
     }
 
-    public class User
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class SharePointUser
-    {
-        public Guid Id { get; set; }
-        public bool RemoveUser { get; set; }
-        public string Name { get; set; }
-
-        public EntityReference User { get; set; }
-    }
 }

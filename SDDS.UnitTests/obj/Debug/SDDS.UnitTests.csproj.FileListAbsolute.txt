@@ -56,8 +56,11 @@ C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTes
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\bin\Debug\xunit.core.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\bin\Debug\xunit.execution.desktop.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\bin\Debug\SDDS.Plugin.dll
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\bin\Debug\SDDS.Workflow.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\bin\Debug\SDDS.Plugin.pdb
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\bin\Debug\SDDS.Plugin.dll.config
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\bin\Debug\SDDS.Workflow.pdb
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\bin\Debug\SDDS.Workflow.dll.config
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\obj\Debug\SDDS.UnitTests.csproj.AssemblyReference.cache
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\obj\Debug\SDDS.UnitTests.csproj.SuggestedBindingRedirects.cache
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\obj\Debug\SDDS.UnitTests.dll.config
