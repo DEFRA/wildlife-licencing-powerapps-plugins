@@ -54,10 +54,10 @@ namespace SDDS.Plugin.ApplicationPriority
                             (context.MessageName.ToLower() == "create" || context.MessageName.ToLower() == "update"))
                     {
                         tracing.Trace("Entering On Create/Update of Designated Site.");
-                       if(licenseApp.Attributes.Contains("sdds_applicationid"))
+                        if (licenseApp.Attributes.Contains("sdds_applicationid"))
                         {
-                         var application  = (EntityReference)licenseApp.Attributes["sdds_applicationid"];
-                            logic.SetPriorityForDesignatedSite(application.Id, service,(int)ApplicationEnum.Priority.two);
+                            var application = (EntityReference)licenseApp.Attributes["sdds_applicationid"];
+                            logic.SetPriorityForDesignatedSite(application.Id, service, (int)ApplicationEnum.Priority.two);
                         }
 
                     }
@@ -103,55 +103,40 @@ namespace SDDS.Plugin.ApplicationPriority
         /// <exception cref="InvalidPluginExecutionException"></exception>
         private void SetPriorityOnApplicationCreate(Entity applicationEntity, IOrganizationService service, ITracingService tracing)
         {
-
-            Guid a01ApplicationType = new Guid("f99b0a3b-6c58-ec11-8f8f-000d3a0ce11e");// A01 Application Type.
-            Guid badgerSpiceSubject = new Guid("60ce79d8-87fb-ec11-82e5-002248c5c45b");
-            // Guid eps = new Guid("05e8951c-f452-ec11-8f8e-000d3a0ce458");
             var entityId = applicationEntity.Id;
-            Guid licenseTypeId = applicationEntity.GetAttributeValue<EntityReference>("sdds_applicationtypesid").Id;
+            var licenseType = applicationEntity.GetAttributeValue<EntityReference>("sdds_applicationtypesid");
+            var applicationType = licenseType.ToEntity(service, "sdds_speciesubjectid", "sdds_type");
+            var specieSubject = applicationType.GetAttributeValue<EntityReference>("sdds_speciesubjectid")?.ToEntity(service, "sdds_subject");
 
             try
             {
                 var logic = new AssignPriorityLogic();
 
-                if (logic.GetSpiceSubjectByApplicationType(service, licenseTypeId, tracing) == badgerSpiceSubject)
+                if (specieSubject.GetAttributeValue<OptionSetValue>("sdds_subject").Value == (int)ApplicationEnum.SpecieSubjects.Badgers)
                 {
-                    if (licenseTypeId == a01ApplicationType && logic.GetPurpose(applicationEntity))
+                    if (applicationType.GetAttributeValue<OptionSetValue>("sdds_type").Value == (int)ApplicationEnum.ApplicationTypes.A24 && logic.GetPurpose(applicationEntity))
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.one, service);
                     }
-                    //else if (logic.CheckBadgerBeaverSpecie(service, entityId) == "beaver" && licenseTypeId == badger)
-                    //{
-                    //    UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
-                    //}else if (logic.CheckBuzzardRavenRedKiteSpecie(service, entityId) && licenseTypeId == badger)
-                    //{
-                    //    tracing.Trace("Entering CheckBuzzardRavenRedKiteSpecie");
-                    //    UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
-                    //}
-                    //else if (logic.CheckBadgerBeaverSpecie(service,entityId) == "badger" && logic.CheckSettTypeAndMethod(service, entityId, tracing))
-                    //{
-                    //    tracing.Trace("Entering CheckBadgerBeaverSpecie 2");
-                    //    UpdateEntity(licenseApp, (int)ApplicationEnum.Priority.one, service);
-                    //}
                     else if (logic.CheckSettTypeAndMethod(service, entityId, tracing))
                     {
-                      UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
+                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
                     else if (logic.ExistingSiteCheck(service, entityId, tracing))
                     {
-                      UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
+                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
                     else if (logic.MultiPlots(service, entityId, tracing))
                     {
-                      UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
+                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
                     else if (logic.DesignatedSiteCheck(service, entityId, tracing))
                     {
-                       UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
+                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
-                    else if (logic.SeasonalCheck(applicationEntity, service, licenseTypeId, tracing))
+                    else if (logic.SeasonalCheck(applicationEntity, service, applicationType.Id, tracing))
                     {
-                       UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
+                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
                     else if (logic.DASSPSS(applicationEntity))
                     {
@@ -180,16 +165,17 @@ namespace SDDS.Plugin.ApplicationPriority
         private void SetPriorityOnApplicationUpdate(Entity applicationEntity, IOrganizationService service, ITracingService tracing)
         {
 
-            Guid a01ApplicationType = new Guid("f99b0a3b-6c58-ec11-8f8f-000d3a0ce11e");// A01 Application Type.
-            Guid badgerSpiceSubject = new Guid("60ce79d8-87fb-ec11-82e5-002248c5c45b");
-            Guid licenseTypeId = applicationEntity.GetAttributeValue<EntityReference>("sdds_applicationtypesid").Id;
+            var entityId = applicationEntity.Id;
+            var licenseType = applicationEntity.GetAttributeValue<EntityReference>("sdds_applicationtypesid");
+            var applicationType = licenseType.ToEntity(service, "sdds_speciesubjectid", "sdds_type");
+            var specieSubject = applicationType.GetAttributeValue<EntityReference>("sdds_speciesubjectid")?.ToEntity(service, "sdds_subject");
 
             try
             {
                 var logic = new AssignPriorityLogic();
-                if (logic.GetSpiceSubjectByApplicationType(service, licenseTypeId, tracing) == badgerSpiceSubject)
+                if (specieSubject.GetAttributeValue<OptionSetValue>("sdds_subject").Value == (int)ApplicationEnum.SpecieSubjects.Badgers)
                 {
-                    if (licenseTypeId == a01ApplicationType && logic.GetPurpose(applicationEntity))
+                    if (applicationType.GetAttributeValue<OptionSetValue>("sdds_type").Value == (int)ApplicationEnum.ApplicationTypes.A24 && logic.GetPurpose(applicationEntity))
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.one, service);
                     }

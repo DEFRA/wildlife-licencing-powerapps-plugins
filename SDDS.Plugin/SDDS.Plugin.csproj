@@ -119,6 +119,7 @@
     <Compile Include="ApplicationPriority\ApplicationSetPriority.cs" />
     <Compile Include="ApplicationPriority\AssignPriorityLogic.cs" />
     <Compile Include="ApplicationTypes\OnCreate.cs" />
+    <Compile Include="DataverseExtensions.cs" />
     <Compile Include="MemberShip\CreateMemberShipChoice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharePointUser\OnAssociateSPUser.cs" />
