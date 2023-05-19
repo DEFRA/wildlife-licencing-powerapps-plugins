@@ -1,14 +1,14 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj": {}
+    "C:\\Dev\\wildlife-licensing\\SDDS.UnitTests\\SDDS.UnitTests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj": {
+    "C:\\Dev\\wildlife-licensing\\SDDS.Plugin\\SDDS.Plugin.csproj": {
       "restore": {
-        "projectUniqueName": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj",
+        "projectUniqueName": "C:\\Dev\\wildlife-licensing\\SDDS.Plugin\\SDDS.Plugin.csproj",
         "projectName": "SDDS.Plugin",
-        "projectPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj",
+        "projectPath": "C:\\Dev\\wildlife-licensing\\SDDS.Plugin\\SDDS.Plugin.csproj",
         "frameworks": {
           "net462": {
             "projectReferences": {}
@@ -19,21 +19,21 @@
         "net462": {}
       }
     },
-    "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj": {
+    "C:\\Dev\\wildlife-licensing\\SDDS.UnitTests\\SDDS.UnitTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj",
+        "projectUniqueName": "C:\\Dev\\wildlife-licensing\\SDDS.UnitTests\\SDDS.UnitTests.csproj",
         "projectName": "SDDS.UnitTests",
-        "projectPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj",
-        "packagesPath": "C:\\Users\\vo000010\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\obj\\",
+        "projectPath": "C:\\Dev\\wildlife-licensing\\SDDS.UnitTests\\SDDS.UnitTests.csproj",
+        "packagesPath": "C:\\Users\\ia000030\\.nuget\\packages\\",
+        "outputPath": "C:\\Dev\\wildlife-licensing\\SDDS.UnitTests\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\vo000010\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ia000030\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -47,11 +47,11 @@
         "frameworks": {
           "net48": {
             "projectReferences": {
-              "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj": {
-                "projectPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Plugin\\SDDS.Plugin.csproj"
+              "C:\\Dev\\wildlife-licensing\\SDDS.Plugin\\SDDS.Plugin.csproj": {
+                "projectPath": "C:\\Dev\\wildlife-licensing\\SDDS.Plugin\\SDDS.Plugin.csproj"
               },
-              "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj": {
-                "projectPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj"
+              "C:\\Dev\\wildlife-licensing\\SDDS.Workflow\\SDDS.Workflow.csproj": {
+                "projectPath": "C:\\Dev\\wildlife-licensing\\SDDS.Workflow\\SDDS.Workflow.csproj"
               }
             }
           }
@@ -217,11 +217,11 @@
         }
       }
     },
-    "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj": {
+    "C:\\Dev\\wildlife-licensing\\SDDS.Workflow\\SDDS.Workflow.csproj": {
       "restore": {
-        "projectUniqueName": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj",
+        "projectUniqueName": "C:\\Dev\\wildlife-licensing\\SDDS.Workflow\\SDDS.Workflow.csproj",
         "projectName": "SDDS.Workflow",
-        "projectPath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.Workflow\\SDDS.Workflow.csproj",
+        "projectPath": "C:\\Dev\\wildlife-licensing\\SDDS.Workflow\\SDDS.Workflow.csproj",
         "frameworks": {
           "net462": {
             "projectReferences": {}
