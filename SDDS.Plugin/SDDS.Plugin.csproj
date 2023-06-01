@@ -119,6 +119,7 @@
     <Compile Include="ApplicationPriority\ApplicationSetPriority.cs" />
     <Compile Include="ApplicationPriority\AssignPriorityLogic.cs" />
     <Compile Include="ApplicationTypes\OnCreate.cs" />
+    <Compile Include="DataverseExtensions.cs" />
     <Compile Include="GetEnvironmentVariable.cs" />
     <Compile Include="HandleJson.cs" />
     <Compile Include="MemberShip\CreateMemberShipChoice.cs" />

@@ -50,18 +50,30 @@ namespace SDDS.Plugin.ApplicationPriority
 
         public enum MonthsOfTheYear
         {
-            January =1,
-            February =2,
+            January = 1,
+            February = 2,
             March = 3,
             April = 4,
-            May =5,
+            May = 5,
             June = 6,
             July = 7,
             August = 8,
             September = 9,
             October = 10,
-            November =11,
-            December =12
+            November = 11,
+            December = 12
+        }
+
+        public enum ApplicationTypes
+        {
+            A24 = 452120000,
+            Others = 452120001
+        }
+
+        public enum SpecieSubjects
+        {
+            Badgers = 452120000,
+            Others = 452120001
         }
     }
 }
