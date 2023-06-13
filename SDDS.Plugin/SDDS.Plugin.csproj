@@ -119,6 +119,7 @@
     <Compile Include="ApplicationPriority\ApplicationSetPriority.cs" />
     <Compile Include="ApplicationPriority\AssignPriorityLogic.cs" />
     <Compile Include="ApplicationTypes\OnCreate.cs" />
+    <Compile Include="Application\ClearRetentionDate.cs" />
     <Compile Include="DataverseExtensions.cs" />
     <Compile Include="GetEnvironmentVariable.cs" />
     <Compile Include="HandleJson.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharePointUser\OnAssociateSPUser.cs" />
+    <Compile Include="Site\OnAssociation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
