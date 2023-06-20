@@ -5,7 +5,7 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace uk.gov.defra.sdds.automateduitests.Helper
+namespace uk.gov.defra.sdds.automateduitests.Setup
 {
     internal static class Extensions
     {

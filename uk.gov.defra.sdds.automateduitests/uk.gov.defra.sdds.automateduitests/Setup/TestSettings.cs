@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace uk.gov.defra.sdds.automateduitests.Helper
+namespace Setupuk.gov.defra.sdds.automateduitests.Helper
 {
 
     public static class TestSettings
