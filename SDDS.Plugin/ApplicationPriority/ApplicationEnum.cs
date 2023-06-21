@@ -75,5 +75,11 @@ namespace SDDS.Plugin.ApplicationPriority
             Badgers = 452120000,
             Others = 452120001
         }
+
+        public enum ApplicationPurpose
+        {
+            Priority1 = 452120000,
+            Others = 452120001
+        }
     }
 }

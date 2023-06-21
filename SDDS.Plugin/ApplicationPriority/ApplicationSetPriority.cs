@@ -8,6 +8,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SDDS.Plugin.ApplicationPriority
 {
@@ -22,7 +23,7 @@ namespace SDDS.Plugin.ApplicationPriority
             tracing.Trace("Entering Plugin");
             try
             {
-                var logic = new AssignPriorityLogic();
+                var logic = new AssignPriorityLogic(service);
                 if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity entity)
                 {
                     Entity licenseApp = entity;
@@ -40,7 +41,7 @@ namespace SDDS.Plugin.ApplicationPriority
                     else if (licenseApp.LogicalName == "sdds_licensableaction" && context.MessageName.ToLower() == "create")
                     {
                         tracing.Trace("Entering On Create of Licensable Action.");
-                        logic.SetPriorityForLicensableActionConditions(licenseApp, service, "create");
+                        logic.SetPriorityForLicensableActionConditions(licenseApp, "create");
                     }
                     else if (licenseApp.LogicalName == "sdds_licensableaction" && context.MessageName.ToLower() == "update")
                     {
@@ -48,7 +49,7 @@ namespace SDDS.Plugin.ApplicationPriority
                         Entity postImageEntity = null;
                         if (context.PostEntityImages.Contains("PostImage"))
                             postImageEntity = (Entity)context.PostEntityImages["PostImage"];
-                        logic.SetPriorityForLicensableActionConditions(licenseApp, service, "update", postImageEntity);
+                        logic.SetPriorityForLicensableActionConditions(licenseApp,  "update", postImageEntity);
                     }
                     else if (licenseApp.LogicalName == "sdds_designatedsites" &&
                             (context.MessageName.ToLower() == "create" || context.MessageName.ToLower() == "update"))
@@ -57,7 +58,7 @@ namespace SDDS.Plugin.ApplicationPriority
                         if (licenseApp.Attributes.Contains("sdds_applicationid"))
                         {
                             var application = (EntityReference)licenseApp.Attributes["sdds_applicationid"];
-                            logic.SetPriorityForDesignatedSite(application.Id, service, (int)ApplicationEnum.Priority.two);
+                            logic.SetPriorityForDesignatedSite(application.Id,  (int)ApplicationEnum.Priority.two);
                         }
 
                     }
@@ -75,7 +76,7 @@ namespace SDDS.Plugin.ApplicationPriority
                         if (relationship.SchemaName != "sdds_application_sdds_site_sdds_site")
                             return;
                         //Set the Application Priority.
-                        logic.SetPriorityForRelatedAssociation(reference.Id, (int)ApplicationEnum.Priority.two, service);
+                        logic.SetPriorityForRelatedAssociation(reference.Id, (int)ApplicationEnum.Priority.two);
                     }
                 }
             }
@@ -110,35 +111,45 @@ namespace SDDS.Plugin.ApplicationPriority
 
             try
             {
-                var logic = new AssignPriorityLogic();
-
+                var logic = new AssignPriorityLogic(service);
+                var application = service.Retrieve("sdds_application", entityId, new ColumnSet("sdds_priority"));
                 if (specieSubject.GetAttributeValue<OptionSetValue>("sdds_subject").Value == (int)ApplicationEnum.SpecieSubjects.Badgers)
                 {
                     if (applicationType.GetAttributeValue<OptionSetValue>("sdds_type").Value == (int)ApplicationEnum.ApplicationTypes.A24 && logic.GetPurpose(applicationEntity))
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.one, service);
                     }
-                    else if (logic.CheckSettTypeAndMethod(service, entityId, tracing))
+                    else if (logic.CheckSettTypeAndMethod(entityId, tracing))
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
-                    else if (logic.ExistingSiteCheck(service, entityId, tracing))
+                    else if (logic.ExistingSiteCheck(entityId, tracing) && 
+                        application.GetAttributeValue<OptionSetValue>("sdds_priority")?.Value != (int)ApplicationEnum.Priority.one)
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
-                    else if (logic.MultiPlots(service, entityId, tracing))
+                    else if (logic.MultiPlots(entityId, tracing) &&
+                        application.GetAttributeValue<OptionSetValue>("sdds_priority")?.Value != (int)ApplicationEnum.Priority.one)
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
-                    else if (logic.DesignatedSiteCheck(service, entityId, tracing))
+                    else if (logic.DesignatedSiteCheck(entityId, tracing) && 
+                        application.GetAttributeValue<OptionSetValue>("sdds_priority")?.Value != (int)ApplicationEnum.Priority.one)
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
-                    else if (logic.SeasonalCheck(applicationEntity, service, applicationType.Id, tracing))
+                    else if (logic.LateCheck(applicationEntity, tracing) &&
+                        application.GetAttributeValue<OptionSetValue>("sdds_priority")?.Value != (int)ApplicationEnum.Priority.one)
+                    {
+                        UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.three, service);
+                    }
+                    else if (logic.SeasonalCheck(applicationEntity, applicationType.Id, tracing) &&
+                        application.GetAttributeValue<OptionSetValue>("sdds_priority")?.Value != (int)ApplicationEnum.Priority.one)
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
-                    else if (logic.DASSPSS(applicationEntity))
+                    else if (logic.DASSPSS(applicationEntity) &&
+                        application.GetAttributeValue<OptionSetValue>("sdds_priority")?.Value != (int)ApplicationEnum.Priority.one)
                     {
                         tracing.Trace("Entering update for DASSPSS");
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
@@ -172,7 +183,7 @@ namespace SDDS.Plugin.ApplicationPriority
 
             try
             {
-                var logic = new AssignPriorityLogic();
+                var logic = new AssignPriorityLogic(service);
                 if (specieSubject.GetAttributeValue<OptionSetValue>("sdds_subject").Value == (int)ApplicationEnum.SpecieSubjects.Badgers)
                 {
                     if (applicationType.GetAttributeValue<OptionSetValue>("sdds_type").Value == (int)ApplicationEnum.ApplicationTypes.A24 && logic.GetPurpose(applicationEntity))
