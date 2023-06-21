@@ -7,6 +7,7 @@ using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk.Workflow;
 using System.Activities;
 using System.Threading;
+using Microsoft.Xrm.Sdk.Messages;
 
 namespace SDDS.Workflow.Application
 {
@@ -34,29 +35,85 @@ namespace SDDS.Workflow.Application
                 EntityReference application = ApplicationRef.Get<EntityReference>(context);
                 if (application == null || application.LogicalName != "sdds_application") return;
 
-                DeleteRelatedRecords(service, application.Id, "sdds_license", "sdds_applicationreport", "sdds_paymentrequest",
+                tracingService.Trace($"Application id:{application.Id}");
+
+                DeleteRelatedRecords(service, application.Id, "sdds_license", "sdds_paymentrequest", "sdds_ecologistexperience",
                     "sdds_sitevisit", "sdds_planningconsent", "sdds_designatedsites", "sdds_compliancecheck", "sdds_emaillicence", "sdds_assessmentinterview");
+                tracingService.Trace("Completed 1");
 
                 DeleteRelatedRecords(service, "sdds_consultation", "sdds_consultationid", "sdds_application", application.Id);
+                DeleteRelatedRecords(service, "sdds_applicationreport", "sdds_applicationreportid", "sdds_application", application.Id);
+                tracingService.Trace("Completed 2");
 
                 DeleteRelatedObjects(service, "annotation", "annotationid", application.Id);
                 DeleteRelatedObjects(service, "queueitem", "queueitemid", application.Id);
+                tracingService.Trace("Completed 3");
 
-                DeleteActivities(service, application.Id, "email", "sdds_stageduration", "task", "phonecall", "letter", "fax", "appointment", "chat", "recurringappointmentmaster");
+                DeleteActivities(service, application.Id, "email", "sdds_stageduration", "phonecall", "letter", "fax", "appointment", "chat", "recurringappointmentmaster");
+                tracingService.Trace("Completed 4");
 
-                DeleteRelatedSharePointDocs(service, "sharepointdocument", "sharepointdocumentid", application.Id);
+                DeleteRelatedSites(service, application.Id);
+                tracingService.Trace("Completed 4.1");
                 DeleteRelatedSharePointDocs(service, "sharepointdocumentlocation", "sharepointdocumentlocationid", application.Id);
+                tracingService.Trace("Completed end");
+
 
                 service.Update(new Entity(application.LogicalName, application.Id)
                 {
-                    ["sdds_fiilesdeleted"] = true
+                    ["sdds_ecologistid"] = null,
+                    ["sdds_ecologistorganisationid"] = null,
+                    ["sdds_ecologistcontactno"] = null,
+                    ["sdds_applicantid"] = null,
+                    ["sdds_applicantcontactno"] = null,
+                    ["sdds_organisationid"] = null,
+                    ["sdds_alternativeapplicantcontactid"] = null,
+                    ["sdds_alternativeecologistcontactid"] = null,
+                    ["sdds_billingcustomerid"] = null,
+                    ["sdds_billingorganisationid"] = null,
+                    ["sdds_heldbadgerlicence"] = null,
+                    ["sdds_badgermitigationclasslicence"] = null,
+                    ["sdds_ecologistexperienceofbadgerecology"] = null,
+                    ["sdds_ecologistexperienceofmethods"] = null,
+                    ["sdds_mitigationclassrefno"] = null,
+                    ["sdds_referenceorpurchaseordernumber"] = null
                 });
+
+                tracingService.Trace("Updated Application!");
             }
             catch (Exception ex)
             {
-
+                tracingService.Trace($"{ex.Message}: {ex.StackTrace}");
             }
         }
+
+        private void DeleteRelatedSites(IOrganizationService service, Guid applicationId)
+        {
+            var sites = service.RetrieveMultiple(new QueryExpression("sdds_site")
+            {
+                ColumnSet = new ColumnSet("sdds_siteid"),
+                LinkEntities =
+                {
+                    new LinkEntity ("sdds_site","sdds_application_sdds_site","sdds_siteid","sdds_siteid", JoinOperator.Inner)
+                    {
+                        EntityAlias="App",
+                        LinkCriteria=new FilterExpression
+                        {
+                            Conditions =
+                            {
+                                new ConditionExpression("sdds_applicationid", ConditionOperator.Equal, applicationId)
+                            }
+                        }
+                    }
+                }
+            });
+            service.Execute(new DisassociateRequest
+            {
+                Target = new EntityReference("sdds_application", applicationId),
+                Relationship = new Relationship("sdds_application_sdds_site_sdds_site"),
+                RelatedEntities = new EntityReferenceCollection(sites.Entities.Select(x => new EntityReference(x.LogicalName, x.Id)).ToList()),
+            });
+        }
+
         private void DeleteRelatedRecords(IOrganizationService service, Guid ApplicationId, params string[] tableNames)
         {
             tableNames.ToList().ForEach(x => DeleteRelatedRecords(service, x, x + "id", "sdds_applicationid", ApplicationId));
