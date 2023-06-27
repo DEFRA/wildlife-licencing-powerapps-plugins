@@ -100,7 +100,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\ApplicationDeletionJob.cs" />
+    <Compile Include="Application\ApplicationDeletionJob1.cs" />
     <Compile Include="Application\ConfirmTasks.cs" />
     <Compile Include="Application\GetCurrentUser.cs" />
     <Compile Include="Application\SetRecordUrl.cs" />
