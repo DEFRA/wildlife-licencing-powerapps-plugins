@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SDDS.Workflow.Application
 {
-    public class ApplicationDeletionJob1: CodeActivity
+    public class ApplicationDeletionJob1 : CodeActivity
     {
         [RequiredArgument]
         [Input("ApplicationRef")]
@@ -57,32 +57,41 @@ namespace SDDS.Workflow.Application
                 DeleteRelatedSharePointDocs(service, "sharepointdocumentlocation", "sharepointdocumentlocationid", application.Id);
                 tracingService.Trace("Completed end");
 
+                var applicationDB = service.Retrieve(application.LogicalName, application.Id, new ColumnSet("statuscode"));
 
-                service.Update(new Entity(application.LogicalName, application.Id)
+                if (applicationDB?.GetAttributeValue<OptionSetValue>("statuscode")?.Value == 100000005 ||
+                    applicationDB?.GetAttributeValue<OptionSetValue>("statuscode")?.Value == 100000006)
                 {
-                    ["sdds_ecologistid"] = null,
-                    ["sdds_ecologistorganisationid"] = null,
-                    ["sdds_ecologistcontactno"] = null,
-                    ["sdds_applicantid"] = null,
-                    ["sdds_applicantcontactno"] = null,
-                    ["sdds_organisationid"] = null,
-                    ["sdds_alternativeapplicantcontactid"] = null,
-                    ["sdds_alternativeecologistcontactid"] = null,
-                    ["sdds_billingcustomerid"] = null,
-                    ["sdds_billingorganisationid"] = null,
-                    ["sdds_heldbadgerlicence"] = null,
-                    ["sdds_badgermitigationclasslicence"] = null,
-                    ["sdds_ecologistexperienceofbadgerecology"] = null,
-                    ["sdds_ecologistexperienceofmethods"] = null,
-                    ["sdds_mitigationclassrefno"] = null,
-                    ["sdds_referenceorpurchaseordernumber"] = null
-                });
-
+                    service.Delete(application.LogicalName, application.Id);
+                }
+                else
+                {
+                    service.Update(new Entity(application.LogicalName, application.Id)
+                    {
+                        ["sdds_ecologistid2"] = null,
+                        ["sdds_ecologistorganisationid"] = null,
+                        ["sdds_ecologistcontactno"] = null,
+                        ["sdds_applicantid"] = null,
+                        ["sdds_applicantcontactno"] = null,
+                        ["sdds_organisationid"] = null,
+                        ["sdds_alternativeapplicantcontactid"] = null,
+                        ["sdds_alternativeecologistcontactid"] = null,
+                        ["sdds_billingcustomerid"] = null,
+                        ["sdds_billingorganisationid"] = null,
+                        ["sdds_heldbadgerlicence"] = null,
+                        ["sdds_badgermitigationclasslicence"] = null,
+                        ["sdds_ecologistexperienceofbadgerecology"] = null,
+                        ["sdds_ecologistexperienceofmethods"] = null,
+                        ["sdds_mitigationclassrefno"] = null,
+                        ["sdds_referenceorpurchaseordernumber"] = null
+                    });
+                }
                 tracingService.Trace("Updated Application!");
             }
             catch (Exception ex)
             {
                 tracingService.Trace($"{ex.Message}: {ex.StackTrace}");
+                throw ex;
             }
         }
 
