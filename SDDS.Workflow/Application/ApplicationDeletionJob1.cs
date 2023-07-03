@@ -41,6 +41,10 @@ namespace SDDS.Workflow.Application
                     "sdds_sitevisit", "sdds_planningconsent", "sdds_designatedsites", "sdds_compliancecheck", "sdds_emaillicence", "sdds_assessmentinterview");
                 tracingService.Trace("Completed 1");
 
+                DisassociateAuthorisedPersons(service, application, "sdds_application_authorisedpersons", "contact");
+                DisassociateAuthorisedPersons(service, application, "sdds_membership_sdds_application", "sdds_application");
+                DisassociateAuthorisedPersons(service, application, "sdds_qualification_sdds_application", "sdds_application");
+
                 DeleteRelatedRecords(service, "sdds_consultation", "sdds_consultationid", "sdds_application", application.Id);
                 DeleteRelatedRecords(service, "sdds_applicationreport", "sdds_applicationreportid", "sdds_application", application.Id);
                 tracingService.Trace("Completed 2");
@@ -83,7 +87,20 @@ namespace SDDS.Workflow.Application
                         ["sdds_ecologistexperienceofbadgerecology"] = null,
                         ["sdds_ecologistexperienceofmethods"] = null,
                         ["sdds_mitigationclassrefno"] = null,
-                        ["sdds_referenceorpurchaseordernumber"] = null
+                        ["sdds_referenceorpurchaseordernumber"] = null,
+                        ["sdds_nopermissionrequiredother"] = null,
+                        ["sdds_whynopermissionrequired"] = null,
+                        ["sdds_wildliferelatedconviction"] = null,
+                        ["sdds_detailsofconvictions"] = null,
+                        ["sdds_sitesubjecttoanycommitment"] = null,
+                        ["sdds_otherprotectedspeciecommitment"] = null,
+                        ["sdds_conflictsbtwappotherlegalcommitment"] = null,
+                        ["sdds_badgersitecommitmenthavebeenmet"] = null,
+                        ["sdds_protectedspciecommitmentmet"] = null,
+                        ["sdds_yesbadgersitecommitment"] = null,
+                        ["sdds_describethepotentialconflicts"] = null,
+                        ["sdds_permissionsobtainednotenough"] = null,
+                        ["sdds_yesotherprotectedspeciecommitment"] = null
                     });
                 }
                 tracingService.Trace("Updated Application!");
@@ -92,6 +109,35 @@ namespace SDDS.Workflow.Application
             {
                 tracingService.Trace($"{ex.Message}: {ex.StackTrace}");
                 throw ex;
+            }
+        }
+
+        private void DisassociateAuthorisedPersons(IOrganizationService service, EntityReference application, string relationship, string relatedEntity)
+        {
+            var relatedRecords = service.RetrieveMultiple(new QueryExpression(relatedEntity)
+            {
+                ColumnSet = new ColumnSet($"{relatedEntity}id"),
+                LinkEntities =
+                {
+                    new LinkEntity(relatedEntity, relationship, $"{relatedEntity}id", $"{relatedEntity}id", JoinOperator.Inner)
+                    {
+                        LinkCriteria = new FilterExpression
+                        {
+                            Conditions =
+                            {
+                                new ConditionExpression("sdds_applicationid", ConditionOperator.Equal, application.Id)
+                            }
+                        }
+                    }
+                }
+            });
+            if (relatedRecords.Entities.Any())
+            {
+                service.Disassociate(application.LogicalName,
+                    application.Id,
+                    new Relationship(relationship),
+                    new EntityReferenceCollection(
+                        relatedRecords.Entities.Select(x => x.ToEntityReference()).ToList()));
             }
         }
 
