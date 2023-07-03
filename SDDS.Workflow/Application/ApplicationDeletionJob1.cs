@@ -68,7 +68,7 @@ namespace SDDS.Workflow.Application
                 {
                     service.Update(new Entity(application.LogicalName, application.Id)
                     {
-                        ["sdds_ecologistid2"] = null,
+                        ["sdds_ecologistid"] = null,
                         ["sdds_ecologistorganisationid"] = null,
                         ["sdds_ecologistcontactno"] = null,
                         ["sdds_applicantid"] = null,
