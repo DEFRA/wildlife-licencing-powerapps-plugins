@@ -41,9 +41,9 @@ namespace SDDS.Workflow.Application
                     "sdds_sitevisit", "sdds_planningconsent", "sdds_designatedsites", "sdds_compliancecheck", "sdds_emaillicence", "sdds_assessmentinterview");
                 tracingService.Trace("Completed 1");
 
-                DisassociateAuthorisedPersons(service, application, "sdds_application_Contact_Authorisedpersons", "sdds_application_authorisedpersons", "contact");
-                DisassociateAuthorisedPersons(service, application, "sdds_membership_sdds_application_sdds_app", "sdds_membership_sdds_application", "sdds_application");
-                DisassociateAuthorisedPersons(service, application, "sdds_qualification_sdds_application_sdds_", "sdds_qualification_sdds_application", "sdds_application");
+                DisassociateNtoNRelationships(service, application, "sdds_application_Contact_Authorisedpersons", "sdds_application_authorisedpersons", "contact");
+                DisassociateNtoNRelationships(service, application, "sdds_membership_sdds_application_sdds_app", "sdds_membership_sdds_application", "sdds_membership");
+                DisassociateNtoNRelationships(service, application, "sdds_qualification_sdds_application_sdds_", "sdds_qualification_sdds_application", "sdds_qualification");
 
                 DeleteRelatedRecords(service, "sdds_consultation", "sdds_consultationid", "sdds_application", application.Id);
                 DeleteRelatedRecords(service, "sdds_applicationreport", "sdds_applicationreportid", "sdds_application", application.Id);
@@ -112,7 +112,7 @@ namespace SDDS.Workflow.Application
             }
         }
 
-        private void DisassociateAuthorisedPersons(IOrganizationService service, EntityReference application, string relationshipName, string relationshipTable, string relatedEntity)
+        private void DisassociateNtoNRelationships(IOrganizationService service, EntityReference application, string relationshipName, string relationshipTable, string relatedEntity)
         {
             /*var query = new QueryExpression(relatedEntity) { ColumnSet = new ColumnSet($"{relatedEntity}id") };
             var query_link = query.AddLink(relationshipTable, $"{relatedEntity}id", $"{relatedEntity}id");
