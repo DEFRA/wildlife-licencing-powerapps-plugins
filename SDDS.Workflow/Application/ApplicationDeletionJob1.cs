@@ -66,7 +66,9 @@ namespace SDDS.Workflow.Application
                 if (applicationDB?.GetAttributeValue<OptionSetValue>("statuscode")?.Value == 100000005 ||
                     applicationDB?.GetAttributeValue<OptionSetValue>("statuscode")?.Value == 100000006)
                 {
+                    tracingService.Trace("Withdrawn or Paused...");
                     service.Delete(application.LogicalName, application.Id);
+                    tracingService.Trace("Application deleted!");
                 }
                 else
                 {
@@ -102,8 +104,8 @@ namespace SDDS.Workflow.Application
                         ["sdds_permissionsobtainednotenough"] = null,
                         ["sdds_yesotherprotectedspeciecommitment"] = null
                     });
+                    tracingService.Trace("Updated Application!");
                 }
-                tracingService.Trace("Updated Application!");
             }
             catch (Exception ex)
             {
