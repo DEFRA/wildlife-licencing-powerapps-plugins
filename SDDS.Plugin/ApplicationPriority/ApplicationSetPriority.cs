@@ -161,6 +161,7 @@ namespace SDDS.Plugin.ApplicationPriority
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
+                tracing.Trace(ex.StackTrace);
                 throw new InvalidPluginExecutionException(ex.Message);
 
             }

@@ -62,13 +62,13 @@ namespace SDDS.Workflow.Application
                 tracingService.Trace("Completed end");
 
                 var applicationDB = service.Retrieve(application.LogicalName, application.Id, new ColumnSet("statuscode"));
-
+                if (applicationDB == null) tracingService.Trace("Application is deleted.");
                 if (applicationDB?.GetAttributeValue<OptionSetValue>("statuscode")?.Value == 100000005 ||
                     applicationDB?.GetAttributeValue<OptionSetValue>("statuscode")?.Value == 100000006)
                 {
                     tracingService.Trace("Withdrawn or Paused...");
                     service.Delete(application.LogicalName, application.Id);
-                    tracingService.Trace("Application deleted!");
+                    tracingService.Trace("Application deleted!!!");
                 }
                 else
                 {
@@ -104,8 +104,9 @@ namespace SDDS.Workflow.Application
                         ["sdds_permissionsobtainednotenough"] = null,
                         ["sdds_yesotherprotectedspeciecommitment"] = null
                     });
-                    tracingService.Trace("Updated Application!");
+                    tracingService.Trace("Updated Application!!!");
                 }
+                Result.Set(context, true);
             }
             catch (Exception ex)
             {
