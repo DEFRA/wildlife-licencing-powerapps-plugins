@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SDDS.Plugin.GetAddressForPostCode
@@ -14,10 +15,14 @@ namespace SDDS.Plugin.GetAddressForPostCode
     {
         public void Execute(IServiceProvider serviceProvider)
         {
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             IPluginExecutionContext context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
             IOrganizationServiceFactory factory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
             IOrganizationService service = factory.CreateOrganizationService(context.UserId);
             ITracingService tracing = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
+
+            
+            //ServicePointManager.SecurityProtocol = (SecurityProtocolType)48 | (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
 
             try
             {
@@ -37,6 +42,7 @@ namespace SDDS.Plugin.GetAddressForPostCode
                 var url = string.Empty;
                 var passphrase = string.Empty;
                 EntityCollection configData = service.RetrieveMultiple(new FetchExpression(fetchConfig));
+                tracing.Trace("eNTITY RETRIEVED: " + configData.Entities.Count.ToString());
                 if (configData != null && configData.Entities.Count == 2)
                 {
                     if (configData.Entities[0].Attributes["sdds_configurationkey"].ToString() == "AddressApiHostUrl")
@@ -64,14 +70,21 @@ namespace SDDS.Plugin.GetAddressForPostCode
                 if (NotesRetrieve != null && NotesRetrieve.Entities.Count > 0)
 
                 {
+                    tracing.Trace("nOTE RETREIVED");
                     //converting document body content to bytes
                     byte[] filecontent = Convert.FromBase64String(NotesRetrieve.Entities[0].Attributes["documentbody"].ToString());
                     X509Certificate2 certificate = new X509Certificate2(filecontent, passphrase);
+
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
                     HttpClientHandler handler = new HttpClientHandler();
                     handler.ClientCertificateOptions = ClientCertificateOption.Manual;
                     handler.ClientCertificates.Add(certificate);
 
-                    var address = GetAddress(handler, url).GetAwaiter().GetResult();
+                    tracing.Trace("cERT PASSED");
+
+                    var address = GetAddress(handler, url, tracing).GetAwaiter().GetResult();
+                    //tracing.Trace(address.ToString());
                     context.OutputParameters["Response"] = address; //.results;
                     tracing.Trace(context.OutputParameters["Response"].ToString());
                     
@@ -86,17 +99,33 @@ namespace SDDS.Plugin.GetAddressForPostCode
             }
         }
 
-        private async Task<string> GetAddress(HttpClientHandler handler, string url)
+        private async Task<string> GetAddress(HttpClientHandler handler, string url, ITracingService tracing)
         {
+            
             HttpClient httpClient = new HttpClient(handler);
-
-            //Rootobject addressResult = new Rootobject();
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            Rootobject address = new Rootobject();
             string addressResult = null;
-            HttpResponseMessage responseAddress = await httpClient.GetAsync(url);
-            if (responseAddress.IsSuccessStatusCode)
+            try
             {
+                tracing.Trace("Getting address");
+
+                tracing.Trace("URL: "+url);
+                HttpResponseMessage responseAddress = await httpClient.GetAsync(url);
+                
+                responseAddress.EnsureSuccessStatusCode();
+                tracing.Trace("rESULT RETRIEVED SUCCESSFULLY");
                 addressResult = await responseAddress.Content.ReadAsStringAsync(); //ReadAsAsync<Rootobject>();
+                
+               
             }
+            catch (HttpRequestException ex)
+            {
+                tracing.Trace(ex.Message);
+            }
+           
+            handler.Dispose();
+            httpClient.Dispose();
 
             return addressResult;
         }
