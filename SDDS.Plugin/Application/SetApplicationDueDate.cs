@@ -27,7 +27,9 @@ namespace SDDS.Plugin.Application
                         createdOnDate = application.GetAttributeValue<DateTime>("sdds_applicationformreceiveddate");
                     else createdOnDate = DateTime.Now;
 
-                    int businessWorkingdaysToAdd = 30 + GetNumberHolidaydays(service);
+                    DateTime thirtyBusinessDays = createdOnDate.AddBusinessDays(30);
+
+                    int businessWorkingdaysToAdd = 30 + GetNumberHolidaydays(service, createdOnDate, thirtyBusinessDays);
 
                     DateTime applicationDueDate = createdOnDate.AddBusinessDays(businessWorkingdaysToAdd);
                     DateTime centralSLADueTime = createdOnDate.AddBusinessDays(5);
@@ -47,11 +49,11 @@ namespace SDDS.Plugin.Application
             }
         }
 
-        private static int GetNumberHolidaydays(IOrganizationService service)
+        private static int GetNumberHolidaydays(IOrganizationService service, DateTime startDate, DateTime endDate)
         {
             var query = new QueryExpression("sdds_bankholiday");
             query.ColumnSet.AddColumn("sdds_bankholidaydate");
-            query.Criteria.AddCondition("sdds_bankholidaydate", ConditionOperator.OnOrAfter, DateTime.Now);
+            query.Criteria.AddCondition("sdds_bankholidaydate", ConditionOperator.Between, startDate, endDate);
 
             EntityCollection holidays = service.RetrieveMultiple(query);
 
