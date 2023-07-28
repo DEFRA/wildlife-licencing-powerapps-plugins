@@ -28,7 +28,7 @@ namespace SDDS.Plugin.Application
                     var prevState = prevEntImage;
                     var oldstatus = prevState.GetAttributeValue<OptionSetValue>("statuscode");
 
-                    if (oldstatus != null && (oldstatus.Value == 100000006 || oldstatus.Value == 100000005))
+                    if (oldstatus != null && (oldstatus.Value == 100000006 || oldstatus.Value == 452120001))
                     {
                         
                         service.Update(new Entity(application.LogicalName, application.Id)
