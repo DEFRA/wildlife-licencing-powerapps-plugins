@@ -28,27 +28,36 @@ namespace HTMLToWordConverter
 
             string name = req.Query["filename"];
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            using (MemoryStream generatedDocument = new MemoryStream())
+            try
             {
-                using (WordprocessingDocument package = WordprocessingDocument.Create(generatedDocument, WordprocessingDocumentType.Document))
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                using (MemoryStream generatedDocument = new MemoryStream())
                 {
-                    MainDocumentPart mainPart = package.MainDocumentPart;
-                    if (mainPart == null)
+                    using (WordprocessingDocument package = WordprocessingDocument.Create(generatedDocument, WordprocessingDocumentType.Document))
                     {
-                        mainPart = package.AddMainDocumentPart();
-                        new Document(new Body()).Save(mainPart);
+                        MainDocumentPart mainPart = package.MainDocumentPart;
+                        if (mainPart == null)
+                        {
+                            mainPart = package.AddMainDocumentPart();
+                            new Document(new Body()).Save(mainPart);
+                        }
+
+                        HtmlConverter converter = new HtmlConverter(mainPart);
+                        converter.ParseHtml(requestBody);
+                        log.LogInformation("HTML Converted!");
+                        mainPart.Document.Save();
+                        log.LogInformation("HTML Saved!");
                     }
-
-                    HtmlConverter converter = new HtmlConverter(mainPart);
-                    converter.ParseHtml(requestBody);
-
-                    mainPart.Document.Save();
+                    return new FileContentResult(generatedDocument.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                    {
+                        FileDownloadName = name
+                    };
                 }
-                return new FileContentResult(generatedDocument.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-                {
-                    FileDownloadName = name
-                };
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex, ex.Message);
+                return null;
             }
         }
     }

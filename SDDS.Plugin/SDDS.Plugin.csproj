@@ -120,6 +120,7 @@
     <Compile Include="ApplicationPriority\AssignPriorityLogic.cs" />
     <Compile Include="ApplicationTypes\OnCreate.cs" />
     <Compile Include="Application\ClearRetentionDate.cs" />
+    <Compile Include="Common\BasePlugin.cs" />
     <Compile Include="DataverseExtensions.cs" />
     <Compile Include="GetEnvironmentVariable.cs" />
     <Compile Include="HandleJson.cs" />
