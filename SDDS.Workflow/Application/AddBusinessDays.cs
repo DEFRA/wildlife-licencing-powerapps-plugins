@@ -25,7 +25,7 @@ namespace SDDS.Workflow.Application
         protected override void Execute(CodeActivityContext context)
         {
             var startDate = StartDate.Get<DateTime>(context);
-            var days = StartDate.Get<int>(context);
+            var days = Days.Get<int>(context);
             EndDate.Set(context, AddDays(startDate, days));
         }
 
