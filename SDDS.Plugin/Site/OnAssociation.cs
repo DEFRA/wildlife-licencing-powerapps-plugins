@@ -2,6 +2,7 @@
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,18 +20,35 @@ namespace SDDS.Plugin.Site
 
             if (context.MessageName.ToLower() != "associate" && context.MessageName.ToLower() != "disassociate") return;
             tracing.Trace("1.......");
-            if (!context.InputParameters.Contains("Target") || !(context.InputParameters["Target"] is EntityReference)) return;
-            if (!context.InputParameters.Contains("Relationship") || ((Relationship)context.InputParameters["Relationship"]).SchemaName != "sdds_application_sdds_site_sdds_site") return;
-
+            if (!context.InputParameters.Contains("Target") || !(context.InputParameters["Target"] is EntityReference)) return;        
+            if (!context.InputParameters.Contains("Relationship")) return;
+            //if ((((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_application_sdds_site_sdds_site") || (((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_applicationtypes_sdds_licenseActivit"))  return;
+           
             EntityReference target = (EntityReference)context.InputParameters["Target"];
-            tracing.Trace("EntityName: "+ target.LogicalName);
-            //Entity application = service.Retrieve(target.LogicalName, target.Id, new ColumnSet("sdds_applicationid"));
 
-            string siteName = GetSiteName(service, target.Id);
-            service.Update(new Entity(target.LogicalName, target.Id)
+            if (((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_application_sdds_site_sdds_site")
             {
-                ["sdds_sites"] = siteName
-            });
+               
+                tracing.Trace("EntityName: " + target.LogicalName);
+
+                string siteName = GetSiteName(service, target.Id);
+                service.Update(new Entity(target.LogicalName, target.Id)
+                {
+                    ["sdds_sites"] = siteName
+                });
+            }
+
+            if (((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_applicationtypes_sdds_licenseActivit")
+            {
+                var enticollection = (EntityReferenceCollection)context.InputParameters["RelatedEntities"];
+                var activityRef = enticollection.FirstOrDefault();
+
+                string appeName = GetApplicationType(service, activityRef.Id);
+                service.Update(new Entity(activityRef.LogicalName, activityRef.Id)
+                {
+                    ["sdds_applicationtypes"] = appeName
+                });
+            }
         }
 
         private static string GetSiteName(IOrganizationService service, Guid applicationId)
@@ -56,6 +74,30 @@ namespace SDDS.Plugin.Site
                 }
             }
             return siteName;
+        }
+
+        private static string GetApplicationType(IOrganizationService service, Guid activityId)
+        {
+            string appName = null;
+
+            var query = new QueryExpression("sdds_applicationtypes");
+            query.ColumnSet.AddColumn("sdds_applicationname");
+            var vo = query.AddLink("sdds_applicationtypes_sdds_licenseactiv", "sdds_applicationtypesid", "sdds_applicationtypesid");
+            vo.EntityAlias = "vo";
+
+            vo.LinkCriteria.AddCondition("sdds_licenseactivityid", ConditionOperator.Equal, activityId);
+
+
+            var appColl = service.RetrieveMultiple(query);
+            if (appColl != null && appColl.Entities.Count > 0)
+            {
+                for (int i = 0; i < appColl.Entities.Count; i++)
+                {
+                    if (i == 0) appName = appColl.Entities[i].GetAttributeValue<string>("sdds_applicationname");
+                    else appName += ", " + appColl.Entities[i].GetAttributeValue<string>("sdds_applicationname");
+                }
+            }
+            return appName;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace SDDS.UnitTests.ApplicationTypes
     using FakeXrmEasy.Abstractions;
     using FakeXrmEasy.Plugins;
     using FluentAssertions;
-    using global::SDDS.Plugin.ApplicationTypes;
+   // using global::SDDS.Plugin.ApplicationTypes;
     using Microsoft.Xrm.Sdk;
     using System;
     using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace SDDS.UnitTests.ApplicationTypes
             PlugCtx.PrimaryEntityName = "sdds_applicationtypes";
             PlugCtx.InputParameters = inputParameter;
             // Act and Assert
-           var plugin = fakecontext.ExecutePluginWith<OnCreate>(PlugCtx);
+           var plugin = fakecontext. ExecutePluginWith(PlugCtx,null);
            plugin.Should().NotBeNull();
         }
     }
