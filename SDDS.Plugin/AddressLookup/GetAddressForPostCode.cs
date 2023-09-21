@@ -108,19 +108,18 @@ namespace SDDS.Plugin.GetAddressForPostCode
                     byte[] filecontent = Convert.FromBase64String(NotesRetrieve.Entities[0].Attributes["documentbody"].ToString());
                     X509Certificate2 certificate = new X509Certificate2(filecontent, passphrase);
 
-                    //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                    
+                    tracing.Trace("cERT RETRIEVED");
 
-                    HttpWebRequest handler = (HttpWebRequest)WebRequest.Create(url);
-                   // handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                    HttpClientHandler handler = new HttpClientHandler();
+                    handler.ClientCertificateOptions = ClientCertificateOption.Manual;
                     handler.ClientCertificates.Add(certificate);
-                    handler.Method = "GET";
 
-                    HttpWebResponse response = (HttpWebResponse)handler.GetResponse();
                     tracing.Trace("cERT PASSED");
 
-                    //var address = GetAddress(handler, url, tracing).GetAwaiter().GetResult();
-                    tracing.Trace(response.ToString());
-                    context.OutputParameters["Response"] = response.ToString();//address; //.results;
+                    var address = GetAddress(handler, url, tracing).GetAwaiter().GetResult();
+                    tracing.Trace(address.ToString());
+                    context.OutputParameters["Response"] = address; //.results;
                     tracing.Trace(context.OutputParameters["Response"].ToString());
 
                 }
@@ -138,7 +137,7 @@ namespace SDDS.Plugin.GetAddressForPostCode
         {
             
             HttpClient httpClient = new HttpClient(handler);
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+          
             Rootobject address = new Rootobject();
             string addressResult = null;
             try
