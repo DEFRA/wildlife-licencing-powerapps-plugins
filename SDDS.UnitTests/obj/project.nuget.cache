@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4rloIepV2bCw32Z3aWqugi3KL3LkeUI+DR7DbImjVhkPIMRLx6MKd2+BSDXrDmXy3NBRGzOyEfA1iUs9sETqNw==",
+  "dgSpecHash": "hfG19mqXQNNfTNEPKkJTaMRAzjA/sfaE6d4ayR3qubrjnuc4YV+AxL/9q9g3yWvwZtr8YbBIN1DKC1+7lrNlzg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj",
+  "projectFilePath": "C:\\Users\\vo000010\\source\\repos\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vo000010\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\vo000010\\.nuget\\packages\\fakeiteasy\\6.0.0\\fakeiteasy.6.0.0.nupkg.sha512",

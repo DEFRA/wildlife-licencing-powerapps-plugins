@@ -27,9 +27,16 @@ namespace SDDS.Plugin.Application
                         createdOnDate = application.GetAttributeValue<DateTime>("sdds_applicationformreceiveddate");
                     else createdOnDate = DateTime.Now;
 
-                    DateTime thirtyBusinessDays = createdOnDate.AddBusinessDays(30);
+                    EntityReference appTypeRef = application.GetAttributeValue<EntityReference>("sdds_applicationtypesid");
+                    Entity applicationType = service.Retrieve(appTypeRef.LogicalName, appTypeRef.Id, new ColumnSet(new string[] { "sdds_duedays" }));
 
-                    int businessWorkingdaysToAdd = 30 + GetNumberHolidaydays(service, createdOnDate, thirtyBusinessDays);
+                    int appDueDays = applicationType.GetAttributeValue<int?>("sdds_duedays") ?? 30;
+
+                    tracing.Trace("Due days:" + appDueDays.ToString());
+                     
+                    DateTime thirtyBusinessDays = createdOnDate.AddBusinessDays(appDueDays);
+
+                    int businessWorkingdaysToAdd = appDueDays + GetNumberHolidaydays(service, createdOnDate, thirtyBusinessDays);
 
                     DateTime applicationDueDate = createdOnDate.AddBusinessDays(businessWorkingdaysToAdd);
                     DateTime centralSLADueTime = createdOnDate.AddBusinessDays(5);
