@@ -20,42 +20,52 @@ namespace SDDS.Plugin.Survey
 
             try
             {
+                tracing.Trace("Entered Plugin...");
                 if (context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity regardingRecord
                  && regardingRecord.Attributes.ContainsKey("sdds_assessmentcategorylogicid") && regardingRecord["sdds_assessmentcategorylogicid"] != null)
                 {
+                    tracing.Trace("Entered plugin... Actions...");
                     var query = new QueryExpression("sdds_asessmentitem")
                     {
+                        ColumnSet = new ColumnSet(true),
                         Criteria = new FilterExpression
                         {
                             Conditions =
                             {
-                                new ConditionExpression("sdds_assessmentcategorylogicid", ConditionOperator.Equal, (regardingRecord["sdds_assessmentcategorylogicid"] as EntityReference).Id),
-                                new ConditionExpression("sdds_assessmenttype", ConditionOperator.NotEqual,1000000)
+                                new ConditionExpression("sdds_assessmentcategorylogicid", ConditionOperator.Equal, (regardingRecord["sdds_assessmentcategorylogicid"] as EntityReference).Id)
                             }
                         }
                     };
                     var result = service.RetrieveMultiple(query);
                     if (result?.Entities != null)
                     {
-                        var logicItems = result.Entities.Select(x => ConvertEntityToLogicItem(x)); //452120002
+                        tracing.Trace("retrieved logic, entitycount:" + result.Entities.Count);
+                        var logicItems = result.Entities.Select(x => ConvertEntityToLogicItem(x)).ToList();
+                        tracing.Trace("converted logic items");
+
                         var dbRegardingRecord = service.Retrieve(regardingRecord.LogicalName,
                             regardingRecord.Id,
                             new ColumnSet(logicItems.Select(x => x.fieldname).Distinct().ToArray()));
+
+                        //tracing.Trace("retrieved regarding record: " + dbRegardingRecord[logicItems.First().fieldname]);
+                        //tracing.Trace("value: " + logicItems.First().fieldvalue);
                         var sortedLogicItems = logicItems.OrderByDescending(x => x.assessmentCategoryType);
 
-                        var assessmentCategory = sortedLogicItems.FirstOrDefault(x => (dbRegardingRecord.Contains(x.fieldname) && dbRegardingRecord[x.fieldname] == x.fieldvalue) ||
-                            (dbRegardingRecord.FormattedValues.ContainsKey(x.fieldname) && dbRegardingRecord.FormattedValues[x.fieldname] == x.fieldvalue))?.assessmentCategoryType;
-
+                        var assessmentCategory = sortedLogicItems.FirstOrDefault(x => (dbRegardingRecord.Attributes.Contains(x.fieldname) && dbRegardingRecord[x.fieldname].ToString().ToLower().Equals(x.fieldvalue)) ||
+                            (dbRegardingRecord.FormattedValues.ContainsKey(x.fieldname) && dbRegardingRecord.FormattedValues[x.fieldname].ToLower() == x.fieldvalue))?.assessmentCategoryType;
+                        tracing.Trace("implemented logic: " + assessmentCategory);
                         service.Update(new Entity(regardingRecord.LogicalName, regardingRecord.Id)
                         {
                             ["sdds_assessmentcategory"] = new OptionSetValue(assessmentCategory ?? 452120000)
                         });
+                        tracing.Trace("end of plugin");
                     }
                 }
+                tracing.Trace("End of plugin no action");
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
         }
 
@@ -67,7 +77,7 @@ namespace SDDS.Plugin.Survey
                 assessmentCategoryType = entity.GetAttributeValue<OptionSetValue>("sdds_assessmenttype").Value,
                 fieldname = entity.GetAttributeValue<string>("sdds_name"),
                 fieldtype = entity.FormattedValues["sdds_datatype"],
-                fieldvalue = entity.GetAttributeValue<string>("sdds_value")
+                fieldvalue = entity.GetAttributeValue<string>("sdds_value").ToLower()
             };
         }
     }
