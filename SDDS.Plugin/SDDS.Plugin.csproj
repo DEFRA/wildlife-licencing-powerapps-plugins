@@ -121,6 +121,7 @@
     <Compile Include="ApplicationTypes\OnCreate.cs" />
     <Compile Include="Application\ClearRetentionDate.cs" />
     <Compile Include="Application\SetApplicationDueDate.cs" />
+    <Compile Include="Assessment Logic\AssociateAssessmentLogicRecord.cs" />
     <Compile Include="Common\BasePlugin.cs" />
     <Compile Include="DataverseExtensions.cs" />
     <Compile Include="DateTimeExtension.cs" />
