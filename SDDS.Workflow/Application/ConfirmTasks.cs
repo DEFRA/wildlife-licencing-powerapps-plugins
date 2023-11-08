@@ -48,6 +48,7 @@ namespace SDDS.Workflow.Application
             catch (Exception ex)
             {
                 tracingService.Trace("Failure in custom workflow action: {0}", ex.Message);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
 
                 throw new InvalidWorkflowException("Failure in custom workflow action: " + ex.Message);
             }

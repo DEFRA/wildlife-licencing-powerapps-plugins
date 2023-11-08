@@ -31,12 +31,12 @@ namespace SDDS.Plugin.ApplicationPriority
                     if (licenseApp.LogicalName == "sdds_application" && context.MessageName.ToLower() == "create")
                     {
                         tracing.Trace("Entering On Create of Application");
-                        SetPriorityOnApplicationCreate(licenseApp, service, tracing);
+                        SetPriorityOnApplicationCreate(licenseApp, service, tracing, context);
                     }
                     else if (licenseApp.LogicalName == "sdds_application" && context.MessageName.ToLower() == "update")
                     {
                         tracing.Trace("Entering On Update of Application");
-                        SetPriorityOnApplicationUpdate(licenseApp, service, tracing);
+                        SetPriorityOnApplicationUpdate(licenseApp, service, tracing, context);
                     }
                     else if (licenseApp.LogicalName == "sdds_licensableaction" && context.MessageName.ToLower() == "create")
                     {
@@ -49,7 +49,7 @@ namespace SDDS.Plugin.ApplicationPriority
                         Entity postImageEntity = null;
                         if (context.PostEntityImages.Contains("PostImage"))
                             postImageEntity = (Entity)context.PostEntityImages["PostImage"];
-                        logic.SetPriorityForLicensableActionConditions(licenseApp,  "update", postImageEntity);
+                        logic.SetPriorityForLicensableActionConditions(licenseApp, "update", postImageEntity);
                     }
                     else if (licenseApp.LogicalName == "sdds_designatedsites" &&
                             (context.MessageName.ToLower() == "create" || context.MessageName.ToLower() == "update"))
@@ -58,7 +58,7 @@ namespace SDDS.Plugin.ApplicationPriority
                         if (licenseApp.Attributes.Contains("sdds_applicationid"))
                         {
                             var application = (EntityReference)licenseApp.Attributes["sdds_applicationid"];
-                            logic.SetPriorityForDesignatedSite(application.Id,  (int)ApplicationEnum.Priority.two);
+                            logic.SetPriorityForDesignatedSite(application.Id, (int)ApplicationEnum.Priority.two);
                         }
 
                     }
@@ -83,6 +83,7 @@ namespace SDDS.Plugin.ApplicationPriority
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
                 throw new InvalidPluginExecutionException(ex.Message);
 
             }
@@ -102,7 +103,7 @@ namespace SDDS.Plugin.ApplicationPriority
         /// <param name="service">Organization service</param>
         /// <param name="tracing">Tracing service</param>
         /// <exception cref="InvalidPluginExecutionException"></exception>
-        private void SetPriorityOnApplicationCreate(Entity applicationEntity, IOrganizationService service, ITracingService tracing)
+        private void SetPriorityOnApplicationCreate(Entity applicationEntity, IOrganizationService service, ITracingService tracing, IPluginExecutionContext context)
         {
             var entityId = applicationEntity.Id;
             var licenseType = applicationEntity.GetAttributeValue<EntityReference>("sdds_applicationtypesid");
@@ -123,7 +124,7 @@ namespace SDDS.Plugin.ApplicationPriority
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
-                    else if (logic.ExistingSiteCheck(entityId, tracing) && 
+                    else if (logic.ExistingSiteCheck(entityId, tracing) &&
                         application.GetAttributeValue<OptionSetValue>("sdds_priority")?.Value != (int)ApplicationEnum.Priority.one)
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
@@ -133,7 +134,7 @@ namespace SDDS.Plugin.ApplicationPriority
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
                     }
-                    else if (logic.DesignatedSiteCheck(entityId, tracing) && 
+                    else if (logic.DesignatedSiteCheck(entityId, tracing) &&
                         application.GetAttributeValue<OptionSetValue>("sdds_priority")?.Value != (int)ApplicationEnum.Priority.one)
                     {
                         UpdateEntity(applicationEntity, (int)ApplicationEnum.Priority.two, service);
@@ -162,6 +163,7 @@ namespace SDDS.Plugin.ApplicationPriority
             {
                 tracing.Trace(ex.Message);
                 tracing.Trace(ex.StackTrace);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
                 throw new InvalidPluginExecutionException(ex.Message);
 
             }
@@ -174,7 +176,7 @@ namespace SDDS.Plugin.ApplicationPriority
         /// <param name="service"></param>
         /// <param name="tracing"></param>
         /// <exception cref="InvalidPluginExecutionException"></exception>
-        private void SetPriorityOnApplicationUpdate(Entity applicationEntity, IOrganizationService service, ITracingService tracing)
+        private void SetPriorityOnApplicationUpdate(Entity applicationEntity, IOrganizationService service, ITracingService tracing, IPluginExecutionContext context)
         {
 
             var entityId = applicationEntity.Id;
@@ -203,6 +205,7 @@ namespace SDDS.Plugin.ApplicationPriority
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
                 throw new InvalidPluginExecutionException(ex.Message);
 
             }

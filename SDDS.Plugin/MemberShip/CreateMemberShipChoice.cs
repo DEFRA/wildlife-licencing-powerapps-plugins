@@ -60,6 +60,7 @@ namespace SDDS.Plugin.MemberShip
                         catch (Exception ex)
                         {
                             tracing.Trace(ex.Message);
+                            ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
                             throw new InvalidPluginExecutionException(ex.Message);
                         }
 
@@ -100,6 +101,7 @@ namespace SDDS.Plugin.MemberShip
                         catch (Exception ex)
                         {
                             tracing.Trace(ex.Message);
+                            ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
                             throw new InvalidPluginExecutionException(ex.Message);
                         }
                     }
@@ -131,6 +133,7 @@ namespace SDDS.Plugin.MemberShip
                 catch (Exception ex)
                 {
                     tracing.Trace(ex.Message);
+                    ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
                     throw new InvalidPluginExecutionException(ex.Message);
                 }
             }

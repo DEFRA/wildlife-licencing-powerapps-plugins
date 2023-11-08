@@ -56,6 +56,7 @@ namespace SDDS.Workflow.Site
             catch (Exception ex)
             {
                 tracingService.Trace($"{ex.Message}: {ex.StackTrace}");
+                ExceptionHandler.SaveToTable(service, ex, wfContext.MessageName, this.GetType().Name);
                 throw ex;
             }
         }

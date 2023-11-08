@@ -65,6 +65,7 @@ namespace SDDS.Plugin.Survey
             }
             catch (Exception ex)
             {
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
                 throw ex;
             }
         }

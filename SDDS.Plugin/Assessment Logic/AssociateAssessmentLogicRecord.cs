@@ -43,6 +43,7 @@ namespace SDDS.Plugin.Assessment_Logic
             catch (Exception ex)
             {
                 tracing.Trace("AssociateAssessmentLogicRecord Error: " + ex.Message);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
                 throw new InvalidPluginExecutionException(ex.Message);
             }
         }

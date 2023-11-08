@@ -125,6 +125,7 @@
     <Compile Include="Common\BasePlugin.cs" />
     <Compile Include="DataverseExtensions.cs" />
     <Compile Include="DateTimeExtension.cs" />
+    <Compile Include="ExceptionHandler.cs" />
     <Compile Include="GetEnvironmentVariable.cs" />
     <Compile Include="HandleJson.cs" />
     <Compile Include="MemberShip\CreateMemberShipChoice.cs" />

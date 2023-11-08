@@ -18,77 +18,83 @@ namespace SDDS.Plugin.SharePointUser
             IOrganizationServiceFactory factory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
             IOrganizationService service = factory.CreateOrganizationService(context.UserId);
             ITracingService tracing = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
-
-            tracing.Trace("Entering association between Team and team member");
-            tracing.Trace("Message Name: "+ context.MessageName.ToLower());
-            if (context.MessageName.ToLower() != "associate" && context.MessageName.ToLower() != "disassociate") return;
-            tracing.Trace("1.......");
-            if (!context.InputParameters.Contains("Target") || !(context.InputParameters["Target"] is EntityReference)) return;
-            tracing.Trace("2.......");
-            if (!context.InputParameters.Contains("Relationship") || ((Relationship)context.InputParameters["Relationship"]).SchemaName != "teammembership_association") return;
-            tracing.Trace("3.......");
-            if (!context.InputParameters.Contains("RelatedEntities") && !(context.InputParameters["RelatedEntities"] is EntityReferenceCollection)) return;
-            tracing.Trace("4.......");
-
-            EntityReference target = (EntityReference)context.InputParameters["Target"];
-            var teamMembersRefColl = (EntityReferenceCollection)context.InputParameters["RelatedEntities"];
-
-            tracing.Trace("teamMembersRefColl retrieved: " + teamMembersRefColl.Count().ToString());
-
-            Entity team = service.Retrieve(target.LogicalName, target.Id, new ColumnSet("sdds_adduserstosharepoint"));
-            bool addUser = team.GetAttributeValue<bool>("sdds_adduserstosharepoint");
-
-            tracing.Trace("Entering Logic.....");
-
-            if (context.MessageName.ToLower() == "associate")
+            try
             {
-                tracing.Trace("association");
-                tracing.Trace(target.Id.ToString());
-                
-                if(addUser)
+                tracing.Trace("Entering association between Team and team member");
+                tracing.Trace("Message Name: " + context.MessageName.ToLower());
+                if (context.MessageName.ToLower() != "associate" && context.MessageName.ToLower() != "disassociate") return;
+                tracing.Trace("1.......");
+                if (!context.InputParameters.Contains("Target") || !(context.InputParameters["Target"] is EntityReference)) return;
+                tracing.Trace("2.......");
+                if (!context.InputParameters.Contains("Relationship") || ((Relationship)context.InputParameters["Relationship"]).SchemaName != "teammembership_association") return;
+                tracing.Trace("3.......");
+                if (!context.InputParameters.Contains("RelatedEntities") && !(context.InputParameters["RelatedEntities"] is EntityReferenceCollection)) return;
+                tracing.Trace("4.......");
+
+                EntityReference target = (EntityReference)context.InputParameters["Target"];
+                var teamMembersRefColl = (EntityReferenceCollection)context.InputParameters["RelatedEntities"];
+
+                tracing.Trace("teamMembersRefColl retrieved: " + teamMembersRefColl.Count().ToString());
+
+                Entity team = service.Retrieve(target.LogicalName, target.Id, new ColumnSet("sdds_adduserstosharepoint"));
+                bool addUser = team.GetAttributeValue<bool>("sdds_adduserstosharepoint");
+
+                tracing.Trace("Entering Logic.....");
+
+                if (context.MessageName.ToLower() == "associate")
                 {
-                    var sp = CheckIfUserExist(teamMembersRefColl, service, tracing);
-                    tracing.Trace(sp.Id.ToString());
-                    if (sp.Id == Guid.Empty)
+                    tracing.Trace("association");
+                    tracing.Trace(target.Id.ToString());
+
+                    if (addUser)
                     {
-                        tracing.Trace("Creating Record");
-                        var user = GetUserId(teamMembersRefColl, service, tracing);
-                        if (user.Id != Guid.Empty)
+                        var sp = CheckIfUserExist(teamMembersRefColl, service, tracing);
+                        tracing.Trace(sp.Id.ToString());
+                        if (sp.Id == Guid.Empty)
                         {
-                            Entity spUser = new Entity("sdds_sharepointuser");
-                            spUser.Attributes["sdds_userid"] = new EntityReference("systemuser", user.Id);
-                            spUser.Attributes["sdds_name"] = user.Name;
-                            service.Create(spUser);
+                            tracing.Trace("Creating Record");
+                            var user = GetUserId(teamMembersRefColl, service, tracing);
+                            if (user.Id != Guid.Empty)
+                            {
+                                Entity spUser = new Entity("sdds_sharepointuser");
+                                spUser.Attributes["sdds_userid"] = new EntityReference("systemuser", user.Id);
+                                spUser.Attributes["sdds_name"] = user.Name;
+                                service.Create(spUser);
+                            }
                         }
-                    }else if(sp.RemoveUser == true)
-                    {
-                        tracing.Trace(sp.RemoveUser.ToString());
-                        Entity sharePointUser = new Entity("sdds_sharepointuser");
-                        sharePointUser.Id= sp.Id;
-                        sharePointUser["sdds_removeuserfromsharepointgroup"] = false;
-                        sharePointUser["sdds_sharepointuserid"] = sp.Id;
-                        service.Update(sharePointUser);
+                        else if (sp.RemoveUser == true)
+                        {
+                            tracing.Trace(sp.RemoveUser.ToString());
+                            Entity sharePointUser = new Entity("sdds_sharepointuser");
+                            sharePointUser.Id = sp.Id;
+                            sharePointUser["sdds_removeuserfromsharepointgroup"] = false;
+                            sharePointUser["sdds_sharepointuserid"] = sp.Id;
+                            service.Update(sharePointUser);
+                        }
                     }
                 }
-            }
 
-            if (context.MessageName.ToLower() == "disassociate")
-            {
-                tracing.Trace("disassociation");
-                if(GetUserTeams(teamMembersRefColl, service) && addUser)
+                if (context.MessageName.ToLower() == "disassociate")
                 {
-                    var sharePointUser = CheckIfUserExist(teamMembersRefColl, service, tracing);
-                    if(sharePointUser.Id != Guid.Empty)
+                    tracing.Trace("disassociation");
+                    if (GetUserTeams(teamMembersRefColl, service) && addUser)
                     {
-                        Entity sharePointUserEntity = new Entity("sdds_sharepointuser");
-                        sharePointUserEntity.Id= sharePointUser.Id;
-                        sharePointUserEntity["sdds_removeuserfromsharepointgroup"] = true;
-                        sharePointUserEntity["sdds_sharepointuserid"] = sharePointUser.Id;
-                        service.Update(sharePointUserEntity);
+                        var sharePointUser = CheckIfUserExist(teamMembersRefColl, service, tracing);
+                        if (sharePointUser.Id != Guid.Empty)
+                        {
+                            Entity sharePointUserEntity = new Entity("sdds_sharepointuser");
+                            sharePointUserEntity.Id = sharePointUser.Id;
+                            sharePointUserEntity["sdds_removeuserfromsharepointgroup"] = true;
+                            sharePointUserEntity["sdds_sharepointuserid"] = sharePointUser.Id;
+                            service.Update(sharePointUserEntity);
+                        }
                     }
                 }
+            }catch(Exception ex)
+            {
+                throw ex;
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
             }
-
         }
 
         private static User GetUserId(EntityReferenceCollection entityCollection, IOrganizationService service, ITracingService tracing)
