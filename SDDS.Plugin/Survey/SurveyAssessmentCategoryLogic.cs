@@ -45,7 +45,7 @@ namespace SDDS.Plugin.Survey
 
                         var dbRegardingRecord = service.Retrieve(regardingRecord.LogicalName,
                             regardingRecord.Id,
-                            new ColumnSet(logicItems.Select(x => x.fieldname).Distinct().ToArray()));
+                            new ColumnSet(true));
 
                         //tracing.Trace("retrieved regarding record: " + dbRegardingRecord[logicItems.First().fieldname]);
                         //tracing.Trace("value: " + logicItems.First().fieldvalue);
