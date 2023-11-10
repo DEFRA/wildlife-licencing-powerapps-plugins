@@ -47,6 +47,7 @@ namespace SDDS.Plugin.Application
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
                 throw new InvalidPluginExecutionException(ex.Message);
             }
         }

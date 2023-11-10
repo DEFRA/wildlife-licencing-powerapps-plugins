@@ -17,37 +17,44 @@ namespace SDDS.Plugin.Site
             IOrganizationServiceFactory factory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
             IOrganizationService service = factory.CreateOrganizationService(context.UserId);
             ITracingService tracing = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
-
-            if (context.MessageName.ToLower() != "associate" && context.MessageName.ToLower() != "disassociate") return;
-            tracing.Trace("1.......");
-            if (!context.InputParameters.Contains("Target") || !(context.InputParameters["Target"] is EntityReference)) return;        
-            if (!context.InputParameters.Contains("Relationship")) return;
-            //if ((((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_application_sdds_site_sdds_site") || (((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_applicationtypes_sdds_licenseActivit"))  return;
-           
-            EntityReference target = (EntityReference)context.InputParameters["Target"];
-
-            if (((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_application_sdds_site_sdds_site")
+            try
             {
-               
-                tracing.Trace("EntityName: " + target.LogicalName);
+                if (context.MessageName.ToLower() != "associate" && context.MessageName.ToLower() != "disassociate") return;
+                tracing.Trace("1.......");
+                if (!context.InputParameters.Contains("Target") || !(context.InputParameters["Target"] is EntityReference)) return;
+                if (!context.InputParameters.Contains("Relationship")) return;
+                //if ((((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_application_sdds_site_sdds_site") || (((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_applicationtypes_sdds_licenseActivit"))  return;
 
-                string siteName = GetSiteName(service, target.Id);
-                service.Update(new Entity(target.LogicalName, target.Id)
+                EntityReference target = (EntityReference)context.InputParameters["Target"];
+
+                if (((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_application_sdds_site_sdds_site")
                 {
-                    ["sdds_sites"] = siteName
-                });
-            }
 
-            if (((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_applicationtypes_sdds_licenseActivit")
+                    tracing.Trace("EntityName: " + target.LogicalName);
+
+                    string siteName = GetSiteName(service, target.Id);
+                    service.Update(new Entity(target.LogicalName, target.Id)
+                    {
+                        ["sdds_sites"] = siteName
+                    });
+                }
+
+                if (((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_applicationtypes_sdds_licenseActivit")
+                {
+                    var enticollection = (EntityReferenceCollection)context.InputParameters["RelatedEntities"];
+                    var activityRef = enticollection.FirstOrDefault();
+
+                    string appeName = GetApplicationType(service, activityRef.Id);
+                    service.Update(new Entity(activityRef.LogicalName, activityRef.Id)
+                    {
+                        ["sdds_applicationtypes"] = appeName
+                    });
+                }
+            }catch(Exception ex)
             {
-                var enticollection = (EntityReferenceCollection)context.InputParameters["RelatedEntities"];
-                var activityRef = enticollection.FirstOrDefault();
 
-                string appeName = GetApplicationType(service, activityRef.Id);
-                service.Update(new Entity(activityRef.LogicalName, activityRef.Id)
-                {
-                    ["sdds_applicationtypes"] = appeName
-                });
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
+                throw ex;
             }
         }
 
