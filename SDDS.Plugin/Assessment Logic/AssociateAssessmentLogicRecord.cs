@@ -57,9 +57,10 @@ namespace SDDS.Plugin.Assessment_Logic
             query.Criteria.AddCondition("sdds_regardingentity", ConditionOperator.Equal, value);
 
             EntityCollection assessmentCatColl = service.RetrieveMultiple(query);
-            var assesmentCatLogic = assessmentCatColl.Entities[0];
+            
             if(assessmentCatColl.Entities.Count > 0)
             {
+                var assesmentCatLogic = assessmentCatColl.Entities[0];
                 assessmentCat = new EntityReference(assesmentCatLogic.LogicalName, assesmentCatLogic.Id);
             }
 
