@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SDDS.Plugin.Survey
+namespace SDDS.Plugin.Assessment_Logic
 {
-    public class SurveyAssessmentCategoryLogic : IPlugin
+    public class GeneralAssessmentCategoryLogic : IPlugin
     {
         public void Execute(IServiceProvider serviceProvider)
         {
