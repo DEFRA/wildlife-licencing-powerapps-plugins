@@ -148,6 +148,7 @@ namespace uk.gov.defra.sdds.automateduitests.Applications
                 {
                     xrmApp.ThinkTime(10000);
                     client.Browser.Driver.Navigate().Refresh();
+                    
                     applicationNo = xrmApp.Entity.GetValue("sdds_applicationnumber");
                     priority = xrmApp.Entity.GetValue(new OptionSet { Name = "sdds_priority" });
                 }
