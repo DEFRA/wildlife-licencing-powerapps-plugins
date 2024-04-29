@@ -99,8 +99,8 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
             //_browser.Driver.SwitchTo().Window(_browser.Driver.CurrentWindowHandle);
             Actions actions = new Actions(win);
             _xrmApp.ThinkTime(3000);
-            var element = win.FindElement(By.XPath("//div[text()='Assessment ']"));
-            actions.MoveToElement(element).Click().Perform();
+            var element = win.FindElement(By.XPath("//div[text()='Assessment ' and @role='presentation']"));
+            actions.MoveToElement(element).DoubleClick().Perform();
             //win(By.XPath("//*[text()='Assessment ']").Click
             _xrmApp.BusinessProcessFlow.SetValue(new OptionSet { Name = "header_process_sdds_licencerequiredforproposedactivity", Value = "Yes" });
             _xrmApp.BusinessProcessFlow.SetValue(new OptionSet { Name = "header_process_sdds_proposedactionsproportionatescale", Value = "Yes" });
@@ -129,6 +129,7 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
             var _browser = _xrmClient.Browser;
             win = _browser.Driver.SwitchTo().Window(_browser.Driver.CurrentWindowHandle);
             _xrmApp.BusinessProcessFlow.SelectStage(stage);
+            Thread.Sleep(4000);
             win.FindElement(By.Id("MscrmControls.Containers.ProcessStageControl-Next Stage")).Click();
 
             //_xrmApp.ThinkTime(5000);
@@ -149,7 +150,7 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
             _xrmApp.BusinessProcessFlow.SetValue(new OptionSet { Name = "header_process_sdds_priority", Value = "1" });
             win.FindElement(By.Id("MscrmControls.Containers.ProcessStageControl-Next Stage")).Click();
 
-            _xrmApp.ThinkTime(2000);
+            _xrmApp.ThinkTime(3500);
             var test = win.FindElement(By.CssSelector("*[aria-label='Allocator, Lookup']"));
             Actions action = new Actions(win);
             action.MoveToElement(test).DoubleClick().Perform();
@@ -483,6 +484,26 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
 
         }
 
+        public void ClickOnSameAsApplicant()
+        {
+            //win.FindElement(By.XPath("//*[@aria-label='sdds_applicantthesameasbillingcustomer']")).Click();
+
+            //win.FindElement(By.XPath("//*[@data-id='sdds_applicantthesameasbillingcustomer.fieldControl-option-set-select' and @title='No']")).Click();
+
+            win.FindElement(By.XPath("//button[@data-id='sdds_applicantthesameasbillingcustomer.fieldControl-option-set-select']")).Click();
+            win.FindElement(By.XPath("//*[@data-id='sdds_applicantthesameasbillingcustomer.fieldControl-option-set-select' and @title='No']")).Click();
+
+            //_xrmApp.ThinkTime(500);
+            //win.FindElement(By.CssSelector("button[data-id='MscrmControls.FieldControls.SimpleLookupControl-LookupResultsPopup_falseBoundLookup_search']")).Click();
+            //_xrmApp.ThinkTime(2000);
+
+            //var news = win.FindElement(By.XPath("//li[@aria-label='Applicant rad site, 27/04/2023 12:34']"));
+            //_xrmApp.ThinkTime(500);
+            //actions.MoveToElement(news).DoubleClick().Perform();
+            //win.FindElement(By.XPath("//*[text()='Add']")).Click();
+
+        }
+
 
         public void ClickonRiskSensitivity()
         {
@@ -538,10 +559,10 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
             Actions action = new Actions(win);
             ((IJavaScriptExecutor)win).ExecuteScript("arguments[0].scrollIntoView(true);", actionB);
             action.MoveToElement(actionA).DoubleClick().Perform();
-            win.FindElement(By.XPath("//button[@title='Navigate to Background information']")).Click();
+            //win.FindElement(By.XPath("//button[@title='Navigate to Background information']")).Click();
 
-            Thread.Sleep(4000);
-            var dropdown = win.FindElement(By.XPath("//select[@aria-label='Mark as Satisfied/Not-satisfied']"));
+            Thread.Sleep(5000);
+            var dropdown = win.FindElement(By.XPath("//*[@data-id='sdds_markcomplete.fieldControl-checkbox-select']"));
             var select = new SelectElement(dropdown);
             Thread.Sleep(4000);
             select.SelectByText("Satisfied");
@@ -560,7 +581,7 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
             ((IJavaScriptExecutor)win).ExecuteScript("arguments[0].scrollIntoView(true);", actionB);
             Actions action = new Actions(win);
             action.MoveToElement(actionA).DoubleClick().Perform();
-            win.FindElement(By.XPath("//button[@title='Navigate to Survey effort, methods, mitigation and timing']")).Click();
+            //win.FindElement(By.XPath("//button[@title='Navigate to Survey effort, methods, mitigation and timing']")).Click();
 
             Thread.Sleep(5000);
             var dropdown = win.FindElement(By.XPath("//select[@aria-label='Mark as Satisfied/Not-satisfied']"));
@@ -579,8 +600,8 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
             var actionA = win.FindElement(By.XPath("//span[text()='Conservation considerations outcome']"));
             ((IJavaScriptExecutor)win).ExecuteScript("arguments[0].scrollIntoView(true);", actionB);
             Actions action = new Actions(win);
-            action.MoveToElement(actionA).Click().Perform();
-            win.FindElement(By.XPath("//button[@title='Navigate to Conservation considerations outcome']")).Click();
+            action.MoveToElement(actionA).DoubleClick().Perform();
+            //win.FindElement(By.XPath("//button[@title='Navigate to Conservation considerations outcome']")).Click();
 
             Thread.Sleep(5000);
             var dropdown = win.FindElement(By.XPath("//select[@aria-label='Mark as Satisfied/Not-satisfied']"));
@@ -636,10 +657,17 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
             _xrmApp.ThinkTime(1000);
             win.FindElement(By.XPath("//*[text()= 'Add Existing Site']")).Click();
             _xrmApp.ThinkTime(500);
+            //_xrmApp.QuickCreate.SetValue(new LookupItem { Name = "sdds_councilid", Value = "rad site", Index = 0 });
             win.FindElement(By.CssSelector("button[data-id='MscrmControls.FieldControls.SimpleLookupControl-LookupResultsPopup_falseBoundLookup_search']")).Click();
-            _xrmApp.ThinkTime(2000);
+            _xrmApp.ThinkTime(1000);
+            // MscrmControls.FieldControls.SimpleLookupControl - sdds_name0_0_0
+            //win.FindElement(By.CssSelector("//input[@data-id='MscrmControls.FieldControls.SimpleLookupControl - sdds_name0_0_0']")).Click();
 
-            var news = win.FindElement(By.XPath("//li[@aria-label='Applicant rad site, 27/04/2023 12:34']"));
+            //win.FindElement(By.CssSelector("//input[@data-id='MscrmControls.FieldControls.SimpleLookupControl-LookupResultsPopup_falseBoundLookup_textInputBox_with_filter_new']")).Click();
+            //win.FindElement(By.CssSelector("//input[@data-id='MscrmControls.FieldControls.SimpleLookupControl-LookupResultsPopup_falseBoundLookup_textInputBox_with_filter_new']")).SendKeys("rad site");
+            //var news = win.FindElement(By.XPath("//li[@aria-label='rad site']"));
+            var news = win.FindElement(By.XPath("//li[@data-id='MscrmControls.FieldControls.SimpleLookupControl-LookupResultsPopup_falseBoundLookup_resultsContainer'][1]"));
+            //li[@data-id='MscrmControls.FieldControls.SimpleLookupControl-LookupResultsPopup_falseBoundLookup_resultsContainer'][1]
             _xrmApp.ThinkTime(500);
             actions.MoveToElement(news).DoubleClick().Perform();
             win.FindElement(By.XPath("//*[text()='Add']")).Click();

@@ -87,14 +87,20 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_organisationid", Value = "Total Ecology Ltd", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_ecologistid", Value = "Roger Nicholls", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_ecologistorganisationid", Value = "Total Ecology Ltd", Index = 0 });
+           // _happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_applicantthesameasbillingcustomer", Value = "No" });
+
             _happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_applicantthesameasbillingcustomer", Value = "No" });
+
+
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_billingcustomerid", Value = "UrbanStanton", Index = 0 });
+            //_happyPathPage.ClickOnSameAsApplicant();
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_billingorganisationid", Value = "Countryside", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_alternativeapplicantcontactid", Value = "Abagail smitham", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_alternativeecologistcontactid", Value = "Roger Nicholls", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationpurpose", Value = "Development ", Index = 0 });
-            _happyPathPage._xrmApp.ThinkTime(4000);
             _happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_applicationcategory", Value = "Commercial" });
+
+            _happyPathPage._xrmApp.ThinkTime(2000);
             _happyPathPage._xrmApp.Entity.SetValue("sdds_descriptionofproposal", "testtestst");
             _happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_issitesameasapplicants", Value = true });
             _happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_doestheprojectneedanypermissions", Value = true });
