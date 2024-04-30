@@ -9,15 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Features\HappyPath.feature.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="appsettings.test.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <SpecFlowFeatureFiles Remove="Features\HappyPath.feature" />
   </ItemGroup>
 
   <ItemGroup>
