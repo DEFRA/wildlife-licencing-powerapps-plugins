@@ -1,7 +1,9 @@
 using Microsoft.Dynamics365.UIAutomation.Api.UCI;
 using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Setupuk.gov.defra.sdds.automateduitests.Helper;
 using System.Security;
-using uk.gov.defra.sdds.automateduitests.Helper;
+using uk.gov.defra.sdds.automateduitests.Setup;
 
 namespace uk.gov.defra.sdds.automateduitests.Applications
 {
@@ -45,6 +47,7 @@ namespace uk.gov.defra.sdds.automateduitests.Applications
             xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationpurpose", Value = "Development", Index = 0 });
             xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_applicationcategory", Value = "Commercial" });
             xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_issitesameasapplicants", Value = true });
+
 
             xrmApp.Entity.Save();
             xrmApp.ThinkTime(3000);
@@ -133,6 +136,8 @@ namespace uk.gov.defra.sdds.automateduitests.Applications
                 xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_applicationcategory", Value = "Commercial" });
                 xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_issitesameasapplicants", Value = true });
 
+
+
                 xrmApp.Entity.Save();
                 xrmApp.ThinkTime(3000);
                 client.Browser.Driver.Navigate().Refresh();
@@ -143,6 +148,7 @@ namespace uk.gov.defra.sdds.automateduitests.Applications
                 {
                     xrmApp.ThinkTime(10000);
                     client.Browser.Driver.Navigate().Refresh();
+                    
                     applicationNo = xrmApp.Entity.GetValue("sdds_applicationnumber");
                     priority = xrmApp.Entity.GetValue(new OptionSet { Name = "sdds_priority" });
                 }
