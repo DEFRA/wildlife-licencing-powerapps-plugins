@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using uk.gov.defra.sdds.automateduitests.Pages;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using Faker;
 
 namespace uk.gov.defra.sdds.automateduitests.Steps
 
@@ -37,16 +38,10 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
             _happyPathPage._xrmApp.ThinkTime(6000);
             _happyPathPage._xrmApp.Entity.SelectTab("Conservation considerations");
             _happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_onnexttodesignatedsite", Value = "Yes" });
-            //_happyPathPage.ClickonSaveandContinue();
-            //_happyPathPage._xrmApp.Entity.SetValue("sdds_licencedecisionandjustification", "test36new");
-            //_happyPathPage._xrmApp.Entity.SetValue("sdds_furtherassessmentinformation", "test36262");
-            //_happyPathPage.ClickonSaveandClose();
-
             _happyPathPage._xrmApp.ThinkTime(4000);
             _happyPathPage._xrmApp.Entity.SelectTab("Conservation considerations");
             _happyPathPage.ClickonNewDesignatedSite();
             _happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_onnexttonear", Value = "Next to" });
-
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_designatedsitenameid", Value = "Abberton Reservoir", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_permissionacquired", Value = true });
             _happyPathPage._xrmApp.Entity.SetValue("sdds_detailsofpermission", "test");
@@ -81,35 +76,26 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
         [Given(@"I will populate the remaining ""([^""]*)"" Tab details")]
         public void GivenIGoToTab(string general)
         {
-            
+
             _happyPathPage.AddReceivedDate();
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicantid", Value = "AbigailPouros", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_organisationid", Value = "Total Ecology Ltd", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_ecologistid", Value = "Roger Nicholls", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_ecologistorganisationid", Value = "Total Ecology Ltd", Index = 0 });
-           // _happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_applicantthesameasbillingcustomer", Value = "No" });
-
             _happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_applicantthesameasbillingcustomer", Value = "No" });
-
-
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_billingcustomerid", Value = "UrbanStanton", Index = 0 });
-            //_happyPathPage.ClickOnSameAsApplicant();
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_billingorganisationid", Value = "Countryside", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_alternativeapplicantcontactid", Value = "Abagail smitham", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_alternativeecologistcontactid", Value = "Roger Nicholls", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationpurpose", Value = "Development ", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_applicationcategory", Value = "Commercial" });
-
             _happyPathPage._xrmApp.ThinkTime(2000);
-            _happyPathPage._xrmApp.Entity.SetValue("sdds_descriptionofproposal", "testtestst");
+            _happyPathPage._xrmApp.Entity.SetValue("sdds_descriptionofproposal", Faker.Address.StreetName());
             _happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_issitesameasapplicants", Value = true });
-            _happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_doestheprojectneedanypermissions", Value = true });
-            _happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_projectpermissionsgranted", Value = true });
+            _happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_impactondesignatedprotectedsite", Value = "Yes" });
             _happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_isapplicantonwnerofland", Value = true });
             _happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_wildliferelatedconviction", Value = true });
             _happyPathPage._xrmApp.Entity.SetValue("sdds_detailsofconvictions", "testing 123");
-            //_happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_nsiproject", Value = "No" });
-            //_happyPathPage.AddReceivedDate();
 
         }
 
@@ -185,10 +171,7 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
         public void GivenIWillPopulateTheGeneralTabOfReturn()
         {
            _happyPathPage.switchToReturnFirstTab();
-            //_happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_didyoucarryouttheactions", Value = true });
-            //_happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_developmentcouldstart", Value = true });
-            //_happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_didyoucompleteworkbetweenlicenseddates", Value = true });
-            //_happyPathPage._xrmApp.Entity.SetValue(new BooleanItem { Name = "sdds_didyoucomplywithconditionsofthelicence", Value = true });
+   
         }
 
         [Given(@"I will populate the A(.*) badger tab of return")]
@@ -204,9 +187,7 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
             _happyPathPage._xrmApp.Entity.Save();
             _happyPathPage._xrmApp.Entity.Save();
             _happyPathPage._xrmApp.ThinkTime(3000);
-            //_happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationtypesid", Value = "A24 Badger", Index = 0 });
-            //_happyPathPage._xrmApp.Entity.Save();
-
+     
 
         }
 
@@ -242,33 +223,21 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
         }
 
 
-
-       
-
-
         [Given(@"I wiil progress from Application recieved to Assessment stage")]
         public void GivenIWiilProgressFromApplicationRecievedToAssessmentStage()
         {
 
 
             _happyPathPage.selectAstage("Application Received");
-            //_happyPathPage.ClickonTechnicalAssessment();
         }
         [Given(@"I will check priority is not null")]
         public void GivenIWillCheckPriorityIsNotNull()
         {
-            //_happyPathPage._xrmApp.Entity.Save();
-            //_happyPathPage.ClickonSave();
+  
             _happyPathPage.refresh();
-            //_happyPathPage._xrmApp.ThinkTime(4000);
             var data = _happyPathPage._xrmApp.Entity.GetValue(new OptionSet { Name = "sdds_priority" });
-            //_happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationtypesid", Value = "A24 Badger", Index = 0 });
-            //_happyPathPage._xrmApp.Entity.Save();
             Console.WriteLine(data);
             Assert.IsNotNull(data);
-
-
-            //_happyPathPage.prioritydata()
 
         }
 
@@ -338,7 +307,7 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
                 Console.WriteLine(type);
                 Assert.IsTrue((_happyPathPage.GetLicenceGrantedText().ToLower()).Contains(type.ToLower()));
             }
-            _happyPathPage.ClickonSaveandClose();
+            _happyPathPage.ClickonSave();
         }
 
 
