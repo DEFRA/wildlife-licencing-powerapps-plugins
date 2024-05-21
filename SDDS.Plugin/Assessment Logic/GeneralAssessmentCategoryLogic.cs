@@ -65,8 +65,8 @@ namespace SDDS.Plugin.Assessment_Logic
             }
             catch (Exception ex)
             {
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
-                throw ex;
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "GeneralAssessmentCategoryLogic");
+                throw  new InvalidPluginExecutionException(ex.Message);
             }
         }
 

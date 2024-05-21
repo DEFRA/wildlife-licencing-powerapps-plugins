@@ -53,8 +53,8 @@ namespace SDDS.Plugin.Site
             }catch(Exception ex)
             {
 
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
-                throw ex;
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "OnAssociationOfSite");
+                throw new InvalidPluginExecutionException(ex.Message);
             }
         }
 

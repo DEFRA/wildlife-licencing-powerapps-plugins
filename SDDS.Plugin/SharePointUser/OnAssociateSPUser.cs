@@ -91,9 +91,9 @@ namespace SDDS.Plugin.SharePointUser
                     }
                 }
             }catch(Exception ex)
-            {
-                throw ex;
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
+            {               
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "OnAssociateSPUser");
+                throw new InvalidPluginExecutionException(ex.Message);
             }
         }
 

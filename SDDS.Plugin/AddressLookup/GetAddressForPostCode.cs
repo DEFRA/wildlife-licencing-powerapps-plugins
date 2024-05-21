@@ -128,7 +128,7 @@ namespace SDDS.Plugin.GetAddressForPostCode
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "GetAddressForPostCode");
                 throw new InvalidPluginExecutionException(ex.Message, ex);
 
             }

@@ -205,7 +205,7 @@ namespace SDDS.Plugin.ApplicationPriority
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "ApplicationSetPriority");
                 throw new InvalidPluginExecutionException(ex.Message);
 
             }

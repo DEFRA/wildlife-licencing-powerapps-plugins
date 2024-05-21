@@ -35,9 +35,11 @@ namespace SDDS.Plugin.Application
 
                     if (ApplicationOutSideWindowSeason(appTypeRef.Id, service, createdOnDate))
                     {
+                        DateTime today = DateTime.Now;
                         DateTime defaultDueDate = applicationType.GetAttributeValue<DateTime>("sdds_defaultdatewhenoutsideseasonalwindow");
 
-                        applicationDueDate = new DateTime(DateTime.Now.Year, defaultDueDate.Month, defaultDueDate.Day);
+                        int yearToUse = defaultDueDate.Month < today.Month ? (today.Year + 1) : today.Year;
+                        applicationDueDate = new DateTime(yearToUse, defaultDueDate.Month, defaultDueDate.Day);
                         centralSLADueTime = createdOnDate.AddBusinessDays(5);
 
                         service.Update(new Entity(application.LogicalName, application.Id)
@@ -72,7 +74,7 @@ namespace SDDS.Plugin.Application
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "SetApplicationDueDate");
                 throw new InvalidPluginExecutionException(ex.Message);
             }
         }
