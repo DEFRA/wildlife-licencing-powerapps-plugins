@@ -487,7 +487,7 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
             win.FindElement(By.XPath("//div[@title='Conservation considerations outcome']")).Click();
 
             Thread.Sleep(5000);
-            action.MoveToElement(actionA).DoubleClick().Perform()
+            action.MoveToElement(actionA).DoubleClick().Perform();
             Thread.Sleep(5000);
             var dropdown = win.FindElement(By.XPath("//select[@aria-label='Mark as Satisfied/Not-satisfied']"));
             var select = new SelectElement(dropdown);
