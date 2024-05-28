@@ -74,6 +74,7 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
         }
 
         [Given(@"I will populate the remaining ""([^""]*)"" Tab details")]
+     
         public void GivenIGoToTab(string general)
         {
 
@@ -272,8 +273,9 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
         [When(@"I click on generate document")]
         public void WhenIClickOnGenerateDocument()
         {
-            _happyPathPage._xrmApp.CommandBar.ClickCommand("Generate Document");
-            _happyPathPage._xrmApp.ThinkTime(23000);
+                _happyPathPage.Clickonmic();
+                _happyPathPage.Clickonlicevcegenerate();
+                _happyPathPage._xrmApp.ThinkTime(23000);
         }
         [Then(@"I will validate the url of the opened Licence document")]
         public void ThenIWillValidateTheUrlOfTheOpenedLicenceDocument()
