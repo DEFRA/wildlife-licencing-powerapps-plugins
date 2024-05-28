@@ -111,10 +111,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I click on New (plus sign) to add a new application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And("I select Application Type as A24 BAdger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select Application Type as A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.And("I will populate the remaining \"General\" Tab details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I will populate the remaining \"General\" Tab details for A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
  testRunner.And("I click on Save", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -163,10 +163,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I click on New (plus sign) to add a new application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 19
- testRunner.And("I select Application Type as A24 BAdger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select Application Type as A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 20
- testRunner.And("I will populate the remaining \"General\" Tab details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I will populate the remaining \"General\" Tab details for A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 21
  testRunner.And("I click on Save", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -248,10 +248,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I click on New (plus sign) to add a new application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 39
- testRunner.And("I select Application Type as A24 BAdger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select Application Type as A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 40
- testRunner.And("I will populate the remaining \"General\" Tab details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I will populate the remaining \"General\" Tab details for A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 41
  testRunner.And("I click on Save", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -330,10 +330,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I click on New (plus sign) to add a new application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 58
- testRunner.And("I select Application Type as A24 BAdger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select Application Type as A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 59
- testRunner.And("I will populate the remaining \"General\" Tab details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I will populate the remaining \"General\" Tab details for A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 60
  testRunner.And("I click on Save", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -391,10 +391,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I click on New (plus sign) to add a new application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 70
- testRunner.And("I select Application Type as A24 BAdger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select Application Type as A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 71
- testRunner.And("I will populate the remaining \"General\" Tab details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I will populate the remaining \"General\" Tab details for A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 72
  testRunner.And("I click on Save", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -449,10 +449,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I click on New (plus sign) to add a new application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 81
- testRunner.And("I select Application Type as A24 BAdger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I select Application Type as A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 82
- testRunner.And("I will populate the remaining \"General\" Tab details", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I will populate the remaining \"General\" Tab details for A24 Badger", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 83
  testRunner.And("I click on Save", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

@@ -7,8 +7,8 @@ Scenario: 1Verify the priority not empty
  Given the User is logged into Licence power app
  And I go to Applications home screen
  And I click on New (plus sign) to add a new application
- And I select Application Type as A24 BAdger
- And I will populate the remaining "General" Tab details
+ And I select Application Type as A24 Badger
+ And I will populate the remaining "General" Tab details for A24 Badger
  And I click on Save
  And I will check priority is not null
 
@@ -16,8 +16,8 @@ Scenario: 2Verify User can generate Licence
  Given the User is logged into Licence power app
  And I go to Applications home screen
  And I click on New (plus sign) to add a new application
- And I select Application Type as A24 BAdger
- And I will populate the remaining "General" Tab details
+ And I select Application Type as A24 Badger
+ And I will populate the remaining "General" Tab details for A24 Badger
  And I click on Save
  And I wiil progress from Application recieved to Assessment stage
  And I will populate application details tab
@@ -36,8 +36,8 @@ Scenario: 3Verify User can generate email for refused application
  Given the User is logged into Licence power app
  And I go to Applications home screen
  And I click on New (plus sign) to add a new application
- And I select Application Type as A24 BAdger
- And I will populate the remaining "General" Tab details
+ And I select Application Type as A24 Badger
+ And I will populate the remaining "General" Tab details for A24 Badger
  And I click on Save
  And I wiil progress from Application recieved to Assessment stage
  And I will populate application details tab
@@ -55,8 +55,8 @@ Scenario: 5Verify User can pause and resume application
  Given the User is logged into Licence power app
  And I go to Applications home screen
  And I click on New (plus sign) to add a new application
- And I select Application Type as A24 BAdger
- And I will populate the remaining "General" Tab details
+ And I select Application Type as A24 Badger
+ And I will populate the remaining "General" Tab details for A24 Badger
  And I click on Save
  And I wiil progress from Application recieved to Assessment stage
  And I pause the application
@@ -67,8 +67,8 @@ Scenario: 6Verify User can withdraw an application
  Given the User is logged into Licence power app
  And I go to Applications home screen
  And I click on New (plus sign) to add a new application
- And I select Application Type as A24 BAdger
- And I will populate the remaining "General" Tab details
+ And I select Application Type as A24 Badger
+ And I will populate the remaining "General" Tab details for A24 Badger
  And I click on Save
  And I wiil progress from Application recieved to Assessment stage
  And I will withdraw the application
@@ -78,8 +78,8 @@ Scenario: 6Verify User can withdraw an application
  Given the User is logged into Licence power app
  And I go to Applications home screen
  And I click on New (plus sign) to add a new application
- And I select Application Type as A24 BAdger
- And I will populate the remaining "General" Tab details
+ And I select Application Type as A24 Badger
+ And I will populate the remaining "General" Tab details for A24 Badger
  And I click on Save
  And I wiil progress from Application recieved to Assessment stage
  And I will populate application details tab

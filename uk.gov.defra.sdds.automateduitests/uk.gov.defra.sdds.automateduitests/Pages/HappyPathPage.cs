@@ -525,6 +525,14 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
         {
             win.FindElement(By.XPath("//*[@data-id='quickCreateSaveAndCloseBtn']")).Click();
         }
+        public void Clickonmic()
+        {
+            win.FindElement(By.XPath("//button[@aria-label = 'Miscellaneous More Commands']")).Click();
+        }
+        public void Clickonlicevcegenerate()
+        {
+            win.FindElement(By.XPath("//*[text()='Generate Document']")).Click();
+        }
         public void ClickonNewPermission()
         {
             win.FindElement(By.XPath("//*[text()='New Permission']")).Click();
@@ -583,7 +591,7 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
             win.FindElement(By.XPath("button[aria-label='New Report of Action. Add New Report of Action']")).Click();
 
         }
-        [AfterScenario]
+        //[AfterScenario]
         public void CloseApp()
 
         {

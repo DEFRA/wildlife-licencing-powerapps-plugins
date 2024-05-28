@@ -73,8 +73,8 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
             _happyPathPage._xrmApp.CommandBar.ClickCommand("New");
         }
 
-        [Given(@"I will populate the remaining ""([^""]*)"" Tab details")]
-        public void GivenIGoToTab(string general)
+        [Given(@"I will populate the remaining ""([^""]*)"" Tab details for (.*)")]
+        public void GivenIGoToTab(string general, string purpose)
         {
 
             _happyPathPage.AddReceivedDate();
@@ -87,7 +87,16 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_billingorganisationid", Value = "Countryside", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_alternativeapplicantcontactid", Value = "Abagail smitham", Index = 0 });
             _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_alternativeecologistcontactid", Value = "Roger Nicholls", Index = 0 });
-            _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationpurpose", Value = "Development ", Index = 0 });
+            if (purpose == "A01 Badger")
+            {
+                _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationpurpose", Value = "Any agricultural or forestry operation", Index = 0 });
+
+            }
+            else if (purpose == "A24 Badger")
+            {
+                _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationpurpose", Value = "Development ", Index = 0 });
+            }
+
             _happyPathPage._xrmApp.Entity.SetValue(new OptionSet { Name = "sdds_applicationcategory", Value = "Commercial" });
             _happyPathPage._xrmApp.ThinkTime(2000);
             _happyPathPage._xrmApp.Entity.SetValue("sdds_descriptionofproposal", Faker.Address.StreetName());
@@ -99,10 +108,10 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
 
         }
 
-        [Given(@"I select Application Type as A(.*) BAdger")]
-        public void GivenISelectApplicationTypeAsABAdger(int p0)
+        [Given(@"I select Application Type as (.*)")]
+        public void GivenISelectApplicationTypeAsABAdger(string speciesType)
         {
-            _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationtypesid", Value = "A24 Badger", Index = 0 });
+            _happyPathPage._xrmApp.Entity.SetValue(new LookupItem { Name = "sdds_applicationtypesid", Value = speciesType, Index = 0 });
 
 
         }
@@ -272,7 +281,9 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
         [When(@"I click on generate document")]
         public void WhenIClickOnGenerateDocument()
         {
-            _happyPathPage._xrmApp.CommandBar.ClickCommand("Generate Document");
+            _happyPathPage.Clickonmic();
+            _happyPathPage.Clickonlicevcegenerate();    
+//_happyPathPage._xrmApp.CommandBar.ClickCommand("Generate Document");
             _happyPathPage._xrmApp.ThinkTime(23000);
         }
         [Then(@"I will validate the url of the opened Licence document")]
