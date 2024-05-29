@@ -281,8 +281,8 @@ namespace uk.gov.defra.sdds.automateduitests.Steps
         [When(@"I click on generate document")]
         public void WhenIClickOnGenerateDocument()
         {
-            _happyPathPage.Clickonmic();
-            _happyPathPage.Clickonlicevcegenerate();    
+            _happyPathPage.ClickOnMiscellaneous();
+            _happyPathPage.ClickOnLicencegenerate();    
 //_happyPathPage._xrmApp.CommandBar.ClickCommand("Generate Document");
             _happyPathPage._xrmApp.ThinkTime(23000);
         }
