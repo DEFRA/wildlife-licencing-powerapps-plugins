@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using SDDS.Plugin.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,11 +43,11 @@ namespace SDDS.Plugin.Application
                         applicationDueDate = new DateTime(yearToUse, defaultDueDate.Month, defaultDueDate.Day);
                         centralSLADueTime = createdOnDate.AddBusinessDays(5);
 
-                        service.Update(new Entity(application.LogicalName, application.Id)
-                        {
-                            ["sdds_licenceapplicationduedate"] = applicationDueDate,
-                            ["sdds_centralslatimer"] = centralSLADueTime,
-                        });
+                        //service.Update(new Entity(application.LogicalName, application.Id)
+                        //{
+                        application.Attributes["sdds_licenceapplicationduedate"] = applicationDueDate;
+                        application.Attributes["sdds_centralslatimer"] = centralSLADueTime;
+                        //});
 
                     }
                     else
@@ -63,18 +64,18 @@ namespace SDDS.Plugin.Application
                         applicationDueDate = createdOnDate.AddBusinessDays(businessWorkingdaysToAdd);
                         centralSLADueTime = createdOnDate.AddBusinessDays(5);
 
-                        service.Update(new Entity(application.LogicalName, application.Id)
-                        {
-                            ["sdds_licenceapplicationduedate"] = applicationDueDate,
-                            ["sdds_centralslatimer"] = centralSLADueTime,
-                        });
+                        //service.Update(new Entity(application.LogicalName, application.Id)
+                        //{
+                        application.Attributes["sdds_licenceapplicationduedate"] = applicationDueDate;
+                        application.Attributes["sdds_centralslatimer"] = centralSLADueTime;
+                        //});
                     }                   
                 }
             }
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "SetApplicationDueDate");
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "SetApplicationDueDate", (int)ErrorPriority.High);
                 throw new InvalidPluginExecutionException(ex.Message);
             }
         }

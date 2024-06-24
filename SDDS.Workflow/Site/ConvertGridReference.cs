@@ -35,7 +35,7 @@ namespace SDDS.Workflow.Site
             tracingService.Trace("Entering GridRef to EN conversion");
             try
             {
-                var gridRef = GridReference.Get<string>(context);
+                var gridRef = GridReference.Get<string>(context).Replace(" ", "").Trim();
                 var bng = BuildNationalGrid().FirstOrDefault(x => x.HMS == gridRef.Substring(0, 2));
 
                 if (bng != null)
@@ -56,7 +56,7 @@ namespace SDDS.Workflow.Site
             catch (Exception ex)
             {
                 tracingService.Trace($"{ex.Message}: {ex.StackTrace}");
-                ExceptionHandler.SaveToTable(service, ex, wfContext.MessageName, this.GetType().Name);
+                ExceptionHandler.SaveToTable(service, ex, wfContext.MessageName, this.GetType().Name, (int)ErrorPriority.Medium);
                 throw ex;
             }
         }

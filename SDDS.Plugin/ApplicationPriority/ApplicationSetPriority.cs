@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using SDDS.Plugin.Model;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Metadata;
@@ -83,7 +84,7 @@ namespace SDDS.Plugin.ApplicationPriority
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name, (int)ErrorPriority.Medium);
                 throw new InvalidPluginExecutionException(ex.Message);
 
             }
@@ -163,7 +164,7 @@ namespace SDDS.Plugin.ApplicationPriority
             {
                 tracing.Trace(ex.Message);
                 tracing.Trace(ex.StackTrace);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name, (int)ErrorPriority.Medium);
                 throw new InvalidPluginExecutionException(ex.Message);
 
             }
@@ -205,7 +206,7 @@ namespace SDDS.Plugin.ApplicationPriority
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "ApplicationSetPriority");
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "ApplicationSetPriority", (int)ErrorPriority.Medium);
                 throw new InvalidPluginExecutionException(ex.Message);
 
             }

@@ -9,14 +9,16 @@ namespace SDDS.Plugin
 {
     public static class ExceptionHandler
     {
-        public static void SaveToTable(IOrganizationService service, Exception exc, string sdkMessage, string className)
+        public static void SaveToTable(IOrganizationService service, Exception exc, string sdkMessage, string className, int priority)
         {
             service.Create(new Entity("sdds_failurelog")
             {
                 ["sdds_errordetail"] = exc.Message + exc.StackTrace,
                 ["sdds_event"] = sdkMessage,
                 ["sdds_processname"] = className,
-                ["sdds_source"] = new OptionSetValue(452120001)
+                ["sdds_source"] = new OptionSetValue(452120001),
+                ["sdds_name"] = className,
+                ["sdds_priority"] = new OptionSetValue(priority)
             });
         }
     }

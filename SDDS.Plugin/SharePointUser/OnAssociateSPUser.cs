@@ -92,7 +92,7 @@ namespace SDDS.Plugin.SharePointUser
                 }
             }catch(Exception ex)
             {               
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "OnAssociateSPUser");
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "OnAssociateSPUser", (int)ErrorPriority.High);
                 throw new InvalidPluginExecutionException(ex.Message);
             }
         }

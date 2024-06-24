@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using SDDS.Plugin.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace SDDS.Plugin.Assessment_Logic
             catch (Exception ex)
             {
                 tracing.Trace("AssociateAssessmentLogicRecord Error: " + ex.Message);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "AssociateAssessmentLogicRecord");
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "AssociateAssessmentLogicRecord", (int)ErrorPriority.Medium);
                 throw new InvalidPluginExecutionException(ex.Message);
             }
         }

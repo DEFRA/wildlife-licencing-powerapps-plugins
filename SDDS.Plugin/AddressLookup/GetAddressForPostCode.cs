@@ -2,6 +2,7 @@
 using Microsoft.Xrm.Sdk.Query;
 using SDDS.Plugin.AddressLookup;
 using SDDS.Plugin.Common;
+using SDDS.Plugin.Model;
 using System;
 using System.IO;
 using System.Net;
@@ -128,7 +129,7 @@ namespace SDDS.Plugin.GetAddressForPostCode
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "GetAddressForPostCode");
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "GetAddressForPostCode", (int)ErrorPriority.Medium);
                 throw new InvalidPluginExecutionException(ex.Message, ex);
 
             }

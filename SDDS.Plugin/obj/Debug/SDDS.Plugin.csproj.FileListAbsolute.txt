@@ -63,8 +63,6 @@ C:\Dev\wildlife-licensing\SDDS.Plugin\obj\Debug\SDDS.Plugin.csproj.CoreCompileIn
 C:\Dev\wildlife-licensing\SDDS.Plugin\obj\Debug\SDDS.Plugin.csproj.CopyComplete
 C:\Dev\wildlife-licensing\SDDS.Plugin\obj\Debug\SDDS.Plugin.dll
 C:\Dev\wildlife-licensing\SDDS.Plugin\obj\Debug\SDDS.Plugin.pdb
-C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\obj\Debug\SDDS.Plugin.csproj.AssemblyReference.cache
-C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\obj\Debug\SDDS.Plugin.csproj.CoreCompileInputs.cache
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\SDDS.Plugin.dll.config
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\SDDS.Plugin.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\SDDS.Plugin.pdb
@@ -95,6 +93,8 @@ C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Text.Json.xml
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\bin\Debug\System.ValueTuple.xml
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\obj\Debug\SDDS.Plugin.csproj.AssemblyReference.cache
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\obj\Debug\SDDS.Plugin.csproj.CoreCompileInputs.cache
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\obj\Debug\SDDS.Plugin.csproj.CopyComplete
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\obj\Debug\SDDS.Plugin.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.Plugin\obj\Debug\SDDS.Plugin.pdb

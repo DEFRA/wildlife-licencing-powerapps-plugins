@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using SDDS.Plugin.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
@@ -42,7 +43,7 @@ namespace SDDS.Plugin.Site
                 if (((Relationship)context.InputParameters["Relationship"]).SchemaName == "sdds_applicationtypes_sdds_licenseActivit")
                 {
                     var enticollection = (EntityReferenceCollection)context.InputParameters["RelatedEntities"];
-                    var activityRef = enticollection.FirstOrDefault();
+                    var activityRef = enticollection.Where(x=>x.LogicalName== "sdds_licenseactivity").FirstOrDefault();
 
                     string appeName = GetApplicationType(service, activityRef.Id);
                     service.Update(new Entity(activityRef.LogicalName, activityRef.Id)
@@ -53,7 +54,7 @@ namespace SDDS.Plugin.Site
             }catch(Exception ex)
             {
 
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "OnAssociationOfSite");
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "OnAssociationOfSite", (int)ErrorPriority.Low);
                 throw new InvalidPluginExecutionException(ex.Message);
             }
         }

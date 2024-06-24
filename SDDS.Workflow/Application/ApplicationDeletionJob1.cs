@@ -111,7 +111,7 @@ namespace SDDS.Workflow.Application
             catch (Exception ex)
             {
                 tracingService.Trace($"{ex.Message}: {ex.StackTrace}");
-                ExceptionHandler.SaveToTable(service, ex, wfContext.MessageName, this.GetType().Name);
+                ExceptionHandler.SaveToTable(service, ex, wfContext.MessageName, this.GetType().Name, (int)ErrorPriority.High);
                 throw ex;
             }
         }

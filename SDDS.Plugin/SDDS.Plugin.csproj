@@ -145,6 +145,7 @@
     <Compile Include="Licence\AssignParentLicence.cs" />
     <Compile Include="MemberShip\CreateMemberShipChoice.cs" />
     <Compile Include="Model\Application.cs" />
+    <Compile Include="Model\ErrorPriority.cs" />
     <Compile Include="Model\GenerateEmail.cs" />
     <Compile Include="Model\LicensableAction.cs" />
     <Compile Include="Model\SharePointUser.cs" />

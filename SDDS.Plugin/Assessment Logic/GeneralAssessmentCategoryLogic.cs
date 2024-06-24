@@ -1,6 +1,7 @@
 ﻿using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using SDDS.Plugin.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace SDDS.Plugin.Assessment_Logic
             }
             catch (Exception ex)
             {
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "GeneralAssessmentCategoryLogic");
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "GeneralAssessmentCategoryLogic", (int)ErrorPriority.Medium);
                 throw  new InvalidPluginExecutionException(ex.Message);
             }
         }

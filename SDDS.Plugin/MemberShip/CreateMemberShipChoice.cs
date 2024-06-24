@@ -1,6 +1,7 @@
 ﻿using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
+using SDDS.Plugin.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace SDDS.Plugin.MemberShip
                         catch (Exception ex)
                         {
                             tracing.Trace(ex.Message);
-                            ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
+                            ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name, (int)ErrorPriority.Medium);
                             throw new InvalidPluginExecutionException(ex.Message);
                         }
 
@@ -101,7 +102,7 @@ namespace SDDS.Plugin.MemberShip
                         catch (Exception ex)
                         {
                             tracing.Trace(ex.Message);
-                            ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
+                            ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name, (int)ErrorPriority.Medium);
                             throw new InvalidPluginExecutionException(ex.Message);
                         }
                     }
@@ -133,7 +134,7 @@ namespace SDDS.Plugin.MemberShip
                 catch (Exception ex)
                 {
                     tracing.Trace(ex.Message);
-                    ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name);
+                    ExceptionHandler.SaveToTable(service, ex, context.MessageName, this.GetType().Name, (int)ErrorPriority.Medium);
                     throw new InvalidPluginExecutionException(ex.Message);
                 }
             }

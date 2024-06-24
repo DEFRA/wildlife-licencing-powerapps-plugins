@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using SDDS.Plugin.EBG;
+using SDDS.Plugin.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,7 @@ namespace SDDS.Plugin.Licence
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "AssignParentLicence");
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "AssignParentLicence", (int)ErrorPriority.Medium);
                 throw new InvalidPluginExecutionException(ex.Message);
             }
         }

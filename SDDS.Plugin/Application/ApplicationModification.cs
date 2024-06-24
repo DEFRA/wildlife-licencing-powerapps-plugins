@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xrm.Sdk;
 using SDDS.Plugin.Common;
 using SDDS.Plugin.EBG;
+using SDDS.Plugin.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace SDDS.Plugin.Application
             catch (Exception ex)
             {
                 tracing.Trace(ex.Message);
-                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "ApplicationModification");
+                ExceptionHandler.SaveToTable(service, ex, context.MessageName, "ApplicationModification", (int)ErrorPriority.High);
                 throw new InvalidPluginExecutionException(ex.Message);
             }
         }
