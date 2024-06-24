@@ -529,6 +529,15 @@ namespace uk.gov.defra.sdds.automateduitests.Pages
         {
             win.FindElement(By.XPath("//*[text()='New Permission']")).Click();
         }
+       
+        public void ClickOnMiscellaneous()
+        {
+            win.FindElement(By.XPath("//button[@aria-label = 'Miscellaneous More Commands']")).Click();
+        }
+        public void ClickOnLicencegenerate()
+        {
+            win.FindElement(By.XPath("//*[text()='Generate Document']")).Click();
+        }
         public void ClickOnAddExistingSite()
         {
             Actions actions = new Actions(win);
