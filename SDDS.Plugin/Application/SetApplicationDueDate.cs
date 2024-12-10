@@ -21,17 +21,28 @@ namespace SDDS.Plugin.Application
             try
             {
                 if(context.InputParameters.Contains("Target") && context.InputParameters["Target"] is Entity application
-                 && context.MessageName.ToLower() == "create")
+                 && (context.MessageName.ToLower() == "create" || context.MessageName.ToLower() == "update"))
                 {
                     DateTime createdOnDate;
                     DateTime applicationDueDate;
                     DateTime centralSLADueTime;
+                    EntityReference appTypeRef;
+
+                    if (!application.GetAttributeValue<bool>("sdds_sourceremote") && application.GetAttributeValue<DateTime>("sdds_applicationformreceiveddate") == DateTime.MinValue) return;
 
                     if (!application.GetAttributeValue<bool>("sdds_sourceremote"))
                         createdOnDate = application.GetAttributeValue<DateTime>("sdds_applicationformreceiveddate");
                     else createdOnDate = DateTime.Now;
 
-                    EntityReference appTypeRef = application.GetAttributeValue<EntityReference>("sdds_applicationtypesid");
+                    if (context.MessageName.ToLower() == "update" && !application.Attributes.Contains("sdds_applicationtypesid"))
+                    {
+                        Entity retrievedApp = service.Retrieve(application.LogicalName, application.Id, new ColumnSet(new string[] { "sdds_applicationtypesid" }));
+                        appTypeRef = retrievedApp.GetAttributeValue<EntityReference>("sdds_applicationtypesid");
+                        
+                    }else {
+                        appTypeRef = application.GetAttributeValue<EntityReference>("sdds_applicationtypesid");
+                    }
+
                     Entity applicationType = service.Retrieve(appTypeRef.LogicalName, appTypeRef.Id, new ColumnSet(new string[] { "sdds_duedays", "sdds_defaultdatewhenoutsideseasonalwindow" }));
 
                     if (ApplicationOutSideWindowSeason(appTypeRef.Id, service, createdOnDate))

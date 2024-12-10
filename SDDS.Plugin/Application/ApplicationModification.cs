@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SDDS.Plugin.Application
 {
@@ -26,18 +27,32 @@ namespace SDDS.Plugin.Application
                 {
                     GetAllAboutApplication modMethods = new GetAllAboutApplication();
 
-                     sdds_application newApp = modMethods.GetAllApplication(application, service);
+                    sdds_modificationrequest modification = modMethods.GetModificationRequest(service, application.Id);
+
+                    sdds_application newApp = modMethods.GetAllApplication(application, service, modification);
 
                     tracing.Trace("Creating modification Record");
                     Guid NewAppId = service.Create(newApp);
 
                     tracing.Trace("Created modification Record: " + NewAppId.ToString());
                     modMethods.GetAllRelatedSites(NewAppId, service, tracing, application.Id);
+                    modMethods.GetAuthorisedPersons(NewAppId, service, tracing, application.Id);
 
                     tracing.Trace("Creating modification Record licensable actions: ");
                     modMethods.GetLicensAbleActions(NewAppId, service, tracing, application.Id);
                     modMethods.GetAllPlanningConsent(NewAppId, service, tracing, application.Id);
                     modMethods.GetDesignatedSites(NewAppId, service, tracing, application.Id);
+                    modMethods.GetAssessmentRecords(NewAppId, service, tracing, application.Id, modification);
+
+                    sdds_application parentApp = new sdds_application()
+                    {
+                        Id = application.Id,
+                        LogicalName = application.LogicalName,
+                        StatusCode = sdds_application_StatusCode.ModificationinProgress
+                    };
+                    service.Update(parentApp);
+
+                    context.OutputParameters["RecordId"] = NewAppId.ToString();
                 }
             }
             catch (Exception ex)

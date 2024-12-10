@@ -65,6 +65,6 @@ C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTes
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\obj\Debug\SDDS.UnitTests.csproj.SuggestedBindingRedirects.cache
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\obj\Debug\SDDS.UnitTests.dll.config
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\obj\Debug\SDDS.UnitTests.csproj.CoreCompileInputs.cache
-C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\obj\Debug\SDDS.UnitTests.csproj.CopyComplete
+C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\obj\Debug\SDDS.Uni.24A65014.Up2Date
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\obj\Debug\SDDS.UnitTests.dll
 C:\Users\vo000010\Source\Repos\wildlife-licencing-powerapps-plugins\SDDS.UnitTests\obj\Debug\SDDS.UnitTests.pdb

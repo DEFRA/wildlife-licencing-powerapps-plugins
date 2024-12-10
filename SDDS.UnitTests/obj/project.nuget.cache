@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NjvGqShUaezszBi/YKRiuVkVc6vcd72J7Yb/EQLXpB/BiEgz6aTgQ9w4TIu3+3vi8KkWJvc6zZ4QTPtU8Fh38w==",
+  "dgSpecHash": "gDSJfJuQivs=",
   "success": true,
   "projectFilePath": "C:\\Users\\vo000010\\Source\\Repos\\wildlife-licencing-powerapps-plugins\\SDDS.UnitTests\\SDDS.UnitTests.csproj",
   "expectedPackageFiles": [
@@ -47,5 +47,34 @@
     "C:\\Users\\vo000010\\.nuget\\packages\\xunit.extensibility.execution\\2.4.2\\xunit.extensibility.execution.2.4.2.nupkg.sha512",
     "C:\\Users\\vo000010\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.5\\xunit.runner.visualstudio.2.4.5.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.Rest.ClientRuntime' 2.3.20 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-whph-446h-6m9v",
+      "libraryId": "Microsoft.Rest.ClientRuntime",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.8",
+        ".NETFramework,Version=v4.8/win",
+        ".NETFramework,Version=v4.8/win-arm64",
+        ".NETFramework,Version=v4.8/win-x64",
+        ".NETFramework,Version=v4.8/win-x86"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Text.Json' 6.0.2 has a known high severity vulnerability, https://github.com/advisories/GHSA-8g4q-xg66-9fp4",
+      "libraryId": "System.Text.Json",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.8",
+        ".NETFramework,Version=v4.8/win",
+        ".NETFramework,Version=v4.8/win-arm64",
+        ".NETFramework,Version=v4.8/win-x64",
+        ".NETFramework,Version=v4.8/win-x86"
+      ]
+    }
+  ]
 }

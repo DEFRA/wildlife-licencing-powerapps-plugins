@@ -921,6 +921,26 @@ namespace SDDS.Plugin.EBG
 		}
 		
 		/// <summary>
+		/// 1:N sdds_license_Tasks
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("sdds_license_Tasks")]
+		public System.Collections.Generic.IEnumerable<SDDS.Plugin.EBG.Task> sdds_license_Tasks
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<SDDS.Plugin.EBG.Task>("sdds_license_Tasks", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_license_Tasks");
+				this.SetRelatedEntities<SDDS.Plugin.EBG.Task>("sdds_license_Tasks", null, value);
+				this.OnPropertyChanged("sdds_license_Tasks");
+			}
+		}
+		
+		/// <summary>
 		/// N:1 sdds_license_ParentLicence_sdds_license
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_parentlicence")]

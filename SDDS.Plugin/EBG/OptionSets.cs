@@ -6,12 +6,38 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 // </auto-generated>
-// Created via this command line: "C:\Users\vo000010\AppData\Roaming\MscrmTools\XrmToolBox\Plugins\DLaB.EarlyBoundGenerator\crmsvcutil.exe" /url:"https://defra-sdds-dev2.api.crm11.dynamics.com" /namespace:"SDDS.Plugin.EBG" /SuppressGeneratedCodeAttribute /out:"C:\Users\vo000010\AppData\Roaming\MscrmTools\XrmToolBox\Settings\EBG\OptionSets.cs" /codecustomization:"DLaB.CrmSvcUtilExtensions.OptionSet.CustomizeCodeDomService,DLaB.CrmSvcUtilExtensions" /codegenerationservice:"DLaB.CrmSvcUtilExtensions.OptionSet.CustomCodeGenerationService,DLaB.CrmSvcUtilExtensions" /codewriterfilter:"DLaB.CrmSvcUtilExtensions.OptionSet.CodeWriterFilterService,DLaB.CrmSvcUtilExtensions" /namingservice:"DLaB.CrmSvcUtilExtensions.NamingService,DLaB.CrmSvcUtilExtensions" /metadataproviderservice:"DLaB.CrmSvcUtilExtensions.BaseMetadataProviderService,DLaB.CrmSvcUtilExtensions" /username:"victor.onyebuchi@defradev.onmicrosoft.com" /password:"***************" 
+// Created via this command line: "C:\Users\vo000010\AppData\Roaming\MscrmTools\XrmToolBox\Plugins\DLaB.EarlyBoundGenerator\crmsvcutil.exe" /url:"https://defra-sdds-dev2.api.crm11.dynamics.com" /namespace:"SDDS.Plugin.EBG" /SuppressGeneratedCodeAttribute /out:"C:\Users\vo000010\AppData\Roaming\MscrmTools\XrmToolBox\Settings\EBG\OptionSets.cs" /codecustomization:"DLaB.CrmSvcUtilExtensions.OptionSet.CustomizeCodeDomService,DLaB.CrmSvcUtilExtensions" /codegenerationservice:"DLaB.CrmSvcUtilExtensions.OptionSet.CustomCodeGenerationService,DLaB.CrmSvcUtilExtensions" /codewriterfilter:"DLaB.CrmSvcUtilExtensions.OptionSet.CodeWriterFilterService,DLaB.CrmSvcUtilExtensions" /namingservice:"DLaB.CrmSvcUtilExtensions.NamingService,DLaB.CrmSvcUtilExtensions" /metadataproviderservice:"DLaB.CrmSvcUtilExtensions.BaseMetadataProviderService,DLaB.CrmSvcUtilExtensions" 
 //------------------------------------------------------------------------------
 
 namespace SDDS.Plugin.EBG
 {
 	
+	
+	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum msft_DataState
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Default", 0)]
+		Default = 0,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Retain", 1)]
+		Retain = 1,
+	}
+	
+	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum sdds_AdvisorType
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Advisor ", 0)]
+		Advisor = 100000000,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Lead advisor", 1)]
+		Leadadvisor = 100000001,
+	}
 	
 	[System.Runtime.Serialization.DataContractAttribute()]
 	public enum sdds_application_StatusCode
@@ -36,6 +62,10 @@ namespace SDDS.Plugin.EBG
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Inactive", 7, "#0000ff")]
 		Inactive = 2,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Modification in Progress", 10, "#961b1b")]
+		ModificationinProgress = 452120002,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Not Granted", 6, "#6b6fcf")]
@@ -177,6 +207,19 @@ namespace SDDS.Plugin.EBG
 	}
 	
 	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum sdds_ApplicationType
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Modification", 1, "#ad6363")]
+		Modification = 452120001,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("New", 0, "#41cc66")]
+		New = 452120000,
+	}
+	
+	[System.Runtime.Serialization.DataContractAttribute()]
 	public enum sdds_applicatioonAssessmentCategory
 	{
 		
@@ -207,6 +250,67 @@ namespace SDDS.Plugin.EBG
 	}
 	
 	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum sdds_assessment
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Charge Request", 8)]
+		ChargeRequest = 100000009,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Decision", 9)]
+		Decision = 100000010,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Designated site", 12)]
+		Designatedsite = 452120001,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Disease Risk", 1)]
+		DiseaseRisk = 100000001,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Experience", 5)]
+		Experience = 100000006,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("FCS", 2)]
+		FCS = 100000002,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("HRA", 6)]
+		HRA = 100000007,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("HRA Assessment", 11)]
+		HRAAssessment = 100000013,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("IROPI", 0)]
+		IROPI = 100000000,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Maps", 13)]
+		Maps = 452120002,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("NSA", 3)]
+		NSA = 100000003,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Survey", 7)]
+		Survey = 100000008,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Task", 10)]
+		Task = 100000011,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Technical", 4)]
+		Technical = 100000004,
+	}
+	
+	[System.Runtime.Serialization.DataContractAttribute()]
 	public enum sdds_AssessmentOutcome
 	{
 		
@@ -226,6 +330,14 @@ namespace SDDS.Plugin.EBG
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Desk Assessment", 2)]
 		DeskAssessment = 100000002,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Desk based - email", 3)]
+		Deskbasedemail = 452120001,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Desk based - interim report check", 4)]
+		Deskbasedinterimreportcheck = 452120002,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Site Visit", 0)]
@@ -663,8 +775,16 @@ namespace SDDS.Plugin.EBG
 		Granted_ROAReceived = 452120002,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("Revoked", 2, "#0000ff")]
-		Revoked = 2,
+		[OptionSetMetadataAttribute("Inactive", 2, "#0000ff")]
+		Inactive = 2,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Revoked", 7, "#7a5656")]
+		Revoked = 452120005,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Revoked (ROA Received)", 8)]
+		Revoked_ROAReceived = 452120006,
 	}
 	
 	[System.Runtime.Serialization.DataContractAttribute()]
@@ -718,24 +838,28 @@ namespace SDDS.Plugin.EBG
 		Artificiallightingoranymirrorordazzlingdevice = 100000054,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("As appropriate", 41)]
-		Asappropriate = 100000041,
-		
-		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Automatic or semi automatic weapon", 30)]
 		Automaticorsemiautomaticweapon = 100000030,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("badtest", 91)]
+		badtest = 100000091,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Bottle Trapping", 80)]
+		BottleTrapping = 100000080,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("By hand", 0)]
 		Byhand = 100000000,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("By static hand-held net", 1)]
-		Bystatichandheldnet = 100000001,
+		[OptionSetMetadataAttribute("By Hand Test", 88)]
+		ByHandTest = 100000088,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("Capturing with nets or traps", 19)]
-		Capturingwithnetsortraps = 100000019,
+		[OptionSetMetadataAttribute("By static hand-held net", 1)]
+		Bystatichandheldnet = 100000001,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Close human presence", 48)]
@@ -750,12 +874,20 @@ namespace SDDS.Plugin.EBG
 		Damagingasettbyhandandmechanicalmeans_100000069 = 100000069,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Damaging a sett by  hand and mechanical  means", 78)]
+		Damagingasettbyhandandmechanicalmeans_100000078 = 100000078,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Destruction of holt by hand or mechanical means", 24)]
 		Destructionofholtbyhandormechanicalmeans = 100000024,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Destruction of sett", 3)]
+		Destructionofsett_100000003 = 100000003,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Destruction of sett", 75)]
-		Destructionofsett = 100000075,
+		Destructionofsett_100000075 = 100000075,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Destruction of the vacant sett by hand and mechanical means", 13)]
@@ -764,6 +896,10 @@ namespace SDDS.Plugin.EBG
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Destruction of the vacant sett by hand and mechanical means", 74)]
 		Destructionofthevacantsettbyhandandmechanicalmeans_100000074 = 100000074,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Destruction of the vacant sett by hand and  mechanical means", 85)]
+		Destructionofthevacantsettbyhandandmechanicalmeans_100000085 = 100000085,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Destructive search by soft demolition", 4)]
@@ -798,16 +934,24 @@ namespace SDDS.Plugin.EBG
 		DisturbanceofbadgersAsAppropriateMethodnotknown = 100000016,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("Egg oiling/pricking", 45)]
-		Eggoilingpricking = 100000045,
+		[OptionSetMetadataAttribute("disturbance of badgers by hand", 90)]
+		disturbanceofbadgersbyhand = 100000090,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Electrical device for killing or stunning", 28)]
 		Electricaldeviceforkillingorstunning = 100000028,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Enclosure", 82)]
+		Enclosure = 100000082,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Endoscopes", 9)]
 		Endoscopes = 100000009,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Exclusion by permanent amphibian fencing", 84)]
+		Exclusionbypermanentamphibianfencing = 100000084,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Exclusion device as specified", 22)]
@@ -816,6 +960,22 @@ namespace SDDS.Plugin.EBG
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Falconry", 57)]
 		Falconry = 100000057,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Fencing", 87)]
+		Fencing = 100000087,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Hand held tools", 99)]
+		Handheldtools = 100000099,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Hand Search", 95)]
+		HandSearch = 100000095,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Hand tools", 81)]
+		Handtools = 100000081,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("illumination (intentional by torch)", 6)]
@@ -838,24 +998,36 @@ namespace SDDS.Plugin.EBG
 		Livecapturetrap = 100000039,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("Machinery", 40)]
-		Machinery = 100000040,
+		[OptionSetMetadataAttribute("Machinery", 50)]
+		Machinery = 100000050,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Mechanical demolition Disturbance by", 5)]
 		MechanicaldemolitionDisturbanceby = 100000005,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Mechanical excavation", 79)]
+		Mechanicalexcavation = 100000079,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Mechanical Excavation", 89)]
+		MechanicalExcavation = 100000089,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Method not known", 44)]
 		Methodnotknown_100000044 = 100000044,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Method not known", 45)]
+		Methodnotknown_100000045 = 100000045,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Method not known", 72)]
 		Methodnotknown_100000072 = 100000072,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("Nest box trap", 50)]
-		Nestboxtrap = 100000050,
+		[OptionSetMetadataAttribute("Nest box/Nest Tube", 94)]
+		NestboxNestTube = 100000094,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Nest destruction", 46)]
@@ -870,12 +1042,16 @@ namespace SDDS.Plugin.EBG
 		Net = 100000042,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("Obstructing access by blocking or proofing", 77)]
-		Obstructingaccessbyblockingorproofing = 100000077,
+		[OptionSetMetadataAttribute("Obstructing access by blocking or proofing", 11)]
+		Obstructingaccessbyblockingorproofing_100000011 = 100000011,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("Obstructing access to sett entrances by blocking or proofing", 11)]
-		Obstructingaccesstosettentrancesbyblockingorproofing_100000011 = 100000011,
+		[OptionSetMetadataAttribute("Obstructing access by blocking or proofing", 77)]
+		Obstructingaccessbyblockingorproofing_100000077 = 100000077,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Obstructing access to sett entrances by blocking or proofing", 40)]
+		Obstructingaccesstosettentrancesbyblockingorproofing_100000040 = 100000040,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Obstructing access to sett entrances by blocking or proofing", 70)]
@@ -888,8 +1064,22 @@ namespace SDDS.Plugin.EBG
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Obstructing access to sett entrances by means of a fence incorporating one-way ba" +
+			"dger gates", 19)]
+		Obstructingaccesstosettentrancesbymeansofafenceincorporatingonewaybadgergates_100000019 = 100000019,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Obstructing access to sett entrances by means of a fence incorporating one-way ba" +
+			"dger gates", 41)]
+		Obstructingaccesstosettentrancesbymeansofafenceincorporatingonewaybadgergates_100000041 = 100000041,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Obstructing access to sett entrances by means of a fence incorporating one-way ba" +
 			"dger gates", 73)]
 		Obstructingaccesstosettentrancesbymeansofafenceincorporatingonewaybadgergates_100000073 = 100000073,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("obstructing badgers by way blocking", 98)]
+		obstructingbadgersbywayblocking = 100000098,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Obstructing sett entrances by means of one-way badger gate", 71)]
@@ -904,12 +1094,16 @@ namespace SDDS.Plugin.EBG
 		ObstructingsettentrancesbymeansofonewayBadgergates = 100000076,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Other", 93)]
+		Other = 100000093,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Other method not specified", 43)]
 		Othermethodnotspecified = 100000043,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("Permanent exclusion", 3)]
-		Permanentexclusion = 100000003,
+		[OptionSetMetadataAttribute("Pitfall trapping and refugia", 83)]
+		Pitfalltrappingandrefugia = 100000083,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Plant", 66)]
@@ -922,6 +1116,10 @@ namespace SDDS.Plugin.EBG
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Public exhibition or competition of captive bred live wild bird(s)", 61)]
 		Publicexhibitionorcompetitionofcaptivebredlivewildbird_s = 100000061,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("rad licence method", 96)]
+		radlicencemethod = 100000096,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Release", 65)]
@@ -964,6 +1162,14 @@ namespace SDDS.Plugin.EBG
 		Sightingdevicefornightshooting = 100000032,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Single stage habitat removal - active season", 97)]
+		Singlestagehabitatremovalactiveseason = 100000097,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Single stage habitat removal - hibernation season", 92)]
+		Singlestagehabitatremovalhibernationseason = 100000092,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Snare", 25)]
 		Snare = 100000025,
 		
@@ -998,6 +1204,10 @@ namespace SDDS.Plugin.EBG
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Trapping (relocation)", 21)]
 		Trapping_relocation = 100000021,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Two stage habitat removal", 86)]
+		Twostagehabitatremoval = 100000086,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Use a decoy", 26)]
@@ -1175,16 +1385,12 @@ namespace SDDS.Plugin.EBG
 	{
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("Granted", 2)]
-		Granted = 452120001,
+		[OptionSetMetadataAttribute("Active", 0)]
+		Active = 1,
 		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Inactive", 1)]
 		Inactive = 2,
-		
-		[System.Runtime.Serialization.EnumMemberAttribute()]
-		[OptionSetMetadataAttribute("Not Granted", 0)]
-		NotGranted = 1,
 	}
 	
 	[System.Runtime.Serialization.DataContractAttribute()]
@@ -1821,6 +2027,52 @@ namespace SDDS.Plugin.EBG
 	}
 	
 	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum Task_PriorityCode
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("High", 2)]
+		High = 2,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Low", 0)]
+		Low = 0,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Normal", 1)]
+		Normal = 1,
+	}
+	
+	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum Task_StatusCode
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Canceled", 4)]
+		Canceled = 6,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Completed", 3)]
+		Completed = 5,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Deferred", 5)]
+		Deferred = 7,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("In Progress", 1)]
+		InProgress = 3,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Not Started", 0)]
+		NotStarted = 2,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Waiting on someone else", 2)]
+		Waitingonsomeoneelse = 4,
+	}
+	
+	[System.Runtime.Serialization.DataContractAttribute()]
 	public enum appaction_ClientType
 	{
 		
@@ -1852,6 +2104,32 @@ namespace SDDS.Plugin.EBG
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		[OptionSetMetadataAttribute("Large", 2, "#0000ff")]
 		Large = 200000002,
+	}
+	
+	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum credential_UsageType
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Connection", 0, null, "authorize this credential in connection", "connection")]
+		Connection = 280920000,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("DesktopScript", 1, null, "authorize this credential in power automate for desktop script", "DesktopScript")]
+		DesktopScript = 280920001,
+	}
+	
+	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum formmappingallowedoperations
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Create", 0)]
+		Create = 0,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Update", 1)]
+		Update = 1,
 	}
 	
 	[System.Runtime.Serialization.DataContractAttribute()]

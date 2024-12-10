@@ -789,7 +789,8 @@ namespace SDDS.Plugin.Model
             NotGranted = 100000008,
             Inactive = 2,
             Withdrawn = 100000006,
-            Closed = 452120001
+            Closed = 452120001,
+            ModificationinProgress = 452120002
         }
         public enum AreMinimumrequirementsforhabitatmanagement_OptionSet
         {

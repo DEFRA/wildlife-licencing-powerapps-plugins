@@ -743,6 +743,26 @@ namespace SDDS.Plugin.EBG
 		}
 		
 		/// <summary>
+		/// This field displays the type of application
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_applicationtype")]
+		public virtual sdds_ApplicationType? sdds_applicationtype
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((sdds_ApplicationType?)(EntityOptionSetEnum.GetEnum(this, "sdds_applicationtype")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_applicationtype");
+				this.SetAttributeValue("sdds_applicationtype", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.OnPropertyChanged("sdds_applicationtype");
+			}
+		}
+		
+		/// <summary>
 		/// 
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_applicationtypesid")]
@@ -992,6 +1012,26 @@ namespace SDDS.Plugin.EBG
 				this.OnPropertyChanging("sdds_assessorid");
 				this.SetAttributeValue("sdds_assessorid", value);
 				this.OnPropertyChanged("sdds_assessorid");
+			}
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_atleastoneactivelicence")]
+		public System.Nullable<bool> sdds_atleastoneactivelicence
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("sdds_atleastoneactivelicence");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_atleastoneactivelicence");
+				this.SetAttributeValue("sdds_atleastoneactivelicence", value);
+				this.OnPropertyChanged("sdds_atleastoneactivelicence");
 			}
 		}
 		
@@ -1605,6 +1645,32 @@ namespace SDDS.Plugin.EBG
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<System.DateTime>>("sdds_daysfromrecieveddate");
+			}
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_daysoverdue")]
+		public System.Nullable<decimal> sdds_daysoverdue
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<decimal>>("sdds_daysoverdue");
+			}
+		}
+		
+		/// <summary>
+		/// Calculate days left before the case is due
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_daysuntildue")]
+		public System.Nullable<decimal> sdds_daysuntildue
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<decimal>>("sdds_daysuntildue");
 			}
 		}
 		
@@ -3491,6 +3557,26 @@ namespace SDDS.Plugin.EBG
 		/// <summary>
 		/// 
 		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_modificationstartedgranted")]
+		public System.Nullable<bool> sdds_modificationstartedgranted
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("sdds_modificationstartedgranted");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_modificationstartedgranted");
+				this.SetAttributeValue("sdds_modificationstartedgranted", value);
+				this.OnPropertyChanged("sdds_modificationstartedgranted");
+			}
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_modificationwhatactionsbeencompleted")]
 		public string sdds_modificationWhatactionsbeencompleted
 		{
@@ -3931,6 +4017,19 @@ namespace SDDS.Plugin.EBG
 		/// <summary>
 		/// 
 		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_ontimecase")]
+		public System.Nullable<bool> sdds_OnTimeCase
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("sdds_ontimecase");
+			}
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_organisationid")]
 		public Microsoft.Xrm.Sdk.EntityReference sdds_organisationid
 		{
@@ -4125,6 +4224,19 @@ namespace SDDS.Plugin.EBG
 				this.OnPropertyChanging("sdds_overallconsentoutcome");
 				this.SetAttributeValue("sdds_overallconsentoutcome", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 				this.OnPropertyChanged("sdds_overallconsentoutcome");
+			}
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_overduecase")]
+		public System.Nullable<bool> sdds_overduecase
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("sdds_overduecase");
 			}
 		}
 		
@@ -6190,6 +6302,26 @@ namespace SDDS.Plugin.EBG
 				this.OnPropertyChanging("Referencedsdds_application_parentapplicationid_sdds_appl");
 				this.SetRelatedEntities<SDDS.Plugin.EBG.sdds_application>("sdds_application_parentapplicationid_sdds_appl", Microsoft.Xrm.Sdk.EntityRole.Referenced, value);
 				this.OnPropertyChanged("Referencedsdds_application_parentapplicationid_sdds_appl");
+			}
+		}
+		
+		/// <summary>
+		/// 1:N sdds_application_Tasks
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("sdds_application_Tasks")]
+		public System.Collections.Generic.IEnumerable<SDDS.Plugin.EBG.Task> sdds_application_Tasks
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<SDDS.Plugin.EBG.Task>("sdds_application_Tasks", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_application_Tasks");
+				this.SetRelatedEntities<SDDS.Plugin.EBG.Task>("sdds_application_Tasks", null, value);
+				this.OnPropertyChanged("sdds_application_Tasks");
 			}
 		}
 		

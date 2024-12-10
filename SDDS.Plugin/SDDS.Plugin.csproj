@@ -139,6 +139,7 @@
     <Compile Include="EBG\sdds_modificationrequest.cs" />
     <Compile Include="EBG\sdds_planningconsent.cs" />
     <Compile Include="EBG\sdds_site.cs" />
+    <Compile Include="EBG\Task.cs" />
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="GetEnvironmentVariable.cs" />
     <Compile Include="HandleJson.cs" />

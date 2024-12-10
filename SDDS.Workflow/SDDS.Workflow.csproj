@@ -105,6 +105,7 @@
     <Compile Include="Application\ConfirmTasks.cs" />
     <Compile Include="Application\GetCurrentUser.cs" />
     <Compile Include="Application\SetRecordUrl.cs" />
+    <Compile Include="Application\UpdateApplicationOnActiveLicence.cs" />
     <Compile Include="Consultation\ShareApplicationRecord.cs" />
     <Compile Include="ErrorPriority.cs" />
     <Compile Include="ExceptionHandler.cs" />

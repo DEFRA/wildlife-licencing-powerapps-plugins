@@ -8,12 +8,13 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Query;
 using SDDS.Plugin.EBG;
 using SDDS.Plugin.Model;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SDDS.Plugin.Common
 {
     public class GetAllAboutApplication
     {
-        public sdds_application GetAllApplication( EntityReference appllication, IOrganizationService service)
+        public sdds_application GetAllApplication( EntityReference appllication, IOrganizationService service, sdds_modificationrequest modification)
         {
             sdds_application app = (sdds_application)service.Retrieve(appllication.LogicalName, appllication.Id, new ColumnSet(true));
 
@@ -24,32 +25,18 @@ namespace SDDS.Plugin.Common
             EntityCollection paApps = service.RetrieveMultiple(parentApp);
             int appCount = paApps.Entities.Count + 1;
             sdds_application app2 = new sdds_application() { 
-                sdds_advisormanager = app.sdds_advisormanager,
-                sdds_leadadvisor = app.sdds_leadadvisor,
-                sdds_assessorid = app.sdds_assessorid,
                 sdds_parentapplicationid = new EntityReference(appllication.LogicalName, appllication.Id),
                 sdds_priority = app.sdds_priority,
                 sdds_level = app.sdds_level,
                 sdds_sourceremote = false,
-                sdds_applicantagreetodelcaration = app.sdds_applicantagreetodelcaration,
-                sdds_dateofapplicantdeclaration = app.sdds_dateofapplicantdeclaration,
-                sdds_readprivacynotice = app.sdds_readprivacynotice,
-                sdds_applicantid = app.sdds_applicantid,    
-                sdds_organisationid = app.sdds_organisationid,
+                sdds_licenceexempted = app.sdds_licenceexempted,
                 sdds_applicationpurpose = app.sdds_applicationpurpose,
                 sdds_descriptionofproposal = app.sdds_descriptionofproposal,
                 sdds_homeimprovement = app.sdds_homeimprovement,
                 sdds_workbeprotectedscheduledmonumentworship = app.sdds_workbeprotectedscheduledmonumentworship,
-                sdds_billingcustomerid = app.sdds_billingcustomerid,
-                sdds_billingorganisationid = app.sdds_billingorganisationid,
-                sdds_applicantthesameasbillingcustomer = app.sdds_applicantthesameasbillingcustomer,
-                sdds_alternativeapplicantcontactid = app.sdds_alternativeapplicantcontactid,
-                sdds_alternativeecologistcontactid = app.sdds_alternativeecologistcontactid,
                 sdds_impactondesignatedprotectedsite = app.sdds_impactondesignatedprotectedsite,
                 sdds_issitesameasapplicants = app.sdds_issitesameasapplicants,
-                sdds_isapplicantonwnerofland = app.sdds_isapplicantonwnerofland,
-                sdds_ecologistid = app.sdds_ecologistid,
-                sdds_ecologistorganisationid = app.sdds_ecologistorganisationid,
+                sdds_isapplicantonwnerofland = app.sdds_isapplicantonwnerofland,               
                 sdds_wildliferelatedconviction = app.sdds_wildliferelatedconviction,
                 sdds_detailsofconvictions = app.sdds_detailsofconvictions,
                 sdds_whynopermissionrequired = app.sdds_whynopermissionrequired,
@@ -65,14 +52,82 @@ namespace SDDS.Plugin.Common
                 sdds_yesotherprotectedspeciecommitment = app.sdds_yesotherprotectedspeciecommitment,
                 sdds_conflictsbtwappotherlegalcommitment = app.sdds_conflictsbtwappotherlegalcommitment,
                 sdds_describethepotentialconflicts = app.sdds_describethepotentialconflicts,
-                sdds_permissionsobtainednotenough = app.sdds_permissionsobtainednotenough,
-                sdds_Name = app.sdds_Name + "-0" + appCount,
-                sdds_applicationnumber = app.sdds_applicationnumber + "-0" + appCount,
-                sdds_Applicationformreceiveddate = DateTime.Now,
+                sdds_permissionsobtainednotenough = app.sdds_permissionsobtainednotenough,               
                 sdds_applicationtypesid = app.sdds_applicationtypesid,
-                sdds_onnexttodesignatedsite = app.sdds_onnexttodesignatedsite
-
+                sdds_onnexttodesignatedsite = app.sdds_onnexttodesignatedsite,
+                sdds_licencejustification = app.sdds_licencejustification,
+                sdds_Inrelationtolicencepurpose = app.sdds_Inrelationtolicencepurpose,
+                sdds_takenactiontopreventproblemsoutlinedabove = app.sdds_takenactiontopreventproblemsoutlinedabove,
+                sdds_providedetailsoftheactionstaken = app.sdds_providedetailsoftheactionstaken,
+                sdds_explainwhynoactionshavebeentaken = app.sdds_explainwhynoactionshavebeentaken,
+                sdds_applicationtype = sdds_ApplicationType.Modification,
+                sdds_alternativeapplicantcontactid = app.sdds_alternativeapplicantcontactid,
+                sdds_alternativeecologistcontactid = app.sdds_alternativeecologistcontactid
             };
+
+            if(app.sdds_parentapplicationid != null)
+            {
+                
+                string last2Char = string.Empty;
+
+                string appNumber = app.sdds_applicationnumber.Trim();
+                string last3Char = appNumber.Substring(Math.Max(0, appNumber.Length - 3));
+
+                if (last3Char.StartsWith("-")) { last2Char = last3Char; } else last2Char = "-" + last3Char;
+
+
+
+                int number;
+                int.TryParse(last2Char.Substring(1), out number);
+
+                int newLast2Char = number + 1 + paApps.Entities.Count;
+
+                if (newLast2Char.ToString().Length == 1)
+                {
+                    app2.sdds_Name = appNumber.Substring(0, appNumber.IndexOf(last2Char)).Trim() + "-0" + newLast2Char;
+                    app2.sdds_applicationnumber = appNumber.Substring(0, appNumber.IndexOf(last2Char)).Trim() + "-0" + newLast2Char;
+
+                }
+                else
+                {
+                    app2.sdds_Name = appNumber.Substring(0, appNumber.IndexOf(last2Char)).Trim() + "-" + newLast2Char;
+                    app2.sdds_applicationnumber = appNumber.Substring(0, appNumber.IndexOf(last2Char)).Trim() + "-" + newLast2Char;
+                }
+
+                
+            }
+            else
+            {
+                app2.sdds_Name = app.sdds_Name.Trim() + "-0" + appCount.ToString().Trim();
+                app2.sdds_applicationnumber = app.sdds_Name.Trim() + "-0" + appCount.ToString().Trim();
+            }
+
+            if (modification.sdds_cloneapplicant == sdds_yesno.Yes)
+            {
+                app2.sdds_applicantid = app.sdds_applicantid;
+                app2.sdds_organisationid = app.sdds_organisationid;
+            }
+
+            if (modification.sdds_cloneecologist == sdds_yesno.Yes)
+            {
+                app2.sdds_ecologistid = app.sdds_ecologistid;
+                app2.sdds_heldbadgerlicence = app.sdds_heldbadgerlicence;
+                app2.sdds_ecologistexperienceofbadgerecology = app.sdds_ecologistexperienceofbadgerecology;
+                app2.sdds_badgermitigationclasslicence = app.sdds_badgermitigationclasslicence;
+                app2.sdds_ecologistexperienceofmethods = app.sdds_ecologistexperienceofmethods;
+                app2.sdds_mitigationclassrefno = app.sdds_mitigationclassrefno;
+                app2.sdds_evidenceofcompetencyprovided = app.sdds_evidenceofcompetencyprovided;
+                app2.sdds_ecologistorganisationid = app.sdds_ecologistorganisationid;
+            }
+
+            if(modification.sdds_clonebillingdetails == sdds_yesno.Yes)
+            {
+                app2.sdds_billingcustomerid = app.sdds_billingcustomerid;
+                app2.sdds_billingorganisationid = app.sdds_billingorganisationid;
+                app2.sdds_applicantthesameasbillingcustomer = app.sdds_applicantthesameasbillingcustomer;
+                app2.sdds_referenceorpurchaseordernumber = app.sdds_referenceorpurchaseordernumber;
+            }
+
             return app2;
         }
 
@@ -80,7 +135,7 @@ namespace SDDS.Plugin.Common
         {
             EntityReferenceCollection sitesColl = new EntityReferenceCollection();
 
-            QueryExpression query = new QueryExpression("sdds_site");
+            QueryExpression query = new QueryExpression(sdds_site.EntityLogicalName);
             query.ColumnSet = new ColumnSet(true);
             query.AddLink("sdds_application_sdds_site", "sdds_siteid", "sdds_siteid").LinkCriteria.AddCondition(Model.Application.PrimaryKey, ConditionOperator.Equal, oldAppId);
 
@@ -108,15 +163,39 @@ namespace SDDS.Plugin.Common
                        
         }
 
-        public void GetLicensAbleActions(Guid applicationId, IOrganizationService service, ITracingService tracing, Guid oldAppId)
+        public void GetAuthorisedPersons(Guid applicationId, IOrganizationService service, ITracingService tracing, Guid oldAppId)
         {
-            string[] actionTakenString = Array.Empty<string>();
-          List<LicensableAction> licensableActions = new List<LicensableAction>();
-            sdds_modificationrequest modification = GetModificationRequest(service,tracing, oldAppId);
-            if (modification.sdds_actiontakentodate != null)
+            EntityReferenceCollection AuthPersonsColl = new EntityReferenceCollection();
+
+            QueryExpression query = new QueryExpression("contact");
+            query.ColumnSet = new ColumnSet(false);
+            query.AddLink("sdds_application_authorisedpersons", "contactid", "contactid").LinkCriteria.AddCondition(Model.Application.PrimaryKey, ConditionOperator.Equal, oldAppId);
+
+            EntityCollection authPersons = service.RetrieveMultiple(query);
+
+            if (authPersons.Entities.Count > 0)
             {
-                actionTakenString = modification.sdds_actiontakentodate.Split(',');
+                foreach (var item in authPersons.Entities)
+                {
+                    AuthPersonsColl.Add(item.ToEntityReference());
+                }
+                EntityReference applicationRef = new EntityReference(sdds_application.EntityLogicalName, applicationId);
+
+                AssociateRequest request = new AssociateRequest()
+                {
+                    Target = applicationRef,
+                    Relationship = new Relationship("sdds_application_Contact_Authorisedpersons"),
+                    RelatedEntities = AuthPersonsColl
+                };
+
+                service.Execute(request);
             }
+
+        }
+
+        public void GetLicensAbleActions(Guid applicationId, IOrganizationService service, ITracingService tracing, Guid oldAppId)
+        {           
+            List<LicensableAction> licensableActions = new List<LicensableAction>();
 
             QueryExpression query = new QueryExpression(sdds_licensableaction.EntityLogicalName);
             query.ColumnSet = new ColumnSet(true);
@@ -130,26 +209,26 @@ namespace SDDS.Plugin.Common
 
             EntityCollection retActions = service.RetrieveMultiple(query);
             if (retActions.Entities.Count > 0)
-            {              
+            {
+                EntityCollection methods = new EntityCollection();
+
                 tracing.Trace("Found actions: " +  retActions.Entities.Count);
                 foreach (sdds_licensableaction action in retActions.Entities)
                 {
-                    if (actionTakenString.Count() == 0 || !actionTakenString.Contains(action.sdds_species))
+                    methods = GetMethods(action, service);
+
+                    action.sdds_applicationid = new EntityReference(sdds_application.EntityLogicalName, applicationId);
+                    action.Id = Guid.NewGuid();
+                    licensableActions.Add(new LicensableAction()
                     {
-                        action.sdds_applicationid = new EntityReference(sdds_application.EntityLogicalName, applicationId);
-                        action.Id = Guid.NewGuid();
-                        licensableActions.Add(new LicensableAction()
-                        {
-                            Action = action
-                        });
-                    }
+                        Action = action
+                    });
                 }
 
                 if (licensableActions.Count > 0)
                 {
                     foreach (var action in licensableActions)
                     {
-                        var methods = GetMethods(action.Action, service);
                         if (methods.Entities.Count > 0)
                         {
                             foreach (sdds_licensemethod method in methods.Entities)
@@ -236,7 +315,31 @@ namespace SDDS.Plugin.Common
 
         }
 
-        public sdds_modificationrequest GetModificationRequest(IOrganizationService service, ITracingService tracing, Guid oldAppId)
+        public void GetAssessmentRecords(Guid appId, IOrganizationService service, ITracingService tracing, Guid oldAppId, sdds_modificationrequest modification)
+        {
+            if (modification.sdds_cloneAssessmentrecords == sdds_yesno.Yes)
+            {
+                List<EBG.Task> tasks = new List<EBG.Task>();
+
+                QueryExpression query = new QueryExpression(EBG.Task.EntityLogicalName);
+                query.ColumnSet = new ColumnSet(true);
+                query.Criteria.AddCondition("regardingobjectid", ConditionOperator.Equal, oldAppId);
+
+                EntityCollection assessmentRecsColl = service.RetrieveMultiple(query);
+
+                if (assessmentRecsColl.Entities.Count > 0)
+                {
+                    assessmentRecsColl.Entities.ToList().ForEach(d => { tasks.Add((EBG.Task)d); });
+                    tasks.ForEach(c => { c.RegardingObjectId = new EntityReference(sdds_application.EntityLogicalName, appId); c.Id = Guid.NewGuid(); c.StateCode = TaskState.Open; c.StatusCode = Task_StatusCode.NotStarted; });
+
+                    tasks.ForEach(c => service.Create(c));
+                }
+
+            }
+
+        }
+
+        public sdds_modificationrequest GetModificationRequest(IOrganizationService service, Guid oldAppId)
         {
             sdds_modificationrequest request = new sdds_modificationrequest();  
 
@@ -255,5 +358,6 @@ namespace SDDS.Plugin.Common
             return request;
 
         }
+
     }
 }

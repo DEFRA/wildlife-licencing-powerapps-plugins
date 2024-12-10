@@ -29,12 +29,11 @@ namespace SDDS.Plugin.Licence
                         sdds_application parentApp = (sdds_application)service.Retrieve(sdds_application.EntityLogicalName, licence.sdds_applicationid.Id, new Microsoft.Xrm.Sdk.Query.ColumnSet(new string[] { "sdds_parentapplicationid" }));
                         if (parentApp.sdds_parentapplicationid != null)
                         {
-                            int activityCount = GetModActivityCount( service, parentApp.sdds_parentapplicationid.Id);
+                            
                             sdds_license retLicence = GetParentLicence(service, parentApp.sdds_parentapplicationid.Id);
 
                             if (retLicence.Id != Guid.Empty)
                             {
-                                licence.sdds_activitycountfrommodification = activityCount;
                                 licence.sdds_ParentLicence = new EntityReference(retLicence.LogicalName, retLicence.Id);
                             }
                         }
@@ -49,26 +48,6 @@ namespace SDDS.Plugin.Licence
             }
         }
 
-        private static int GetModActivityCount(IOrganizationService service, Guid appId)
-        {
-            int count = 0;
-
-            var query = new QueryExpression(sdds_modificationrequest.EntityLogicalName);
-            query.ColumnSet.AddColumns("sdds_applicationid", "sdds_name", "sdds_activitymodificationcount");
-            query.Criteria.AddCondition("sdds_applicationid", ConditionOperator.Equal, appId);
-            query.Criteria.AddCondition("statecode", ConditionOperator.Equal, 0);
-            query.AddOrder("createdon", OrderType.Ascending);
-
-            EntityCollection modColl = service.RetrieveMultiple(query);
-
-            if(modColl.Entities.Count > 0)
-            {
-               sdds_modificationrequest modification =  (sdds_modificationrequest)modColl.Entities[0];
-                count = (int)modification.sdds_activitymodificationcount;
-            }
-
-            return count;
-        }
 
         private static sdds_license GetParentLicence(IOrganizationService service, Guid appId)
         {

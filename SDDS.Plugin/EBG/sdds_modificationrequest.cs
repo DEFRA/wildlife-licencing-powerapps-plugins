@@ -345,6 +345,106 @@ namespace SDDS.Plugin.EBG
 		}
 		
 		/// <summary>
+		/// 
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_cloneapplicant")]
+		public virtual sdds_yesno? sdds_cloneapplicant
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((sdds_yesno?)(EntityOptionSetEnum.GetEnum(this, "sdds_cloneapplicant")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_cloneapplicant");
+				this.SetAttributeValue("sdds_cloneapplicant", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.OnPropertyChanged("sdds_cloneapplicant");
+			}
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_cloneassessmentrecords")]
+		public virtual sdds_yesno? sdds_cloneAssessmentrecords
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((sdds_yesno?)(EntityOptionSetEnum.GetEnum(this, "sdds_cloneassessmentrecords")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_cloneAssessmentrecords");
+				this.SetAttributeValue("sdds_cloneassessmentrecords", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.OnPropertyChanged("sdds_cloneAssessmentrecords");
+			}
+		}
+		
+		/// <summary>
+		/// Copy optional and bespoke conditions?
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_clonebespokeandoptional")]
+		public virtual sdds_yesno? sdds_clonebespokeandoptional
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((sdds_yesno?)(EntityOptionSetEnum.GetEnum(this, "sdds_clonebespokeandoptional")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_clonebespokeandoptional");
+				this.SetAttributeValue("sdds_clonebespokeandoptional", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.OnPropertyChanged("sdds_clonebespokeandoptional");
+			}
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_clonebillingdetails")]
+		public virtual sdds_yesno? sdds_clonebillingdetails
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((sdds_yesno?)(EntityOptionSetEnum.GetEnum(this, "sdds_clonebillingdetails")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_clonebillingdetails");
+				this.SetAttributeValue("sdds_clonebillingdetails", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.OnPropertyChanged("sdds_clonebillingdetails");
+			}
+		}
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_cloneecologist")]
+		public virtual sdds_yesno? sdds_cloneecologist
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((sdds_yesno?)(EntityOptionSetEnum.GetEnum(this, "sdds_cloneecologist")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_cloneecologist");
+				this.SetAttributeValue("sdds_cloneecologist", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.OnPropertyChanged("sdds_cloneecologist");
+			}
+		}
+		
+		/// <summary>
 		/// Unique identifier for entity instances
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_modificationrequestid")]

@@ -625,6 +625,26 @@ namespace SDDS.Plugin.EBG
 		}
 		
 		/// <summary>
+		/// Enter your postcode here and the postcode API will lookup the entered postcode.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_postcodesearch")]
+		public string sdds_postcodesearch
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("sdds_postcodesearch");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.OnPropertyChanging("sdds_postcodesearch");
+				this.SetAttributeValue("sdds_postcodesearch", value);
+				this.OnPropertyChanged("sdds_postcodesearch");
+			}
+		}
+		
+		/// <summary>
 		/// Unique identifier for entity instances
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("sdds_siteid")]
