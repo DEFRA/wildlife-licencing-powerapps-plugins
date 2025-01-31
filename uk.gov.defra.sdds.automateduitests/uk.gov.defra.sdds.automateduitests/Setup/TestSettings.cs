@@ -129,5 +129,7 @@ namespace Setupuk.gov.defra.sdds.automateduitests.Helper
         public const string Project = "Project Resource Hub";
         public const string FieldService = "Field Resource Hub";
         public const string LicenceApp = "Licence App";
+        public const string FeedbackApp = "Feedback App";
+        public const string AdminApp = "Admin App";
     }
 }
